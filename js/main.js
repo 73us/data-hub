@@ -278,16 +278,37 @@ const proper = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
+let catgoryRuNames = {
+    Category_1: "Акции и бонусы",
+    Category_2: "Безопасность",
+    Category_3: "Верификация аккаунта",
+    Category_4: "Вопросы по сайту",
+    Category_5: "Восстановление доступа",
+    Category_6: "Другие тикеты",
+    Category_7: "Закрытие аккаунта",
+    Category_8: "Изменения аккаунта",
+    Category_9: "Макс бет (игры/слоты)",
+    Category_10: "Непройденный депозит",
+    Category_11: "Партнерство",
+    Category_12: "Проблемы по сайту",
+    Category_13: "Проблемы с играми",
+    Category_14: "Рассылка",
+    Category_15: "Регистрация",
+    Category_16: "Тест",
+    Category_17: "Технические проблемы(кроме бонусов)",
+    Category_18: "Финансовые операции",
+    Category_19: "Без категорії",
+}
+
 let btnProcessFiles = getE('#processFiles');
 let btnResetFiles = getE('#resetFiles');
 
-let recordsChats = [];
-let recordsTickets = [];
-let allRecords = [];
-let checkList = [];
-
-let dataByRecordsTickets;
-let dataByRecordsChats;
+let recordsChats = [],
+    recordsTickets = [],
+    allRecords = [],
+    checkList = [],
+    dataByRecordsTickets = [],
+    dataByRecordsChats = [];
 
 let isChatsNeeded = false;
 let isTicketsNeeded = false;
@@ -363,40 +384,32 @@ getE(".file-input-container").onchange = () => {
 // READ FILES FUNCTION START
 async function readFiles() {
     getE('.start-instraction-block').style.display = "none";
-    getE('.data-main').classList.toggle("hide");
+    getE('.data-main').classList.remove("hide");
     if (isChatsNeeded && isTicketsNeeded) {
         await readChats();
         await cleanChatRecords();
         await readTickets();
         await cleanTicketRecords();
-        // await getInfo();
-        // await buildFilteringOptions();
-        // await renderResults();
     }
     else if (isChatsNeeded) {
         await readChats();
         await cleanChatRecords();
-        // await buildFilteringOptions();
-        // await renderResults();
     }
     else if (isTicketsNeeded) {
         await readTickets();
         await cleanTicketRecords();
-        // await buildFilteringOptions();
-        // await renderResults();
     }
     disableElem();
     if (recordsTickets.length > 0) buildReportOptionArr.recordsTickets = "";
     if (recordsChats.length > 0) buildReportOptionArr.recordsChats = "";
     if (allRecords.length > 0) buildReportOptionArr.allRecords = "";
     if (checkList.length > 0) {
-        showDialog(checkList, recordsChats);
+        showAndBuildDialog(checkList, recordsChats);
         buildReportOptionArr.checkList = "";
     }
     else {
-        buildFilteringOptions();
+        await buildFilteringSection();
     }
-    // await getInfo();
 }
 // READ FILES FUNCTION END
 
@@ -539,10 +552,6 @@ function rmvFiles() {
     ticketCheckBox.checked = false;
     ticketsCover.style.width = "100%";
     isChatsNeeded = false;
-    recordsChats = [];
-    recordsTickets = [];
-    allRecords = [];
-    checkList = [];
     dataByRecordsTickets = [];
     dataByRecordsChats = [];
     isChatsNeeded = false;
@@ -638,7 +647,7 @@ async function recordsCounter(dataToCount) {
 // CREATE FULL COUNTS LIST FUNCTION END
 
 // BUILD FILTERING OPTIONS FUNCTION START
-async function buildFilteringOptions() {
+async function buildFilteringSection() {
     let filterControlContainer = getE(".data-filtering-container");
     let badgeCountsObj = await recordsCounter(allRecords);
 
@@ -754,10 +763,12 @@ async function buildFilteringOptions() {
     // build DATA CONTROL options START
     getE(".data-options-container").innerHTML =
         `<fieldset class="filter-control-fieldset">
-        <input type="button" id="resetFilters" value="Скинути">
+        <input type="button" id="resetFilters"
+        onclick="resetFilters()" value="Скинути">
         <input type="button" id="downloadCustomReport" 
         onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт" disabled>
-        <input type="button" id="showDataTable" value="Таблиця">
+        <input type="button" id="showDataTable" 
+        onclick="showDataTable()" value="Таблиця">
         <input type="search" id="searchInput">
         <input type="button" id="searchBtn" value="Пошук">
         </fieldset>`;
@@ -772,7 +783,6 @@ async function buildFilteringOptions() {
 
 // BUILD FILTERS FUNCTION START
 let buildedFilter = {};
-
 async function buildFilters() {
     // build PROJECTS filter START
     let projectsListSect = getE('.projectsList-fieldset');
@@ -1023,7 +1033,6 @@ async function filterResults(buildedFilter) {
     }
     // filtering by AGENT NAME END
 
-
     await renderResults(false);
     savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
@@ -1032,8 +1041,8 @@ async function filterResults(buildedFilter) {
 // FILTER RESULTS FUNCTION END
 
 // UPDATE ALL COUNTS ON PAGE FUNCTION START
-const dataControlCont = getE(".data-filtering-container");
-dataControlCont.onchange = async (e) => {
+const dataFilteringContainer = getE(".data-filtering-container");
+dataFilteringContainer.onchange = async (e) => {
     let badgeCountsObj = await recordsCounter(savedfilteredDataArr);
     let countObjKeys = [];
     for (const key in badgeCountsObj) countObjKeys.push(key);
@@ -1057,8 +1066,8 @@ dataControlCont.onchange = async (e) => {
     }
 
     let allCountBadgeIds = [];
-    for (let sectNum = 0; sectNum < dataControlCont.children.length; sectNum++) {
-        let currSection = dataControlCont.children[sectNum];
+    for (let sectNum = 0; sectNum < dataFilteringContainer.children.length; sectNum++) {
+        let currSection = dataFilteringContainer.children[sectNum];
         for (let elem = 2; elem < currSection.children.length; elem++) {
             let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.firstElementChild;
             allCountBadgeIds.push(checkingElem.id)
@@ -1083,105 +1092,6 @@ dataControlCont.onchange = async (e) => {
     }
 }
 // UPDATE ALL COUNTS ON PAGE FUNCTION END
-
-async function renderResults(isFirst) {
-    let tHead = getE('.data-table > thead'),
-        tBody = getE('.data-table > tbody');
-
-    let recordsToRenderArr = [];
-    (isFirst) ? recordsToRenderArr = allRecords : recordsToRenderArr = filteredDataArr;
-
-    // await buildObjForTableDisplay(recordsToRenderArr);
-
-    // tHead.innerHTML = "";
-    // tHead.innerHTML = `<tr>
-    //     <th>Проєкт</th>
-    //     <th>Тип звернення</th>
-    //     <th>Категорія</th>
-    //     <th>Керування</th>
-    //     </tr>`
-
-    // console.log(buildedFilter.projectsFilter);
-    let saveLength = 0, projectSpan;
-
-    let rowsCount = 0, projectsSpans = {}, convTypesSpans = {};
-    for (const keyLvl1 in tableDataObj) {
-        for (const keyLvl2 in tableDataObj[keyLvl1]) { // project INDEXes
-            let tableLvl1 = tableDataObj[keyLvl1];
-            for (const keyLvl3 in tableLvl1[keyLvl2]) { // project NAMEs
-                let tableLvl2 = tableLvl1[keyLvl2];
-                for (const keyLvl4 in tableLvl2[keyLvl3]) { // conversation type INDEXes
-                    let tableLvl3 = tableLvl2[keyLvl3];
-                    for (const keyLvl5 in tableLvl3[keyLvl4]) { // categories array level
-                        let tableLvl4 = tableLvl3[keyLvl4];
-                        (keyLvl5 === 'chat') ?
-                            saveLength = tableLvl4[keyLvl5].length :
-                            projectSpan = saveLength + tableLvl4[keyLvl5].length;
-                        projectsSpans[`_${keyLvl3}`] = projectSpan;
-                        projectSpan = 0;
-                        convTypesSpans[`_${keyLvl3}${proper(keyLvl5)}`] = tableLvl4[keyLvl5].length;
-                        rowsCount += tableLvl4[keyLvl5].length;
-                    }
-                }
-            }
-        }
-    }
-    // console.log('Rows Count = ', rowsCount);
-    // console.log('convTypesSpans = ', convTypesSpans);
-    // console.log('projectsSpans = ', projectsSpans);
-    let setToRow = 0;
-    // tBody.innerHTML = "";
-    // for (let row = 0; row < rowsCount; row++) {
-    //     tBody.innerHTML += `<tr></tr>`;
-    // }
-    let limit = 250
-
-    for (let record = 0; record < recordsToRenderArr.length; record++) {
-        // tBody.innerHTML += `
-        // <tr>
-        // <td>${record}</td>
-        // <td>${recordsToRenderArr[record].conversationType}</td>
-        // <td>${recordsToRenderArr[record].conversationCategory}</td>
-        // <td>${recordsToRenderArr[record].operatorNicks}</td>
-        // </tr>`
-        if (record === limit) {
-            break;
-        }
-    }
-
-    // for (let record = 0; record < recordsToRenderArr.length; record++) {
-    //     for (const keyProjSpan in projectsSpans) {
-    //         for (let project = 0; project < buildedFilter.projectsFilter.length; project++) {
-    //             if (record === projectsSpans[keyProjSpan] - 1 &&
-    //                 "_" + buildedFilter.projectsFilter[project] === keyProjSpan) {
-    //                 for (let row = 0; row < tBody.children.length; row++) {
-    //                     if (tBody.children[row].firstElementChild !== null) {
-    //                         setToRow += tBody.children[row].firstElementChild.rowSpan
-    //                     }
-    //                 }
-    //                 // console.log("ENTER -> set to row", setToRow, "#", tBody.children[record].id, "span =", projectsSpans[keyProjSpan]);
-    //                 tBody.children[setToRow].innerHTML =
-    //                     `<td rowspan="${projectsSpans[keyProjSpan]}">${keyProjSpan.slice(1)}</td>`;
-    //                 setToRow = 0;
-    //             }
-    //         }
-    //     }
-    // }
-
-
-
-
-    // `;
-
-
-
-    // document.querySelector('.data-table > tbody').childElementCount;
-    // console.log(tBody.children[0].firstElementChild.rowSpan = projectsSpans._KatsuBet);
-
-
-    // console.log(buildedFilter);
-
-}
 
 // BUILD OBJECT FOR TABLE DISPLAY FUNCTION START
 let tableDataObj = {};
@@ -1478,7 +1388,7 @@ async function cleanChatRecords() {
                 // find record CATEGORY END
 
                 let recordObj = {
-                    createdAt: dataByCells[1], // conversation start date&time
+                    createdAt: new Date(dataByCells[1]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
                     conferenceId: dataByCells[0], // conversation ID
                     projectName: projectName, // project name 
                     conversationType: "chat",
@@ -1705,7 +1615,7 @@ async function cleanTicketRecords() {
                     // find record CATEGORY END
 
                     let record = {
-                        createdAt: dataByCells[0], // conversation start date&time
+                        createdAt: new Date(dataByCells[0]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
                         conferenceId: dataByCells[3], // conversation ID
                         projectName: projectName, // project name 
                         conversationType: "ticket",
@@ -1760,18 +1670,12 @@ async function cleanTicketRecords() {
 }
 // SORT AND CLEAN TICKETS FUNCTION END
 
-// getE('.start-instraction-block').style.display = "none";
-// getE('.data-main').classList.toggle("hide");
-// getE('.counter-number').innerHTML = allRecords.length;
-// getE('.counter-header').style.display = "block";
-// buildFilteringOptions();
-// showDialog(checkList);
+// SHOW AND BUILD DIALOG WINDOW FUNCTION START
 let dialogContainer = getE('.dialogWindow-container'),
     dialogWindow = getE('.dialogWindow'),
     dialogHeader = getE('.dialogWindow-header'),
     dialogContent = getE('.dialogWindow-content');
-
-async function showDialog(checkList) {
+async function showAndBuildDialog(checkList) {
     dialogContainer.classList.toggle('hide');
     dialogContent.innerHTML = `<p>У вибірці виявлено наступні елементи. Оберіть які з них очистити:</p>`;
     let cleanOptions = "", emptyCases = true, noReplyAndCat = true, catDups = true,
@@ -1812,10 +1716,13 @@ async function showDialog(checkList) {
     }
     dialogContent.innerHTML += cleanOptions;
 }
+// SHOW AND BUILD DIALOG WINDOW FUNCTION END
 
+// CHECK CLEANING OPTION FUNCTION START
 let cleanChoice = [], cleaningCheck = getE('#cleaningCheck');
-dialogWindow.onchange = (e) => {
-    let btnClean = getE('#dialogClean'),
+dialogWindow.onchange = () => {
+    let dialogContent = getE('.dialogWindow-content'),
+        btnClean = getE('#dialogClean'),
         btnIgnore = getE('#dialogIgnore'),
         emptyCheck = getE('#emptyCases'),
         emptyBadge = getE('#emptyBadge'),
@@ -1825,39 +1732,62 @@ dialogWindow.onchange = (e) => {
         catDupsBadge = getE('#catDupsBadge');
 
     if (cleaningCheck.checked) {
-        emptyCheck.disabled = true;
-        noReplyAndCatCheck.disabled = true;
-        catDupsCheck.disabled = true;
+        if (emptyCheck) {
+            if (emptyCheck.checked) {
+                if (!cleanChoice.includes("EMPTY")) cleanChoice.push("EMPTY");
+                emptyBadge.style.display = "block";
+            }
+            emptyCheck.disabled = true;
+        }
+        if (noReplyAndCatCheck) {
+            if (noReplyAndCatCheck.checked) {
+                if (!cleanChoice.includes("NOREPLYANDCAT")) cleanChoice.push("NOREPLYANDCAT");
+                noReplyAndCatBadge.style.display = "block";
+            }
+            noReplyAndCatCheck.disabled = true;
+        }
+        if (catDupsCheck) {
+            if (catDupsCheck.checked) {
+                if (!cleanChoice.includes("CATDUPS")) cleanChoice.push("CATDUPS");
+                catDupsBadge.style.display = "block";
+            }
+            catDupsCheck.disabled = true;
+        }
         btnClean.disabled = false;
         btnIgnore.disabled = false;
-        if (emptyCheck.checked) {
-            cleanChoice.push("EMPTY");
-            emptyBadge.style.display = "block";
-        }
-        if (noReplyAndCatCheck.checked) {
-            cleanChoice.push("NOREPLYANDCAT");
-            noReplyAndCatBadge.style.display = "block";
-        }
-        if (catDupsCheck.checked) {
-            cleanChoice.push("CATDUPS");
-            catDupsBadge.style.display = "block";
-        }
     }
     else if (!cleaningCheck.checked) {
+        if (emptyCheck) {
+            if (emptyCheck.checked) emptyBadge.style.display = "block";
+            if (!emptyCheck.checked) {
+                emptyBadge.style.display = "none";
+                cleanChoice.splice(cleanChoice.indexOf("EMPTY"));
+            }
+            emptyCheck.disabled = false;
+        }
+        if (noReplyAndCatCheck) {
+            if (noReplyAndCatCheck.checked) noReplyAndCatBadge.style.display = "block";
+            if (!noReplyAndCatCheck.checked) {
+                noReplyAndCatBadge.style.display = "none";
+                cleanChoice.splice(cleanChoice.indexOf("NOREPLYANDCAT"));
+            }
+            noReplyAndCatCheck.disabled = false;
+        }
+        if (catDupsCheck) {
+            if (catDupsCheck.checked) catDupsBadge.style.display = "block";
+            if (!catDupsCheck.checked) {
+                catDupsBadge.style.display = "none";
+                cleanChoice.splice(cleanChoice.indexOf("CATDUPS"));
+            }
+            catDupsCheck.disabled = false;
+        }
         btnClean.disabled = true;
         btnIgnore.disabled = true;
-        emptyCheck.disabled = false;
-        noReplyAndCatCheck.disabled = false;
-        catDupsCheck.disabled = false;
-        if (emptyCheck.checked) emptyBadge.style.display = "block";
-        if (noReplyAndCatCheck.checked) noReplyAndCatBadge.style.display = "block";
-        if (catDupsCheck.checked) catDupsBadge.style.display = "block";
-        if (!emptyCheck.checked) emptyBadge.style.display = "none";
-        if (!noReplyAndCatCheck.checked) noReplyAndCatBadge.style.display = "none";
-        if (!catDupsCheck.checked) catDupsBadge.style.display = "none";
     }
 }
+// CHECK CLEANING OPTION FUNCTION END
 
+// DIALOG CLEAN BUTTON FUNCTION START
 function dialogClean() {
     return new Promise((resolve, reject) => {
         for (let i = 0; i < checkList.length; i++) {
@@ -1916,74 +1846,22 @@ function dialogClean() {
         }
         cleaningCheck.checked = false;
         dialogContainer.classList.toggle('hide');
-        resolve(buildFilteringOptions());
+        resolve(buildFilteringSection());
     })
 }
+// DIALOG CLEAN BUTTON FUNCTION END
 
+// DIALOG IGNORE BUTTON FUNCTION START
 function dialogIgnore() {
     new Promise((resolve, reject) => {
         dialogContainer.classList.toggle('hide');
         cleaningCheck.checked = false;
-        resolve(buildFilteringOptions());
+        resolve(buildFilteringSection());
     })
 }
+// DIALOG IGNORE BUTTON FUNCTION END
 
-function buildHeader() {
-    let theadEl = document.getElementById('tblcsvdata').getElementsByTagName('thead')[0];
-    let dataForTHead = dataByRecords[0].substring(1, dataByRecords[0].length - 1).split('","');
-    theadEl.innerHTML = "";
-
-    // conferenceId
-    // conversationLink
-    // conversationTags
-    // conversationType
-    // createdAt
-    // customerEmail
-    // customerId
-    // projectName
-
-    theadEl.innerHTML = `<tr><th>${dataForTHead[0]}</th>
-                <th>${dataForTHead[1]}</th>
-                <th>${dataForTHead[2]}</th>
-                <th>${dataForTHead[3]}</th>
-                <th>${dataForTHead[4]}</th>
-                <th>${dataForTHead[5]}</th>
-                <th>${dataForTHead[6]}</th>
-                <th>${dataForTHead[7]}</th>
-                <th>${dataForTHead[8]}</th>
-                <th>${dataForTHead[9]}</th>
-                <th>${dataForTHead[10]}</th>
-                <th>${dataForTHead[11]}</th>
-                <th>${dataForTHead[12]}</th>
-                <th>${dataForTHead[13]}</th>
-                <th>${dataForTHead[14]}</th>
-                <th>${dataForTHead[15]}</th>
-                <th>${dataForTHead[16]}</th>
-                <th>${dataForTHead[17]}</th></tr>`
-}
-
-let catgoryRuNames = {
-    Category_1: "Акции и бонусы",
-    Category_2: "Безопасность",
-    Category_3: "Верификация аккаунта",
-    Category_4: "Вопросы по сайту",
-    Category_5: "Восстановление доступа",
-    Category_6: "Другие тикеты",
-    Category_7: "Закрытие аккаунта",
-    Category_8: "Изменения аккаунта",
-    Category_9: "Макс бет (игры/слоты)",
-    Category_10: "Непройденный депозит",
-    Category_11: "Партнерство",
-    Category_12: "Проблемы по сайту",
-    Category_13: "Проблемы с играми",
-    Category_14: "Рассылка",
-    Category_15: "Регистрация",
-    Category_16: "Тест",
-    Category_17: "Технические проблемы(кроме бонусов)",
-    Category_18: "Финансовые операции",
-    Category_19: "Без категорії",
-}
-
+// BUILD REPORT SECTION FUNCTION START
 let buildReportOptionArr = {};
 async function buildReportSection() {
     let reportContainer = getE(".report-container");
@@ -2043,7 +1921,9 @@ async function buildReportSection() {
         reportContainer.innerHTML += addContent;
     }
 }
+// BUILD REPORT SECTION FUNCTION END
 
+// GENERATE REPORT FUNCTION START
 let reportName;
 async function createReport(recordsForReport, reportType) {
     return new Promise((resolve) => {
@@ -2126,6 +2006,7 @@ async function createReport(recordsForReport, reportType) {
     })
 
 }
+// GENERATE REPORT FUNCTION END
 
 // DATA TABLE SHOW/HIDE EFFECT FUNCTION START
 let menu = document.querySelector('.menu'),
@@ -2136,7 +2017,7 @@ menu.onclick = (e) => {
             menu.children[elem].classList.add('active');
             let idNum = e.target.id.substring(e.target.id.length - 1);
             for (let conElem = 0; conElem < content.children.length; conElem++) {
-                if (content.children[conElem].id === `block-${idNum}`) content.children[conElem].classList.add('show');
+                if (content.children[conElem].id === `data-table-${idNum}`) content.children[conElem].classList.add('show');
                 else content.children[conElem].classList.remove('show');
             }
         }
@@ -2144,3 +2025,155 @@ menu.onclick = (e) => {
     }
 }
 // DATA TABLE SHOW/HIDE EFFECT FUNCTION END
+
+// getE('.start-instraction-block').style.display = "none";
+// getE('.data-main').classList.remove("hide");
+// getE('.counter-number').innerHTML = allRecords.length;
+// getE('.counter-header').style.display = "block";
+// buildFilteringSection();
+// showAndBuildDialog(checkList);
+
+// RESET FILTERS BUTTON FUNCTION START
+async function resetFilters() {
+    await buildFilteringSection();
+}
+// RESET FILTERS BUTTON FUNCTION END
+
+// SHOW DATA TABLE CONTAINER FUCNTION START
+function showDataTable() {
+    getE('.display-data-container').classList.remove('hide');
+}
+// SHOW DATA TABLE CONTAINER FUCNTION END
+
+async function renderResults(isFirst) {
+    let tHead = getE('.data-table > thead'),
+        tBody = getE('.data-table > tbody');
+
+    let recordsToRenderArr = [];
+    (isFirst) ? recordsToRenderArr = allRecords : recordsToRenderArr = filteredDataArr;
+
+    // await buildObjForTableDisplay(recordsToRenderArr);
+
+    // tHead.innerHTML = "";
+    // tHead.innerHTML = `<tr>
+    //     <th>Проєкт</th>
+    //     <th>Тип звернення</th>
+    //     <th>Категорія</th>
+    //     <th>Керування</th>
+    //     </tr>`
+
+    // console.log(buildedFilter.projectsFilter);
+    let saveLength = 0, projectSpan;
+
+    let rowsCount = 0, projectsSpans = {}, convTypesSpans = {};
+    for (const keyLvl1 in tableDataObj) {
+        for (const keyLvl2 in tableDataObj[keyLvl1]) { // project INDEXes
+            let tableLvl1 = tableDataObj[keyLvl1];
+            for (const keyLvl3 in tableLvl1[keyLvl2]) { // project NAMEs
+                let tableLvl2 = tableLvl1[keyLvl2];
+                for (const keyLvl4 in tableLvl2[keyLvl3]) { // conversation type INDEXes
+                    let tableLvl3 = tableLvl2[keyLvl3];
+                    for (const keyLvl5 in tableLvl3[keyLvl4]) { // categories array level
+                        let tableLvl4 = tableLvl3[keyLvl4];
+                        (keyLvl5 === 'chat') ?
+                            saveLength = tableLvl4[keyLvl5].length :
+                            projectSpan = saveLength + tableLvl4[keyLvl5].length;
+                        projectsSpans[`_${keyLvl3}`] = projectSpan;
+                        projectSpan = 0;
+                        convTypesSpans[`_${keyLvl3}${proper(keyLvl5)}`] = tableLvl4[keyLvl5].length;
+                        rowsCount += tableLvl4[keyLvl5].length;
+                    }
+                }
+            }
+        }
+    }
+    // console.log('Rows Count = ', rowsCount);
+    // console.log('convTypesSpans = ', convTypesSpans);
+    // console.log('projectsSpans = ', projectsSpans);
+    let setToRow = 0;
+    // tBody.innerHTML = "";
+    // for (let row = 0; row < rowsCount; row++) {
+    //     tBody.innerHTML += `<tr></tr>`;
+    // }
+    let limit = 250
+
+    for (let record = 0; record < recordsToRenderArr.length; record++) {
+        // tBody.innerHTML += `
+        // <tr>
+        // <td>${record}</td>
+        // <td>${recordsToRenderArr[record].conversationType}</td>
+        // <td>${recordsToRenderArr[record].conversationCategory}</td>
+        // <td>${recordsToRenderArr[record].operatorNicks}</td>
+        // </tr>`
+        if (record === limit) {
+            break;
+        }
+    }
+
+    // for (let record = 0; record < recordsToRenderArr.length; record++) {
+    //     for (const keyProjSpan in projectsSpans) {
+    //         for (let project = 0; project < buildedFilter.projectsFilter.length; project++) {
+    //             if (record === projectsSpans[keyProjSpan] - 1 &&
+    //                 "_" + buildedFilter.projectsFilter[project] === keyProjSpan) {
+    //                 for (let row = 0; row < tBody.children.length; row++) {
+    //                     if (tBody.children[row].firstElementChild !== null) {
+    //                         setToRow += tBody.children[row].firstElementChild.rowSpan
+    //                     }
+    //                 }
+    //                 // console.log("ENTER -> set to row", setToRow, "#", tBody.children[record].id, "span =", projectsSpans[keyProjSpan]);
+    //                 tBody.children[setToRow].innerHTML =
+    //                     `<td rowspan="${projectsSpans[keyProjSpan]}">${keyProjSpan.slice(1)}</td>`;
+    //                 setToRow = 0;
+    //             }
+    //         }
+    //     }
+    // }
+
+
+
+
+    // `;
+
+
+
+    // document.querySelector('.data-table > tbody').childElementCount;
+    // console.log(tBody.children[0].firstElementChild.rowSpan = projectsSpans._KatsuBet);
+
+
+    // console.log(buildedFilter);
+
+}
+
+function buildHeader() {
+    let theadEl = document.getElementById('tblcsvdata').getElementsByTagName('thead')[0];
+    let dataForTHead = dataByRecords[0].substring(1, dataByRecords[0].length - 1).split('","');
+    theadEl.innerHTML = "";
+
+    // conferenceId
+    // conversationLink
+    // conversationTags
+    // conversationType
+    // createdAt
+    // customerEmail
+    // customerId
+    // projectName
+
+    theadEl.innerHTML = `<tr><th>${dataForTHead[0]}</th>
+                <th>${dataForTHead[1]}</th>
+                <th>${dataForTHead[2]}</th>
+                <th>${dataForTHead[3]}</th>
+                <th>${dataForTHead[4]}</th>
+                <th>${dataForTHead[5]}</th>
+                <th>${dataForTHead[6]}</th>
+                <th>${dataForTHead[7]}</th>
+                <th>${dataForTHead[8]}</th>
+                <th>${dataForTHead[9]}</th>
+                <th>${dataForTHead[10]}</th>
+                <th>${dataForTHead[11]}</th>
+                <th>${dataForTHead[12]}</th>
+                <th>${dataForTHead[13]}</th>
+                <th>${dataForTHead[14]}</th>
+                <th>${dataForTHead[15]}</th>
+                <th>${dataForTHead[16]}</th>
+                <th>${dataForTHead[17]}</th></tr>`
+}
