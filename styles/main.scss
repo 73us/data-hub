@@ -1,0 +1,1045 @@
+@import "./base/base";
+@import "./base/variables";
+@import "./base/mixins";
+@import "../TEST/styles/test";
+
+%d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+%def-btn {
+  width: 110px;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
+  border: none;
+  outline: 0 solid transparent;
+  transition: background-color 0.2s ease-in-out;
+  font-weight: bold;
+}
+.info-icon {
+  position: relative;
+  font-family: "Courier New", Courier, monospace !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.info-icon:hover {
+  cursor: pointer;
+}
+.info-message {
+  p {
+    font-weight: normal;
+    margin: 0;
+    font-size: 15px;
+  }
+  p::selection {
+    background-color: transparent;
+  }
+}
+.info-message::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.info-message::-webkit-scrollbar-track {
+  box-shadow: none;
+}
+.info-message::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: $bg-bluegray;
+  border-radius: 3px;
+}
+
+* {
+  // position: relative;
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 0px;
+    // background-color: $bg-white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $bg-blue;
+    border-radius: 3px;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1900px;
+  min-width: 1500px;
+  min-height: 100vh;
+  width: 98%;
+  padding: 10px 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding-bottom: 50px;
+  .left {
+    width: 19%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    // FILE INPUT CONTAINER PART START
+    .file-input-container {
+      height: 49%;
+      max-height: 280px;
+      background-color: $bg-bluegray;
+      display: flex;
+      flex-flow: column nowrap;
+      padding: 15px 20px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      // file input fieldset start
+      fieldset:nth-of-type(1) {
+        position: relative;
+        legend {
+          display: flex;
+          span {
+            margin-left: 5px;
+          }
+          p {
+            margin-left: 25px;
+          }
+          .info-message {
+            background-color: $bg-white;
+            position: absolute;
+            top: 20px;
+            right: 0px;
+            z-index: 100;
+            width: 246px;
+            height: 186px;
+            border-radius: 5px;
+            display: none;
+            padding: 7px;
+            p {
+              font-weight: normal;
+              margin: 0;
+            }
+          }
+          .info-icon:hover + .info-message,
+          .info-message:hover {
+            display: block;
+          }
+          .info-icon:after {
+            content: "";
+            background-color: transparent;
+            position: absolute;
+            top: 10px;
+            right: 0;
+            z-index: 100;
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+      fieldset {
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: center;
+        legend {
+          text-align: start;
+          font-size: 18px;
+          margin-bottom: 10px;
+          width: 100%;
+          span {
+            font-weight: bold;
+          }
+        }
+
+        // is options needed checkbox start
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          border-radius: 5px;
+          margin-left: 0;
+          accent-color: $btn-blue;
+        }
+        input[type="checkbox"]:hover {
+          cursor: pointer;
+        }
+        // is options needed checkbox end
+
+        .input-chats,
+        .input-tickets {
+          width: 88%;
+          height: 45px;
+          position: relative;
+          .chats-cover,
+          .tickets-cover {
+            background-color: #dde4e996;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 10;
+            transition: width 0.2s ease-in-out;
+          }
+
+          // file inputs start
+          input[type="file"] {
+            width: 90%;
+            margin-bottom: 3px;
+          }
+          input[type="file"]::file-selector-button {
+            @extend %def-btn;
+            background-color: $btn-blue;
+            color: $c-white;
+          }
+          input[type="file"]::file-selector-button:hover {
+            cursor: pointer;
+            background-color: $btn-blue-hover;
+          }
+          input[type="file"]::file-selector-button:active {
+            cursor: pointer;
+            outline-width: 3px;
+            outline-color: rgba(67, 132, 245, 0.3);
+          }
+          // file inputs end
+
+          // file checking marks start
+          .checkChat,
+          .checkTicket {
+            line-height: 40px;
+            font-weight: bold;
+            color: green;
+            opacity: 0;
+          }
+          // file checking marks end
+        }
+        // file inputs end
+      }
+      // file input fieldset end
+
+      // form control buttons fieldset start
+      fieldset:nth-last-of-type(1) {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        width: 100%;
+        // PROCESS button start
+        #processFiles {
+          @extend %def-btn;
+          background-color: $btn-green;
+          color: $c-white;
+        }
+        #processFiles:hover {
+          cursor: pointer;
+          background-color: $btn-green-hover;
+        }
+        #processFiles:active {
+          cursor: pointer;
+          outline-width: 3px;
+          outline-color: rgba(21, 115, 71, 0.3);
+        }
+        #processFiles:disabled {
+          cursor: default;
+          background-color: $btn-green-disabled;
+          outline-width: 0;
+        }
+        // PROCESS button end
+
+        // RESET button start
+        #resetFiles {
+          @extend %def-btn;
+          background-color: $btn-red;
+          color: $c-white;
+        }
+        #resetFiles:hover {
+          cursor: pointer;
+          background-color: $btn-red-hover;
+        }
+        #resetFiles:active {
+          cursor: pointer;
+          outline-width: 3px;
+          outline-color: rgba(220, 53, 69, 0.3);
+        }
+        #resetFiles:disabled {
+          cursor: default;
+          background-color: $btn-red-disabled;
+          outline-width: 0;
+        }
+        // RESET button end
+      }
+      // form control buttons fieldset end
+      .counter-header {
+        display: none;
+        height: 45px;
+        .counter-number {
+          font-weight: bold;
+        }
+      }
+    }
+    // FILE INPUT CONTAINER PART END
+
+    // DOWNLOAD REPORT CONTAINER PART START
+    .report-container {
+      max-height: 340px;
+      height: 0;
+      background-color: $bg-bluegray;
+      display: flex;
+      flex-flow: column wrap;
+      opacity: 0;
+      padding: 15px 20px;
+      border-radius: 15px;
+      transition: height 0.2s ease-in-out;
+      transition: opacity 0.1s ease-in-out 0.1s;
+      div {
+        width: 100%;
+        display: flex;position: relative;
+        h2 {
+          width: 95%;
+          text-justify: auto;
+          margin-bottom: 5px;
+        }
+        p {
+          margin-left: 25px;
+        }
+        .info-message {
+          background-color: $bg-white;
+          position: absolute;
+          top: 20px;
+          right: 0px;
+          z-index: 100;
+          width: 246px;
+          height: 160px;
+          overflow: auto;
+          border-radius: 5px;
+          display: none;
+          padding: 7px;
+          border: 1px solid $bg-bluegray;
+          p {
+            font-weight: normal;
+            margin: 0;
+          }
+        }
+        .info-icon:hover + .info-message,
+        .info-message:hover {
+          display: block;
+        }
+        .info-icon:after {
+          content: "";
+          background-color: transparent;
+          position: absolute;
+          border-radius: 50px 0 0 0;
+          top: 5px;
+          right: 0;
+          z-index: 100;
+          width: 30px;
+          height: 30px;
+        }
+      }
+      fieldset {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #000;
+        border-left: 1px solid #000;
+        border-radius: 10px;
+        legend {
+          margin-bottom: 5px;
+        }
+
+        input {
+          @extend %def-btn;
+          background-color: $btn-yellow;
+          // background: linear-gradient(to top, red, transparent);
+          color: $c-black;
+        }
+        input:hover {
+          cursor: pointer;
+          background-color: $btn-yellow-hover;
+        }
+        input:active {
+          cursor: pointer;
+          outline-width: 3px;
+          outline-color: rgba(255, 193, 7, 0.3);
+        }
+        input:disabled {
+          cursor: default;
+          background-color: $btn-yellow-disabled;
+          outline-width: 0;
+        }
+        button {
+          @extend %def-btn;
+          background-color: $btn-blue;
+          a {
+            text-decoration: none;
+            color: $c-white;
+            font-weight: bold;
+          }
+        }
+        button:hover {
+          cursor: pointer;
+          background-color: $btn-blue-hover;
+        }
+        button:active {
+          cursor: pointer;
+          outline-width: 3px;
+          outline-color: rgba(67, 132, 245, 0.3);
+        }
+        button:disabled {
+          cursor: default;
+          background-color: $btn-blue-disabled;
+          outline-width: 0;
+        }
+      }
+    }
+    // DOWNLOAD REPORT CONTAINER PART END
+  }
+
+  .right {
+    width: 79%;
+    // DATA CONTAINER PART START
+    .data-container {
+      display: flex;
+      flex-flow: column wrap;
+      /* justify-content: center; */
+      // margin-left: 10px;
+      background-color: $bg-bluegray;
+      width: 100%;
+      min-width: 510px;
+      // max-height: 100vh;
+      // padding: 20px;
+      border-radius: 15px;
+      min-height: 330px;
+      .start-instraction-block {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+        padding: 10px 0 15px;
+        .start-instraction-header {
+          width: 100%;
+          text-align: center;
+          font-size: 40px;
+          font-weight: bold;
+          margin-bottom: 20px;
+          position: relative;
+        }
+        .start-instraction-header::before {
+          position: absolute;
+          bottom: -34px;
+          right: 20%;
+          display: block;
+          content: "";
+          background-color: white;
+          width: 2%;
+          height: 15px;
+          border-radius: 0 15px 0 15px;
+          z-index: 10;
+        }
+        .start-instraction-header::after {
+          z-index: 10;
+          position: absolute;
+          bottom: -34px;
+          left: 20%;
+          display: block;
+          content: "";
+          background-color: white;
+          width: 2%;
+          height: 15px;
+          border-radius: 15px 0 15px 0;
+        }
+        img {
+          width: 60%;
+          border-radius: 15px;
+        }
+      }
+      .data-main {
+        display: flex;
+        flex-flow: column wrap;
+        width: 100%;
+        min-width: 510px;
+        min-height: 330px;
+        // data filterring container start
+        .data-filtering-container {
+          width: 100%;
+          background-color: $bg-bluegray;
+          border-radius: 15px;
+          padding: 10px 0;
+          display: flex;
+          flex-flow: row wrap;
+          align-items: baseline;
+          fieldset {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            padding: 5px 20px;
+            border-bottom: 3px solid $bg-gray;
+            legend {
+              font-weight: bold;
+              width: 130px;
+              height: 100%;
+              display: block;
+            }
+
+            // filter option label start
+            label {
+              display: flex;
+              flex-flow: row nowrap;
+              justify-content: center;
+              align-items: center;
+              padding: 0 9px 0 5px;
+              max-width: 280px;
+              background-color: $btn-white;
+              border-radius: 5px;
+              height: 35px;
+              border: 1px solid #000;
+              margin: 0 4px 3px 0;
+
+              // filter option checkbox start
+              input {
+                width: 20px;
+                margin-right: 5px;
+                height: 20px;
+                accent-color: $btn-blue;
+              }
+              // filter option checkbox end
+
+              // filter option label text start
+              .filter-label-text-box {
+                // overflow: hidden;
+                font-weight: bold;
+                @extend %d-flex;
+                flex-flow: row nowrap;
+                position: relative;
+                // word-wrap: normal;
+                height: 16px;
+                font-size: 15px;
+                line-height: 16px;
+                .countBadge {
+                  height: 20px;
+                  min-width: 20px;
+                  padding: 0 4px;
+                  background-color: $btn-white;
+                  border: 1px solid #000;
+                  color: $c-black;
+                  font-size: 12px;
+                  border-radius: 5px;
+                  margin-left: 3px;
+
+                  @extend %d-flex;
+                }
+                .countBadge::selection {
+                  background-color: transparent;
+                }
+              }
+              // filter option label text end
+
+              div::selection {
+                background-color: transparent;
+              }
+            }
+
+            label:hover {
+              cursor: pointer;
+              //   background-color: rgb(186, 186, 186);
+              background-color: $btn-blue;
+              border-color: $btn-blue;
+              color: white;
+              input {
+                cursor: pointer;
+                accent-color: white;
+              }
+              .filter-label-text-box {
+                .countBadge {
+                  cursor: pointer;
+                  background-color: $bg-blue;
+                  color: $c-white;
+                  border-color: $bg-white;
+
+                  // display: flex;
+                }
+              }
+            }
+            // filter option label end
+          }
+          fieldset:nth-of-type(1),
+          fieldset:nth-of-type(2) {
+            // background-color: red;
+            width: 50%;
+          }
+        }
+        // data filterring container end
+
+        // data control container start
+        .data-options-container {
+          width: 100%;
+          background-color: $bg-bluegray;
+          border-radius: 15px;
+          padding: 10px 0;
+          display: flex;
+          flex-flow: row wrap;
+          align-items: baseline;
+          fieldset {
+            margin: 0;
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            padding: 5px 20px;
+            border-bottom: 3px solid $bg-gray;
+            input {
+              @extend %def-btn;
+              border-radius: 0;
+              color: $c-white;
+              outline: none;
+            }
+            input:hover {
+              cursor: pointer;
+            }
+            input:active {
+              cursor: pointer;
+              outline-width: 3px;
+            }
+            input:disabled {
+              cursor: default;
+              outline-width: 0;
+            }
+            input:nth-of-type(1) {
+              border-radius: 10px 0 0 10px;
+            }
+            input:nth-last-of-type(1) {
+              border-radius: 0 10px 10px 0;
+            }
+
+            // reset filter button start
+            #resetFilters {
+              background-color: $btn-red;
+            }
+            #resetFilters:hover {
+              cursor: pointer;
+              background-color: $btn-red-hover;
+            }
+            #resetFilters:disabled {
+              cursor: default;
+              background-color: $btn-red-disabled;
+            }
+            // reset filter button start
+
+            // download custom report button start
+            #downloadCustomReport {
+              background-color: $btn-blue;
+            }
+            #downloadCustomReport:hover {
+              cursor: pointer;
+              background-color: $btn-blue-hover;
+            }
+            #downloadCustomReport:disabled {
+              cursor: default;
+              background-color: $btn-blue-disabled;
+            }
+            // download custom report button start
+
+            // show data table button start
+            #showDataTable {
+              background-color: $btn-green;
+            }
+            #showDataTable:hover {
+              cursor: pointer;
+              background-color: $btn-green-hover;
+            }
+            #showDataTable:disabled {
+              cursor: default;
+              background-color: $btn-green;
+            }
+            // show data table button end
+
+            // search input start
+            #searchInput {
+              background-color: $btn-white;
+              color: $bg-black;
+              padding: 0 5px;
+              width: 300px;
+              text-align: left;
+            }
+            #searchInput:hover {
+              cursor: pointer;
+            }
+            #searchInput:disabled {
+              cursor: default;
+            }
+            // search input end
+
+            // search button start
+            #searchBtn {
+              background-color: $btn-lightblue;
+              color: $bg-black;
+            }
+            #searchBtn:hover {
+              cursor: pointer;
+              background-color: $btn-lightblue-hover;
+            }
+            #searchBtn:disabled {
+              cursor: default;
+              background-color: $btn-lightblue-disabled;
+            }
+            // search button end
+          }
+        }
+        // data control container start
+
+        // display container start
+        .display-data-container {
+          // height: 500px;
+          height: 250px;
+          .menu {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            li {
+              list-style: none;
+              width: 19%;
+              background-color: $btn-blue;
+              height: 35px;
+              border-radius: 10px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 2px solid $bg-blue;
+              transition: background-color 0.2s ease-in-out;
+              transition: border-radius 0.2s ease-in-out;
+              color: $c-white;
+              font-weight: bold;
+            }
+            li:hover {
+              cursor: pointer;
+              background-color: $btn-white;
+              border-radius: 10px;
+              color: $c-blue;
+            }
+            .active {
+              background-color: $btn-white;
+              border-radius: 20px 20px 0 0;
+              border-bottom-color: white;
+              height: 38px;
+              color: $c-blue;
+            }
+            .active:hover {
+              border-radius: 20px 20px 0 0;
+              border-bottom-color: white;
+            }
+          }
+          .content {
+            width: 100%;
+            height: 100%;
+            margin-top: 35px;
+            z-index: 1;
+            .content-block {
+              display: none;
+              width: 100%;
+              height: 100%;
+              background-color: $bg-white;
+              h2 {
+                font-size: 60px;
+                font-weight: bold;
+              }
+              p {
+              }
+            }
+          }
+          table {
+            border: 1px solid #000;
+          }
+
+          /* .table-sizes { */
+          max-width: 100%;
+          max-height: 100%;
+          /* height: 500px; */
+          overflow: auto;
+          /* background-color: gray; */
+          /* } */
+
+          table {
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            position: relative;
+            thead {
+              width: 100%;
+              height: 35px;
+              // position: sticky;
+              top: 0;
+              left: 0;
+              background-color: red;
+              z-index: 10;
+              tr {
+                th {
+                }
+                th:nth-of-type(1) {
+                }
+              }
+            }
+            tbody {
+              tr {
+                td {
+                }
+                td:nth-of-type(1) {
+                }
+              }
+            }
+            tr {
+              th,
+              td {
+                border: 1px solid #000;
+                padding: 5px;
+              }
+              th:nth-of-type(1),
+              td:nth-of-type(1) {
+                width: 150px;
+              }
+              th:nth-of-type(2),
+              td:nth-of-type(2) {
+                width: 120px;
+              }
+              th:nth-of-type(3),
+              td:nth-of-type(3) {
+                // width: 150px;
+              }
+              th:nth-of-type(4),
+              td:nth-of-type(4) {
+                width: 200px;
+              }
+            }
+          }
+        }
+        // display container end
+      }
+    }
+    // DATA CONTAINER PART END
+  }
+}
+footer {
+  margin-top: 50px;
+  background-color: $bg-bluegray;
+  height: 25px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 5px;
+  .copyright-container {
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    p {
+      color: $c-black;
+      a {
+        color: $c-black;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// DIALOG WINDOW START
+.dialogWindow-container {
+  position: absolute;
+  top: 0;
+  background-color: rgba(128, 128, 128, 0.464);
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  .dialogWindow {
+    background-color: $bg-white;
+    width: 400px;
+    height: 320px;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-flow: column nowrap;
+    &-header {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid black;
+      margin-bottom: 10px;
+      position: relative;
+      h2 {
+        font-size: 40px;
+        text-align: center;
+      }
+      .info-icon {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+      }
+      .info-message {
+        background-color: $bg-white;
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        width: 340px;
+        height: 260px;
+        overflow: auto;
+        border-radius: 5px;
+        display: none;
+        padding: 7px;
+        border: 1px solid $bg-bluegray;
+        p {
+          font-weight: normal;
+          margin: 0;
+        }
+      }
+      .info-icon:hover + .info-message,
+      .info-message:hover {
+        display: block;
+      }
+      .info-icon:after {
+        content: "";
+        background-color: transparent;
+        position: absolute;
+        top: 6px;
+        right: 0;
+        z-index: 100;
+        width: 25px;
+        height: 20px;
+        transform: rotate(-45deg);
+      }
+    }
+    &-content {
+      width: 100%;
+      height: 340px;
+      p {
+        margin-bottom: 5px;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          border-radius: 5px;
+          margin-left: 0;
+          accent-color: $btn-blue;
+        }
+        input[type="checkbox"]:hover {
+          cursor: pointer;
+        }
+        span::selection {
+          background: transparent;
+        }
+      }
+      label:hover {
+        cursor: pointer;
+      }
+      label::selection {
+        background: transparent;
+      }
+    }
+    &-control {
+      // background-color: yellow;
+      width: 100%;
+      // min-height: 50px;
+      @extend %d-flex;
+      justify-content: space-between;
+      flex-flow: row wrap;
+      label {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        text-decoration: underline;
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          border-radius: 5px;
+          margin-left: 0;
+          margin-right: 14px;
+          margin: 0 15px 0 0;
+          accent-color: $btn-blue;
+        }
+        input[type="checkbox"]:hover {
+          cursor: pointer;
+        }
+      }
+      label:hover {
+        cursor: pointer;
+      }
+      label::selection {
+        background: transparent;
+      }
+
+      #dialogClean {
+        @extend %def-btn;
+        background-color: $btn-green;
+        color: $c-white;
+      }
+      #dialogClean:hover {
+        cursor: pointer;
+        background-color: $btn-green-hover;
+      }
+      #dialogClean:active {
+        cursor: pointer;
+        outline-width: 3px;
+        outline-color: rgba(21, 115, 71, 0.3);
+      }
+      #dialogClean:disabled {
+        cursor: default;
+        background-color: $btn-green-disabled;
+        outline-width: 0;
+      }
+      #dialogIgnore {
+        @extend %def-btn;
+        background-color: $btn-red;
+        color: $c-white;
+      }
+      #dialogIgnore:hover {
+        cursor: pointer;
+        background-color: $btn-red-hover;
+      }
+      #dialogIgnore:active {
+        cursor: pointer;
+        outline-width: 3px;
+        outline-color: rgba(220, 53, 69, 0.3);
+      }
+      #dialogIgnore:disabled {
+        cursor: default;
+        background-color: $btn-red-disabled;
+        outline-width: 0;
+      }
+    }
+  }
+}
+// DIALOG WINDOW END
+.show {
+  display: block !important;
+}
+.hide {
+  display: none !important;
+}
+.badgeShadow {
+  box-shadow: -10px 0px 7px 4px $bg-white !important;
+}
+label:hover {
+  .badgeShadow {
+    box-shadow: -10px 0px 7px 4px $bg-blue !important;
+  }
+}
