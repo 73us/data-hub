@@ -145,70 +145,133 @@ table {
   flex-flow: column nowrap;
   position: relative;
 }
-.test-container .menu {
+.test-container fieldset {
+  width: 250px;
+  background-color: #dde4e9;
+  border-radius: 15px;
   display: flex;
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
+  flex-flow: row wrap;
+  align-items: baseline;
+  border: 1px solid #000;
 }
-.test-container .menu li {
-  list-style: none;
-  width: 19%;
-  background-color: #4384f5;
-  height: 35px;
-  border-radius: 10px;
+.test-container fieldset legend {
   display: flex;
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  border: 2px solid #4384f5;
-  transition: background-color 0.2s ease-in-out;
-  transition: border-radius 0.2s ease-in-out;
-  color: #f8f9fa;
-  font-weight: bold;
+  padding: 0 9px 0 5px;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  height: 35px;
+  border: 1px solid #000;
+  margin: 0 4px 3px 0;
 }
-.test-container .menu li:hover {
+.test-container fieldset legend span {
+  color: gray;
+}
+.test-container fieldset legend:hover {
   cursor: pointer;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  color: #4384f5;
 }
-.test-container .menu .active {
-  background-color: #f8f9fa;
-  border-radius: 20px 20px 0 0;
-  border-bottom-color: white;
-  height: 38px;
-  color: #4384f5;
-}
-.test-container .menu .active:hover {
-  border-radius: 20px 20px 0 0;
-  border-bottom-color: white;
-}
-.test-container .content {
+.test-container fieldset .dropDown {
   width: 100%;
-  height: 100%;
-  margin-top: 35px;
-  z-index: 1;
+  height: 0;
+  border-radius: 5px;
+  overflow-y: auto;
+  max-height: 200px;
+  transition: height 0.2s ease-in-out;
 }
-.test-container .content .content-block {
-  display: none;
+.test-container fieldset .dropDown label {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 10px;
   width: 100%;
-  height: 100%;
   background-color: #f8f9fa;
+  height: 35px;
+  border-bottom: 1px solid #000;
 }
-.test-container .content .content-block h2 {
-  font-size: 60px;
+.test-container fieldset .dropDown label input {
+  width: 20px;
+  margin-right: 5px;
+  margin: 0;
+  height: 20px;
+  accent-color: #4384f5;
+}
+.test-container fieldset .dropDown label .filter-label-text-box {
   font-weight: bold;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  position: relative;
+  width: 87%;
+  height: 16px;
+  font-size: 15px;
+  line-height: 16px;
 }
-.dialogWindow-container .dialogWindow-control, .container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box .countBadge, .container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box {
+.test-container fieldset .dropDown label .filter-label-text-box span {
+  width: 79%;
+}
+.test-container fieldset .dropDown label .filter-label-text-box .countBadge {
+  height: 20px;
+  width: 21%;
+  padding: 0 2px;
+  background-color: #f8f9fa;
+  border: 1px solid #000;
+  color: #000000;
+  font-size: 12px;
+  border-radius: 5px;
+  margin-left: 3px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.test-container fieldset .dropDown label .filter-label-text-box .countBadge::-moz-selection {
+  background-color: transparent;
+}
+.test-container fieldset .dropDown label .filter-label-text-box .countBadge::selection {
+  background-color: transparent;
+}
+.test-container fieldset .dropDown label div::-moz-selection {
+  background-color: transparent;
+}
+.test-container fieldset .dropDown label div::selection {
+  background-color: transparent;
+}
+.test-container fieldset .dropDown label:hover {
+  cursor: pointer;
+  background-color: #4384f5;
+  border-color: #4384f5;
+  color: white;
+}
+.test-container fieldset .dropDown label:hover input {
+  cursor: pointer;
+  accent-color: white;
+}
+.test-container fieldset .dropDown label:hover .filter-label-text-box .countBadge {
+  cursor: pointer;
+  background-color: #4384f5;
+  color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+.test-container fieldset .dropDown fieldset:nth-of-type(1),
+.test-container fieldset .dropDown fieldset:nth-of-type(2) {
+  width: 50%;
+}
+
+.show {
+  height: 200px !important;
+}
+
+.dialogWindow-container .dialogWindow-control {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container .right .data-container .data-main .data-options-container fieldset input, .container .left .report-container fieldset button, .container .left .report-container fieldset input, .container .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
-.container .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
+.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container main .right .data-container .data-main .data-options-container fieldset input, .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters, .container main .left .report-container fieldset button, .container main .left .report-container fieldset input, .container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
+.container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
   width: 110px;
   height: 40px;
   border-radius: 10px;
@@ -263,11 +326,12 @@ table {
 }
 * ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
-  border-radius: 0px;
+  border-radius: 50px;
+  background-color: #f8f9fa;
 }
 * ::-webkit-scrollbar-thumb {
   background: #4384f5;
-  border-radius: 3px;
+  border-radius: 50px;
 }
 
 .container {
@@ -275,20 +339,27 @@ table {
   max-width: 1900px;
   min-width: 1500px;
   min-height: 100vh;
-  width: 98%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+}
+.container main {
+  margin: 0 auto;
   padding: 10px 0;
+  width: 98%;
+  height: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding-bottom: 50px;
 }
-.container .left {
+.container main .left {
   width: 19%;
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
 }
-.container .left .file-input-container {
+.container main .left .file-input-container {
   height: 49%;
   max-height: 280px;
   background-color: #dde4e9;
@@ -298,19 +369,19 @@ table {
   border-radius: 15px;
   margin-bottom: 10px;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) {
+.container main .left .file-input-container fieldset:nth-of-type(1) {
   position: relative;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend {
   display: flex;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend span {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend span {
   margin-left: 5px;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend p {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend p {
   margin-left: 25px;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend .info-message {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-message {
   background-color: #f8f9fa;
   position: absolute;
   top: 20px;
@@ -322,15 +393,15 @@ table {
   display: none;
   padding: 7px;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend .info-message p {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-message p {
   font-weight: normal;
   margin: 0;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend .info-icon:hover + .info-message,
-.container .left .file-input-container fieldset:nth-of-type(1) legend .info-message:hover {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-icon:hover + .info-message,
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-message:hover {
   display: block;
 }
-.container .left .file-input-container fieldset:nth-of-type(1) legend .info-icon:after {
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-icon:after {
   content: "";
   background-color: transparent;
   position: absolute;
@@ -340,7 +411,7 @@ table {
   width: 30px;
   height: 30px;
 }
-.container .left .file-input-container fieldset {
+.container main .left .file-input-container fieldset {
   width: 100%;
   margin-bottom: 10px;
   display: flex;
@@ -348,35 +419,35 @@ table {
   justify-content: space-between;
   align-items: center;
 }
-.container .left .file-input-container fieldset legend {
+.container main .left .file-input-container fieldset legend {
   text-align: start;
   font-size: 18px;
   margin-bottom: 10px;
   width: 100%;
 }
-.container .left .file-input-container fieldset legend span {
+.container main .left .file-input-container fieldset legend span {
   font-weight: bold;
 }
-.container .left .file-input-container fieldset input[type=checkbox] {
+.container main .left .file-input-container fieldset input[type=checkbox] {
   width: 20px;
   height: 20px;
   border-radius: 5px;
   margin-left: 0;
   accent-color: #4384f5;
 }
-.container .left .file-input-container fieldset input[type=checkbox]:hover {
+.container main .left .file-input-container fieldset input[type=checkbox]:hover {
   cursor: pointer;
 }
-.container .left .file-input-container fieldset .input-chats,
-.container .left .file-input-container fieldset .input-tickets {
+.container main .left .file-input-container fieldset .input-chats,
+.container main .left .file-input-container fieldset .input-tickets {
   width: 88%;
   height: 45px;
   position: relative;
 }
-.container .left .file-input-container fieldset .input-chats .chats-cover,
-.container .left .file-input-container fieldset .input-chats .tickets-cover,
-.container .left .file-input-container fieldset .input-tickets .chats-cover,
-.container .left .file-input-container fieldset .input-tickets .tickets-cover {
+.container main .left .file-input-container fieldset .input-chats .chats-cover,
+.container main .left .file-input-container fieldset .input-chats .tickets-cover,
+.container main .left .file-input-container fieldset .input-tickets .chats-cover,
+.container main .left .file-input-container fieldset .input-tickets .tickets-cover {
   background-color: rgba(221, 228, 233, 0.5882352941);
   width: 100%;
   height: 100%;
@@ -384,86 +455,86 @@ table {
   z-index: 10;
   transition: width 0.2s ease-in-out;
 }
-.container .left .file-input-container fieldset .input-chats input[type=file],
-.container .left .file-input-container fieldset .input-tickets input[type=file] {
+.container main .left .file-input-container fieldset .input-chats input[type=file],
+.container main .left .file-input-container fieldset .input-tickets input[type=file] {
   width: 90%;
   margin-bottom: 3px;
 }
-.container .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
-.container .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
+.container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
+.container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
   background-color: #4384f5;
   color: #f8f9fa;
 }
-.container .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button:hover,
-.container .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button:hover {
+.container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button:hover,
+.container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button:hover {
   cursor: pointer;
   background-color: #0b5ed7;
 }
-.container .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button:active,
-.container .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button:active {
+.container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button:active,
+.container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button:active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(67, 132, 245, 0.3);
 }
-.container .left .file-input-container fieldset .input-chats .checkChat,
-.container .left .file-input-container fieldset .input-chats .checkTicket,
-.container .left .file-input-container fieldset .input-tickets .checkChat,
-.container .left .file-input-container fieldset .input-tickets .checkTicket {
+.container main .left .file-input-container fieldset .input-chats .checkChat,
+.container main .left .file-input-container fieldset .input-chats .checkTicket,
+.container main .left .file-input-container fieldset .input-tickets .checkChat,
+.container main .left .file-input-container fieldset .input-tickets .checkTicket {
   line-height: 40px;
   font-weight: bold;
   color: green;
   opacity: 0;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   width: 100%;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #processFiles {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles {
   background-color: #157347;
   color: #f8f9fa;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:hover {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:hover {
   cursor: pointer;
   background-color: #09884d;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:active {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(21, 115, 71, 0.3);
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:disabled {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles:disabled {
   cursor: default;
   background-color: #8ac9ab;
   outline-width: 0;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles {
   background-color: #dc3545;
   color: #f8f9fa;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:hover {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:hover {
   cursor: pointer;
   background-color: #bb2d3b;
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:active {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(220, 53, 69, 0.3);
 }
-.container .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:disabled {
+.container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles:disabled {
   cursor: default;
   background-color: #c97981;
   outline-width: 0;
 }
-.container .left .file-input-container .counter-header {
+.container main .left .file-input-container .counter-header {
   display: none;
   height: 45px;
 }
-.container .left .file-input-container .counter-header .counter-number {
+.container main .left .file-input-container .counter-header .counter-number {
   font-weight: bold;
 }
-.container .left .report-container {
+.container main .left .report-container {
   max-height: 340px;
   height: 0;
   background-color: #dde4e9;
@@ -475,20 +546,20 @@ table {
   transition: height 0.2s ease-in-out;
   transition: opacity 0.1s ease-in-out 0.1s;
 }
-.container .left .report-container div {
+.container main .left .report-container div {
   width: 100%;
   display: flex;
   position: relative;
 }
-.container .left .report-container div h2 {
+.container main .left .report-container div h2 {
   width: 95%;
   text-justify: auto;
   margin-bottom: 5px;
 }
-.container .left .report-container div p {
+.container main .left .report-container div p {
   margin-left: 25px;
 }
-.container .left .report-container div .info-message {
+.container main .left .report-container div .info-message {
   background-color: #f8f9fa;
   position: absolute;
   top: 20px;
@@ -502,15 +573,15 @@ table {
   padding: 7px;
   border: 1px solid #dde4e9;
 }
-.container .left .report-container div .info-message p {
+.container main .left .report-container div .info-message p {
   font-weight: normal;
   margin: 0;
 }
-.container .left .report-container div .info-icon:hover + .info-message,
-.container .left .report-container div .info-message:hover {
+.container main .left .report-container div .info-icon:hover + .info-message,
+.container main .left .report-container div .info-message:hover {
   display: block;
 }
-.container .left .report-container div .info-icon:after {
+.container main .left .report-container div .info-icon:after {
   content: "";
   background-color: transparent;
   position: absolute;
@@ -521,7 +592,7 @@ table {
   width: 30px;
   height: 30px;
 }
-.container .left .report-container fieldset {
+.container main .left .report-container fieldset {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -531,63 +602,62 @@ table {
   border-left: 1px solid #000;
   border-radius: 10px;
 }
-.container .left .report-container fieldset legend {
+.container main .left .report-container fieldset legend {
   margin-bottom: 5px;
 }
-.container .left .report-container fieldset input {
+.container main .left .report-container fieldset input {
   background-color: #fdc51e;
   color: #000000;
 }
-.container .left .report-container fieldset input:hover {
+.container main .left .report-container fieldset input:hover {
   cursor: pointer;
   background-color: #eeb407;
 }
-.container .left .report-container fieldset input:active {
+.container main .left .report-container fieldset input:active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(255, 193, 7, 0.3);
 }
-.container .left .report-container fieldset input:disabled {
+.container main .left .report-container fieldset input:disabled {
   cursor: default;
   background-color: #ffc107;
   outline-width: 0;
 }
-.container .left .report-container fieldset button {
+.container main .left .report-container fieldset button {
   background-color: #4384f5;
 }
-.container .left .report-container fieldset button a {
+.container main .left .report-container fieldset button a {
   text-decoration: none;
   color: #f8f9fa;
   font-weight: bold;
 }
-.container .left .report-container fieldset button:hover {
+.container main .left .report-container fieldset button:hover {
   cursor: pointer;
   background-color: #0b5ed7;
 }
-.container .left .report-container fieldset button:active {
+.container main .left .report-container fieldset button:active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(67, 132, 245, 0.3);
 }
-.container .left .report-container fieldset button:disabled {
+.container main .left .report-container fieldset button:disabled {
   cursor: default;
   background-color: #8bb8fc;
   outline-width: 0;
 }
-.container .right {
+.container main .right {
   width: 79%;
 }
-.container .right .data-container {
+.container main .right .data-container {
   display: flex;
   flex-flow: column wrap;
-  /* justify-content: center; */
   background-color: #dde4e9;
   width: 100%;
   min-width: 510px;
   border-radius: 15px;
   min-height: 330px;
 }
-.container .right .data-container .start-instraction-block {
+.container main .right .data-container .start-instraction-block {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -595,7 +665,7 @@ table {
   flex-flow: column;
   padding: 10px 0 15px;
 }
-.container .right .data-container .start-instraction-block .start-instraction-header {
+.container main .right .data-container .start-instraction-block .start-instraction-header {
   width: 100%;
   text-align: center;
   font-size: 40px;
@@ -603,7 +673,7 @@ table {
   margin-bottom: 20px;
   position: relative;
 }
-.container .right .data-container .start-instraction-block .start-instraction-header::before {
+.container main .right .data-container .start-instraction-block .start-instraction-header::before {
   position: absolute;
   bottom: -34px;
   right: 20%;
@@ -615,7 +685,7 @@ table {
   border-radius: 0 15px 0 15px;
   z-index: 10;
 }
-.container .right .data-container .start-instraction-block .start-instraction-header::after {
+.container main .right .data-container .start-instraction-block .start-instraction-header::after {
   z-index: 10;
   position: absolute;
   bottom: -34px;
@@ -627,112 +697,175 @@ table {
   height: 15px;
   border-radius: 15px 0 15px 0;
 }
-.container .right .data-container .start-instraction-block img {
+.container main .right .data-container .start-instraction-block img {
   width: 60%;
   border-radius: 15px;
 }
-.container .right .data-container .data-main {
+.container main .right .data-container .data-main {
   display: flex;
   flex-flow: column wrap;
   width: 100%;
   min-width: 510px;
   min-height: 330px;
 }
-.container .right .data-container .data-main .data-filtering-container {
+.container main .right .data-container .data-main .data-filtering-container {
   width: 100%;
   background-color: #dde4e9;
   border-radius: 15px;
-  padding: 10px 0;
+  padding: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: start;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset {
+  width: 250px;
+  background-color: #dde4e9;
   display: flex;
   flex-flow: row wrap;
   align-items: baseline;
+  position: relative;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset {
-  margin: 0;
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  padding: 5px 20px;
-  border-bottom: 3px solid #6c757d;
-}
-.container .right .data-container .data-main .data-filtering-container fieldset legend {
-  font-weight: bold;
-  width: 130px;
-  height: 100%;
-  display: block;
-}
-.container .right .data-container .data-main .data-filtering-container fieldset label {
+.container main .right .data-container .data-main .data-filtering-container fieldset legend {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  padding: 0 9px 0 5px;
-  max-width: 280px;
+  width: 100%;
   background-color: #f8f9fa;
-  border-radius: 5px;
-  height: 35px;
-  border: 1px solid #000;
-  margin: 0 4px 3px 0;
+  border-radius: 10px;
+  height: 40px;
+  border: 1px solid #f8f9fa;
+  border-bottom: none !important;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label input {
+.container main .right .data-container .data-main .data-filtering-container fieldset legend span {
+  color: gray;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset legend:hover {
+  cursor: pointer;
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+  color: white;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown {
+  position: absolute;
+  width: 100%;
+  height: 0;
+  border-radius: 0 0 10px 10px;
+  overflow-y: auto;
+  max-height: 200px;
+  z-index: 100;
+  transition: height 0.2s ease-in-out;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  width: 100%;
+  background-color: #f8f9fa;
+  height: 40px;
+  border-bottom: 2px solid #dde4e9;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label input {
   width: 20px;
   margin-right: 5px;
+  margin: 0;
   height: 20px;
   accent-color: #4384f5;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box {
   font-weight: bold;
+  display: flex;
   flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
-  height: 16px;
-  font-size: 15px;
-  line-height: 16px;
-}
-.container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box .countBadge {
+  width: 87%;
   height: 20px;
-  min-width: 20px;
-  padding: 0 4px;
+  font-size: 15px;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .labelBadge {
+  width: 79%;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .countBadge {
+  height: 20px;
+  width: 21%;
+  padding: 0 2px;
   background-color: #f8f9fa;
   border: 1px solid #000;
   color: #000000;
   font-size: 12px;
   border-radius: 5px;
   margin-left: 3px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box .countBadge::-moz-selection {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .countBadge::-moz-selection {
   background-color: transparent;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label .filter-label-text-box .countBadge::selection {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .countBadge::selection {
   background-color: transparent;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label div::-moz-selection {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label div::-moz-selection {
   background-color: transparent;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label div::selection {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label div::selection {
   background-color: transparent;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label:hover {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label:nth-of-type(1) {
+  border-top: 2px solid #dde4e9;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label:nth-last-of-type(1) {
+  border-bottom: none;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label:hover {
   cursor: pointer;
   background-color: #4384f5;
   border-color: #4384f5;
   color: white;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label:hover input {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label:hover input {
   cursor: pointer;
   accent-color: white;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset label:hover .filter-label-text-box .countBadge {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label:hover .filter-label-text-box .countBadge {
   cursor: pointer;
   background-color: #4384f5;
   color: #f8f9fa;
   border-color: #f8f9fa;
 }
-.container .right .data-container .data-main .data-filtering-container fieldset:nth-of-type(1),
-.container .right .data-container .data-main .data-filtering-container fieldset:nth-of-type(2) {
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown fieldset:nth-of-type(1),
+.container main .right .data-container .data-main .data-filtering-container fieldset .dropDown fieldset:nth-of-type(2) {
   width: 50%;
 }
-.container .right .data-container .data-main .data-options-container {
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters {
+  color: #f8f9fa;
+  background-color: #dc3545;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters:hover {
+  cursor: pointer;
+  background-color: #bb2d3b;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters:active {
+  cursor: pointer;
+  outline-width: 3px;
+  outline-color: rgba(255, 0, 0, 0.3);
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters:disabled {
+  cursor: default;
+  outline-width: 0;
+  background-color: #c97981;
+}
+.container main .right .data-container .data-main .data-options-container {
   width: 100%;
   background-color: #dde4e9;
   border-radius: 15px;
@@ -741,7 +874,7 @@ table {
   flex-flow: row wrap;
   align-items: baseline;
 }
-.container .right .data-container .data-main .data-options-container fieldset {
+.container main .right .data-container .data-main .data-options-container fieldset {
   margin: 0;
   width: 100%;
   display: flex;
@@ -750,97 +883,85 @@ table {
   padding: 5px 20px;
   border-bottom: 3px solid #6c757d;
 }
-.container .right .data-container .data-main .data-options-container fieldset input {
+.container main .right .data-container .data-main .data-options-container fieldset input {
   border-radius: 0;
   color: #f8f9fa;
   outline: none;
 }
-.container .right .data-container .data-main .data-options-container fieldset input:hover {
+.container main .right .data-container .data-main .data-options-container fieldset input:hover {
   cursor: pointer;
 }
-.container .right .data-container .data-main .data-options-container fieldset input:active {
+.container main .right .data-container .data-main .data-options-container fieldset input:active {
   cursor: pointer;
   outline-width: 3px;
 }
-.container .right .data-container .data-main .data-options-container fieldset input:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset input:disabled {
   cursor: default;
   outline-width: 0;
 }
-.container .right .data-container .data-main .data-options-container fieldset input:nth-of-type(1) {
+.container main .right .data-container .data-main .data-options-container fieldset input:nth-of-type(1) {
   border-radius: 10px 0 0 10px;
 }
-.container .right .data-container .data-main .data-options-container fieldset input:nth-last-of-type(1) {
+.container main .right .data-container .data-main .data-options-container fieldset input:nth-last-of-type(1) {
   border-radius: 0 10px 10px 0;
 }
-.container .right .data-container .data-main .data-options-container fieldset #resetFilters {
-  background-color: #dc3545;
-}
-.container .right .data-container .data-main .data-options-container fieldset #resetFilters:hover {
-  cursor: pointer;
-  background-color: #bb2d3b;
-}
-.container .right .data-container .data-main .data-options-container fieldset #resetFilters:disabled {
-  cursor: default;
-  background-color: #c97981;
-}
-.container .right .data-container .data-main .data-options-container fieldset #downloadCustomReport {
+.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport {
   background-color: #4384f5;
 }
-.container .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:hover {
+.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:hover {
   cursor: pointer;
   background-color: #0b5ed7;
 }
-.container .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:disabled {
   cursor: default;
   background-color: #8bb8fc;
 }
-.container .right .data-container .data-main .data-options-container fieldset #showDataTable {
+.container main .right .data-container .data-main .data-options-container fieldset #showDataTable {
   background-color: #157347;
 }
-.container .right .data-container .data-main .data-options-container fieldset #showDataTable:hover {
+.container main .right .data-container .data-main .data-options-container fieldset #showDataTable:hover {
   cursor: pointer;
   background-color: #09884d;
 }
-.container .right .data-container .data-main .data-options-container fieldset #showDataTable:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset #showDataTable:disabled {
   cursor: default;
   background-color: #157347;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchInput {
+.container main .right .data-container .data-main .data-options-container fieldset #searchInput {
   background-color: #f8f9fa;
   color: #000000;
   padding: 0 5px;
   width: 300px;
   text-align: left;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchInput:hover {
+.container main .right .data-container .data-main .data-options-container fieldset #searchInput:hover {
   cursor: pointer;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchInput:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset #searchInput:disabled {
   cursor: default;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchBtn {
+.container main .right .data-container .data-main .data-options-container fieldset #searchBtn {
   background-color: #0dcaf0;
   color: #000000;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchBtn:hover {
+.container main .right .data-container .data-main .data-options-container fieldset #searchBtn:hover {
   cursor: pointer;
   background-color: #31d2f2;
 }
-.container .right .data-container .data-main .data-options-container fieldset #searchBtn:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset #searchBtn:disabled {
   cursor: default;
   background-color: #13aac8;
 }
-.container .right .data-container .data-main .display-data-container {
+.container main .right .data-container .data-main .display-data-container {
   background-color: #dde4e9;
   margin: 0 auto;
   width: 98%;
-  height: 100vh;
   display: flex;
   flex-flow: column nowrap;
   position: relative;
-  height: 250px;
+  height: 520px;
 }
-.container .right .data-container .data-main .display-data-container .menu {
+.container main .right .data-container .data-main .display-data-container .menu {
   display: flex;
   justify-content: space-between;
   position: absolute;
@@ -848,7 +969,7 @@ table {
   top: 0;
   left: 0;
 }
-.container .right .data-container .data-main .display-data-container .menu li {
+.container main .right .data-container .data-main .display-data-container .menu li {
   list-style: none;
   width: 19%;
   background-color: #4384f5;
@@ -863,69 +984,62 @@ table {
   color: #f8f9fa;
   font-weight: bold;
 }
-.container .right .data-container .data-main .display-data-container .menu li:hover {
+.container main .right .data-container .data-main .display-data-container .menu li:hover {
   cursor: pointer;
   background-color: #f8f9fa;
   border-radius: 10px;
   color: #4384f5;
 }
-.container .right .data-container .data-main .display-data-container .menu .active {
+.container main .right .data-container .data-main .display-data-container .menu .active {
   background-color: #f8f9fa;
   border-radius: 20px 20px 0 0;
   border-bottom-color: white;
   height: 38px;
   color: #4384f5;
 }
-.container .right .data-container .data-main .display-data-container .menu .active:hover {
+.container main .right .data-container .data-main .display-data-container .menu .active:hover {
   border-radius: 20px 20px 0 0;
   border-bottom-color: white;
 }
-.container .right .data-container .data-main .display-data-container .content {
+.container main .right .data-container .data-main .display-data-container .content {
   width: 100%;
   height: 100%;
   margin-top: 35px;
   z-index: 1;
-  max-width: 100%;
-  max-height: 100%;
   overflow: auto;
 }
-.container .right .data-container .data-main .display-data-container .content table {
-  border: 1px solid #000;
-}
-.container .right .data-container .data-main .display-data-container .content table {
+.container main .right .data-container .data-main .display-data-container .content table {
   width: 100%;
-  margin: 0 auto;
-  background-color: white;
-  position: relative;
+  height: 100%;
+  display: none;
 }
-.container .right .data-container .data-main .display-data-container .content table thead {
+.container main .right .data-container .data-main .display-data-container .content table thead {
   width: 100%;
-  height: 35px;
-  top: 0;
-  left: 0;
+  height: 100%;
   background-color: red;
-  z-index: 10;
 }
-.container .right .data-container .data-main .display-data-container .content table tr th,
-.container .right .data-container .data-main .display-data-container .content table tr td {
+.container main .right .data-container .data-main .display-data-container .content table thead tr th {
+  text-align: center;
+  width: 100px;
+}
+.container main .right .data-container .data-main .display-data-container .content table tbody tr td {
   border: 1px solid #000;
   padding: 5px;
 }
-.container .right .data-container .data-main .display-data-container .content table tr th:nth-of-type(1),
-.container .right .data-container .data-main .display-data-container .content table tr td:nth-of-type(1) {
+.container main .right .data-container .data-main .display-data-container .content table tbody tr th:nth-of-type(1),
+.container main .right .data-container .data-main .display-data-container .content table tbody tr td:nth-of-type(1) {
   width: 150px;
 }
-.container .right .data-container .data-main .display-data-container .content table tr th:nth-of-type(2),
-.container .right .data-container .data-main .display-data-container .content table tr td:nth-of-type(2) {
+.container main .right .data-container .data-main .display-data-container .content table tbody tr th:nth-of-type(2),
+.container main .right .data-container .data-main .display-data-container .content table tbody tr td:nth-of-type(2) {
   width: 120px;
 }
-.container .right .data-container .data-main .display-data-container .content table tr th:nth-of-type(4),
-.container .right .data-container .data-main .display-data-container .content table tr td:nth-of-type(4) {
+.container main .right .data-container .data-main .display-data-container .content table tbody tr th:nth-of-type(4),
+.container main .right .data-container .data-main .display-data-container .content table tbody tr td:nth-of-type(4) {
   width: 200px;
 }
-
-footer {
-  margin-top: 50px;
+.container footer {
+  margin-bottom: 0;
   background-color: #dde4e9;
   height: 25px;
   width: 100%;
@@ -934,15 +1048,15 @@ footer {
   align-items: end;
   padding-bottom: 5px;
 }
-footer .copyright-container {
+.container footer .copyright-container {
   text-align: center;
   font-weight: bold;
   font-size: 10px;
 }
-footer .copyright-container p {
+.container footer .copyright-container p {
   color: #000000;
 }
-footer .copyright-container p a {
+.container footer .copyright-container p a {
   color: #000000;
   text-decoration: none;
 }
@@ -1039,6 +1153,10 @@ footer .copyright-container p a {
 .dialogWindow-container .dialogWindow-content label input[type=checkbox]:hover {
   cursor: pointer;
 }
+.dialogWindow-container .dialogWindow-content label input[type=checkbox]:disabled {
+  cursor: default;
+  accent-color: #8bb8fc;
+}
 .dialogWindow-container .dialogWindow-content label span::-moz-selection {
   background: transparent;
 }
@@ -1126,6 +1244,17 @@ footer .copyright-container p a {
 
 .show {
   display: block !important;
+}
+
+.showDropDown {
+  height: auto !important;
+  border: 1px solid #6c757d;
+  border-top: none;
+}
+
+.activeDropDown {
+  border-radius: 10px 10px 0 0 !important;
+  border: 1px solid #6c757d !important;
 }
 
 .hide {

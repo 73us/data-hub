@@ -6,7 +6,7 @@ let allRecords1 = [
         conversationTags: ['1-дубли бонус', '1-Бонусная рассылка', '2-Менеджеры Katsubet', '3-Низкий', '4-Простой', '5-Акции и бонусы', '6-Английский', '7- Antony'],
         conversationType: "chat",
         createdAt: "2023-10-01 00:04:22",
-        customerEmail: "phonyami007_85@outlook.com",
+        customerEmail: "phonya@.com",
         customerId: "f23e8e88-67aa-4dc6-a545-6f348a01ab3a",
         operatorNicks: ['Mikola'],
         projectName: "KatsuBet"
@@ -18,7 +18,7 @@ let allRecords1 = [
         conversationTags: ['chatbot', 'chatbot-transfer', '1-депозит неуспешен', '1-платежи', '2-Менеджеры Katsubet', '3-Средний', '4-Простой', '5-Финансовые операции', '6-Английский', '7-Henry'],
         conversationType: "chat",
         createdAt: "2023-10-01 00:10:31",
-        customerEmail: "stdennisc@yahoo.com",
+        customerEmail: "sdsd@sdds.com",
         customerId: "ed719be9-dc78-4006-9038-8128ddaf80fe",
         operatorNicks: ['Katsubet Support', 'Dave'],
         projectName: "KatsuBet"
@@ -42,8 +42,8 @@ let allRecords1 = [
         conversationTags: ['1-GAMBLING рассылка', '2-Менеджеры 7bit', '4-Закрытие аккаунта', '5-Английский', '6-Mark', '9-Я. Ангелина', '9-Проблемный кейс уточняем/передаем в сс'],
         conversationType: "ticket",
         createdAt: "2023-10-01T00:37:59+03:00",
-        customerEmail: "karoliina.zdravkovic@gmail.com",
-        customerId: "karoliina.zdravkovic@gmail.com",
+        customerEmail: "wwwwwwwwww@gmail.com",
+        customerId: "wwwwwwww@gmail.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -54,8 +54,8 @@ let allRecords1 = [
         conversationTags: ['1-Переоткрытие', '2-Менеджеры 7bit', '4-Восстановление доступа', '5-Английский', '6-Pablo', '6-Jamie'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:12:33+03:00",
-        customerEmail: "alexandeteric@gmail.com",
-        customerId: "alexandeteric@gmail.com",
+        customerEmail: "romoooooo@gmail.com",
+        customerId: "romoooooo@gmail.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -66,20 +66,20 @@ let allRecords1 = [
         conversationTags: ['1-Daily cashback', '2-Менеджеры Katsubet', '4-Акции и бонусы', '5-Английский', '7-Henry', '1-UTC', '1-другие условия не выполнены', '7-Ethan', '1-NO REPLY'],
         conversationType: "chat",
         createdAt: "2023-10-01T01:21:56+03:00",
-        customerEmail: "rhi_rhi3@hotmail.com",
-        customerId: "rhi_rhi3@hotmail.com",
+        customerEmail: "vasillll@hotmail.com",
+        customerId: "vasillll@hotmail.com",
         operatorNicks: ['Olivia'],
         projectName: "Mirax"
     },
     {
         conferenceId: "G7P8UZ",
-        conversationCategory: "Другие тикеты",
+        conversationCategory: "Технические проблемы (кроме бонусов)",
         conversationLink: "https://app.helpdesk.com/tickets/G7P8UZ",
         conversationTags: ['1-неизвестный вопрос', '2-Менеджеры 7bit', '5-Английский', '6-Mark', '4-Другие тикеты'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:53:27+03:00",
-        customerEmail: "jaysondaze19@gmail.com",
-        customerId: "jaysondaze19@gmail.com",
+        customerEmail: "lolol@gmail.com",
+        customerId: "lolol@gmail.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -90,8 +90,8 @@ let allRecords1 = [
         conversationTags: ['1-бездеп', '2-Менеджеры 7bit', '4-Акции и бонусы', '5-Английский', '6-Mark', '6-Hope'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:56:41+03:00",
-        customerEmail: "ggholdap@icloud.com",
-        customerId: "ggholdap@icloud.com",
+        customerEmail: "prakesh@wws.com",
+        customerId: "prakesh@wws.com",
         operatorNicks: ['Emma'],
         projectName: "7Bit"
     },
@@ -102,8 +102,8 @@ let allRecords1 = [
         conversationTags: ['1-неизвестный вопрос', '2-Менеджеры Katsubet', '4-Другие тикеты', '5-Английский', '7-Antony'],
         conversationType: "ticket",
         createdAt: "2023-10-01T02:02:24+03:00",
-        customerEmail: "valentinaprodan320@gmail.com",
-        customerId: "valentinaprodan320@gmail.com",
+        customerEmail: "asdfrt@gmail.com",
+        customerId: "asdfrt@gmail.com",
         operatorNicks: ['Jimmy'],
         projectName: "KatsuBet"
     },
@@ -114,8 +114,8 @@ let allRecords1 = [
         conversationTags: ['2-Менеджеры Mirax', '1-депозит успешен', '4-Финансовые операции', '5-Английский', '7-Antony', '1-недостаточная сумма депозита', '1-Lucky Spin'],
         conversationType: "ticket",
         createdAt: "2023-10-01T02:13:47+03:00",
-        customerEmail: "kyzerboy123@gmail.com",
-        customerId: "kyzerboy123@gmail.com",
+        customerEmail: "aaasdfffdsa@gmail.com",
+        customerId: "aaasdfffdsa@gmail.com",
         operatorNicks: ['Jimmy'],
         projectName: "Mirax"
     },
@@ -126,7 +126,7 @@ let allRecords1 = [
         conversationTags: ['1-дубли бонус', '1-Бонусная рассылка', '2-Менеджеры Katsubet', '3-Низкий', '4-Простой', '5-Акции и бонусы', '6-Английский', '7- Antony'],
         conversationType: "chat",
         createdAt: "2023-10-01 00:04:22",
-        customerEmail: "phonyami007_85@outlook.com",
+        customerEmail: "12121212@rrr.com",
         customerId: "f23e8e88-67aa-4dc6-a545-6f348a01ab3a",
         operatorNicks: ['Jimmy'],
         projectName: "KatsuBet"
@@ -138,7 +138,7 @@ let allRecords1 = [
         conversationTags: ['chatbot', 'chatbot-transfer', '1-депозит неуспешен', '1-платежи', '2-Менеджеры Katsubet', '3-Средний', '4-Простой', '5-Финансовые операции', '6-Английский', '7-Henry'],
         conversationType: "chat",
         createdAt: "2023-10-01 00:10:31",
-        customerEmail: "stdennisc@yahoo.com",
+        customerEmail: "12123123@uiop.com",
         customerId: "ed719be9-dc78-4006-9038-8128ddaf80fe",
         operatorNicks: ['Katsubet Support', 'Dave'],
         projectName: "KatsuBet"
@@ -162,8 +162,8 @@ let allRecords1 = [
         conversationTags: ['1-GAMBLING рассылка', '2-Менеджеры 7bit', '4-Закрытие аккаунта', '5-Английский', '6-Mark', '9-Я. Ангелина', '9-Проблемный кейс уточняем/передаем в сс'],
         conversationType: "ticket",
         createdAt: "2023-10-01T00:37:59+03:00",
-        customerEmail: "karoliina.zdravkovic@gmail.com",
-        customerId: "karoliina.zdravkovic@gmail.com",
+        customerEmail: "dodik@dd.com",
+        customerId: "dodik@dd.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -174,8 +174,8 @@ let allRecords1 = [
         conversationTags: ['1-Переоткрытие', '2-Менеджеры 7bit', '4-Восстановление доступа', '5-Английский', '6-Pablo', '6-Jamie'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:12:33+03:00",
-        customerEmail: "alexandeteric@gmail.com",
-        customerId: "alexandeteric@gmail.com",
+        customerEmail: "mmm@eee.com",
+        customerId: "mmm@eee.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -186,9 +186,9 @@ let allRecords1 = [
         conversationTags: ['1-Daily cashback', '2-Менеджеры Katsubet', '4-Акции и бонусы', '5-Английский', '7-Henry', '1-UTC', '1-другие условия не выполнены', '7-Ethan', '1-NO REPLY'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:21:56+03:00",
-        customerEmail: "rhi_rhi3@hotmail.com",
-        customerId: "rhi_rhi3@hotmail.com",
-        operatorNicks: ['Dave'],
+        customerEmail: "123@hotmail.com",
+        customerId: "123@hotmail.com",
+        operatorNicks: ['noAgent'],
         projectName: "KatsuBet"
     },
     {
@@ -198,8 +198,8 @@ let allRecords1 = [
         conversationTags: ['1-неизвестный вопрос', '2-Менеджеры 7bit', '5-Английский', '6-Mark', '4-Другие тикеты'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:53:27+03:00",
-        customerEmail: "jaysondaze19@gmail.com",
-        customerId: "jaysondaze19@gmail.com",
+        customerEmail: "mnhj@gmail.com",
+        customerId: "mnhj@gmail.com",
         operatorNicks: ['Silvia'],
         projectName: "7Bit"
     },
@@ -210,8 +210,8 @@ let allRecords1 = [
         conversationTags: ['1-бездеп', '2-Менеджеры 7bit', '4-Акции и бонусы', '5-Английский', '6-Mark', '6-Hope'],
         conversationType: "ticket",
         createdAt: "2023-10-01T01:56:41+03:00",
-        customerEmail: "ggholdap@icloud.com",
-        customerId: "ggholdap@icloud.com",
+        customerEmail: "ghurt.com",
+        customerId: "ghurt.com",
         operatorNicks: ['Emma'],
         projectName: "7Bit"
     },
@@ -222,8 +222,8 @@ let allRecords1 = [
         conversationTags: ['1-неизвестный вопрос', '2-Менеджеры Katsubet', '4-Другие тикеты', '5-Английский', '7-Antony'],
         conversationType: "ticket",
         createdAt: "2023-10-01T02:02:24+03:00",
-        customerEmail: "valentinaprodan320@gmail.com",
-        customerId: "valentinaprodan320@gmail.com",
+        customerEmail: "golto@gmail.com",
+        customerId: "golto@gmail.com",
         operatorNicks: ['Jimmy'],
         projectName: "KatsuBet"
     },
@@ -234,8 +234,8 @@ let allRecords1 = [
         conversationTags: ['2-Менеджеры Mirax', '1-депозит успешен', '4-Финансовые операции', '5-Английский', '7-Antony', '1-недостаточная сумма депозита', '1-Lucky Spin'],
         conversationType: "ticket",
         createdAt: "2023-10-01T02:13:47+03:00",
-        customerEmail: "kyzerboy123@gmail.com",
-        customerId: "kyzerboy123@gmail.com",
+        customerEmail: "mmm@s.com",
+        customerId: "mmm@s.com",
         operatorNicks: ['Jimmy'],
         projectName: "Mirax"
     }
@@ -295,7 +295,7 @@ let catgoryRuNames = {
     Category_14: "Рассылка",
     Category_15: "Регистрация",
     Category_16: "Тест",
-    Category_17: "Технические проблемы(кроме бонусов)",
+    Category_17: "Технические проблемы (кроме бонусов)",
     Category_18: "Финансовые операции",
     Category_19: "Без категорії",
 }
@@ -608,14 +608,14 @@ async function recordsCounter(dataToCount) {
         let regexCategoryName;
         if (categoriesList[i] !== undefined) {
             if (categoriesList[i] !== "Макс бет (игры/слоты)" &&
-                categoriesList[i] !== "Технические проблемы(кроме бонусов)") {
+                categoriesList[i] !== "Технические проблемы (кроме бонусов)") {
                 regexCategoryName = new RegExp(categoriesList[i], "g");
             }
             if (categoriesList[i] === "Макс бет (игры/слоты)") {
                 regexCategoryName = /Макс бет \(игры\/слоты\)/g;
             }
-            if (categoriesList[i] === "Технические проблемы(кроме бонусов)") {
-                regexCategoryName = /Технические проблемы\(кроме бонусов\)/g;
+            if (categoriesList[i] === "Технические проблемы (кроме бонусов)") {
+                regexCategoryName = /Технические проблемы \(кроме бонусов\)/g;
             }
             let categoriesCount = allRecordsCategory.join(" ").match(regexCategoryName).length;
             newCategories.push({ [categoriesList[i]]: categoriesCount });
@@ -657,22 +657,26 @@ async function buildFilteringSection() {
         let optionLabel = Object.keys(badgeCountsObj.projectsCount[i]).toString(),
             optionCount = Object.values(badgeCountsObj.projectsCount[i]).toString();
         addCountent += `
-        <label for="isShow${optionLabel}" >
-        <input type="checkbox" name="isShow${optionLabel}" 
+        <label name="projectsDropDown" for="isShow${optionLabel}" >
+        <input name="projectsDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionLabel}">
-        <div class="filter-label-text-box">${optionLabel}
-        <span id="_${optionLabel}Badge" class="countBadge">${optionCount}</span>
+        <div name="projectsDropDown" class="filter-label-text-box">
+        <span name="projectsDropDown" class="labelBadge">${(optionLabel.length > 16) ? optionLabel.substring(0, 18) : optionLabel}</span>
+        <span id="_${optionLabel}Badge" name="projectsDropDown" class="countBadge ${(optionLabel.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
         </div>
         </label>`;
     }
     filterControlContainer.innerHTML = `
         <fieldset class="projectsList-fieldset">
-        <legend>Проєкти:</legend>
-        <label for="IsShowAllProjects">
-        <input type="checkbox" name="showProjects" id="IsShowAllProjects" value="allProjectsList">
-        <div class="filter-label-text-box">All</div>
+        <legend name="projectsDropDown" onclick="showDropDown(event)">Проєкти &#11206;</legend>
+        <div name="projectsDropDown" id="projectsDropDown" class="dropDown">
+        <label name="projectsDropDown" for="IsShowAllProjects">
+        <input type="checkbox" name="projectsDropDown" id="IsShowAllProjects" value="allProjectsList">
+        <div name="projectsDropDown" class="filter-label-text-box">
+        <span name="projectsDropDown" class="labelBadge">Всі проєкти</span></div>
         </label>
         ${addCountent}
+        </div>
         </fieldset>`;
     // get&build PROJECTS list END
 
@@ -682,22 +686,25 @@ async function buildFilteringSection() {
         let optionLabel = Object.keys(badgeCountsObj.convTypesCount[i]).toString(),
             optionCount = Object.values(badgeCountsObj.convTypesCount[i]).toString();
         addCountent += `
-        <label for="isShow${optionLabel}" >
-        <input type="checkbox" name="isShow${optionLabel}" 
+        <label name="convTypesDropDown" for="isShow${optionLabel}" >
+        <input name="convTypesDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionLabel}">
-        <div class="filter-label-text-box">${(optionLabel === "chat") ? "Чати" : "Тікети"}
-        <span id="_${optionLabel}Badge" class="countBadge">${optionCount}</span>
+        <div name="convTypesDropDown" class="filter-label-text-box">
+        <span name="convTypesDropDown" class="labelBadge">${(optionLabel === "chat") ? "Чати" : "Тікети"}</span>
+        <span name="convTypesDropDown" id="_${optionLabel}Badge" class="countBadge">${optionCount}</span>
         </div>
         </label>`;
     }
     filterControlContainer.innerHTML += `
         <fieldset class="conversationTypesList-fieldset">
-        <legend>Типи звернень:</legend>
-        <label for="IsShowAllConversationTypes">
-        <input type="checkbox" name="IsShowAllConversationTypes" id="IsShowAllConversationTypes" value="allConversationTypes">
-        <div class="filter-label-text-box">All</div>
+        <legend name="convTypesDropDown" onclick="showDropDown(event)">Типи звернень &#11206;</legend>
+        <div name="convTypesDropDown" id="convTypesDropDown" class="dropDown">
+        <label name="convTypesDropDown" for="IsShowAllConversationTypes">
+        <input name="convTypesDropDown" type="checkbox" name="IsShowAllConversationTypes" id="IsShowAllConversationTypes" value="allConversationTypes">
+        <div name="convTypesDropDown" class="filter-label-text-box"><span class="labelBadge">Всі типи</span></div>
         </label>
         ${addCountent}
+        </div>
         </fieldset>`;
     // get&build CONVERSATION TYPES list END
 
@@ -715,23 +722,25 @@ async function buildFilteringSection() {
             }
         }
         addCountent += `
-        <label for="isShow${optionLabel}" >
-        <input type="checkbox" name="isShow${optionLabel}" 
+        <label name="categoriesDropDown" for="isShow${optionLabel}" >
+        <input name="categoriesDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionValue}">
-        <div class="filter-label-text-box">
-        ${(optionValue.length > 23) ? optionValue.substring(0, 22) : optionValue}
-        <span id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 23) ? "badgeShadow" : ""}">${optionCount}</span>
+        <div name="categoriesDropDown" class="filter-label-text-box">
+        <span name="categoriesDropDown" class="labelBadge">${(optionValue.length > 19) ? optionValue.substring(0, 18) : optionValue}</span>
+        <span name="categoriesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
         </div>
         </label>`;
     }
     filterControlContainer.innerHTML += `
         <fieldset class="categoriesList-fieldset">
-        <legend>Категорії:</legend>
-        <label for="IsShowAllCategories">
-        <input type="checkbox" name="IsShowAllCategories" id="IsShowAllCategories" value="allCategories">
-        <div class="filter-label-text-box">All</div>
+        <legend name="categoriesDropDown" onclick="showDropDown(event)">Категорії &#11206;</legend>
+        <div name="categoriesDropDown" id="categoriesDropDown" class="dropDown">
+        <label name="categoriesDropDown" for="IsShowAllCategories">
+        <input name="categoriesDropDown" type="checkbox" name="IsShowAllCategories" id="IsShowAllCategories" value="allCategories">
+        <div name="categoriesDropDown" class="filter-label-text-box"><span class="labelBadge">Всі категорії</span></div>
         </label>
         ${addCountent}
+        </div>
         </fieldset>`;
     // get&build CATEGORIES list END
 
@@ -740,31 +749,38 @@ async function buildFilteringSection() {
     for (let i = 0; i < Object.keys(badgeCountsObj.agentsCount).length; i++) {
         let optionLabel = Object.keys(badgeCountsObj.agentsCount[i]).toString(),
             optionCount = Object.values(badgeCountsObj.agentsCount[i]).toString();
+
         addCountent += `
-        <label for="isShow${optionLabel}" >
-        <input type="checkbox" name="isShow${optionLabel}" 
+        <label name="agentsDropDown" for="isShow${optionLabel}" >
+        <input name="agentsDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionLabel}">
-        <div class="filter-label-text-box">${(optionLabel === "noAgent") ? "Немає відповідального" : optionLabel}
-        <span id="_${optionLabel}Badge" class="countBadge">${optionCount}</span>
+        <div name="agentsDropDown" class="filter-label-text-box">
+        <span name="agentsDropDown" class="labelBadge">${(optionLabel === "noAgent") ? "Немає відповідального" : optionLabel}</span>
+        <span name="agentsDropDown" id="_${optionLabel}Badge" class="countBadge badgeShadow">${optionCount}</span>
         </div>
         </label>`;
     }
     filterControlContainer.innerHTML += `
         <fieldset class="agentsList-fieldset">
-        <legend>Менеджери:</legend>
-        <label for="IsShowAllAgents">
-        <input type="checkbox" name="IsShowAllAgents" id="IsShowAllAgents" value="allAgents">
-        <div class="filter-label-text-box">All</div>
+        <legend name="agentsDropDown" onclick="showDropDown(event)">Менеджери &#11206;</legend>
+        <div name="agentsDropDown" id="agentsDropDown" class="dropDown">
+        <label name="agentsDropDown" for="IsShowAllAgents">
+        <input name="agentsDropDown" type="checkbox" name="IsShowAllAgents" id="IsShowAllAgents" value="allAgents">
+        <div name="agentsDropDown" class="filter-label-text-box"><span class="labelBadge">Всі категорії</span></div>
         </label>
         ${addCountent}
+        </div>
         </fieldset>`;
     // get&build AGENTS list END
+
+    filterControlContainer.innerHTML += `
+    <fieldset class="reset-btn-fieldset">
+    <input type="button" id="resetFilters" onclick="resetFilters()" value="Скинути">
+    </fieldset>`;
 
     // build DATA CONTROL options START
     getE(".data-options-container").innerHTML =
         `<fieldset class="filter-control-fieldset">
-        <input type="button" id="resetFilters"
-        onclick="resetFilters()" value="Скинути">
         <input type="button" id="downloadCustomReport" 
         onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт" disabled>
         <input type="button" id="showDataTable" 
@@ -785,14 +801,14 @@ async function buildFilteringSection() {
 let buildedFilter = {};
 async function buildFilters() {
     // build PROJECTS filter START
-    let projectsListSect = getE('.projectsList-fieldset');
+    let projectsListSect = getE('.projectsList-fieldset').firstElementChild.nextElementSibling;
     let allProjectsCheckBox = getE('#IsShowAllProjects');
 
     allProjectsCheckBox.checked = true;
-    let firstSelectedArr = []
+    let firstSelectedArr = [];
     if (allProjectsCheckBox.checked) {
-        for (let i = 2; i < projectsListSect.children.length; i++) {
-            firstSelectedArr.push(projectsListSect.children[i].firstElementChild.value)
+        for (let i = 1; i < projectsListSect.children.length; i++) {
+            firstSelectedArr.push(projectsListSect.children[i].firstElementChild.value);
         }
         buildedFilter.projectsFilter = firstSelectedArr;
     }
@@ -802,20 +818,20 @@ async function buildFilters() {
         if (allProjectsCheckBox.checked && firstSelectedArr.length > 0 ||
             !allProjectsCheckBox.checked && firstSelectedArr.length > 0) {
             allProjectsCheckBox.checked = false;
-            for (let i = 2; i < projectsListSect.children.length; i++) {
+            for (let i = 1; i < projectsListSect.children.length; i++) {
                 if (projectsListSect.children[i].firstElementChild.checked) {
                     selectedProjectsArr.push(projectsListSect.children[i].firstElementChild.value)
                 }
             }
             let count = 0;
-            for (let i = 2; i < projectsListSect.children.length; i++) {
+            for (let i = 1; i < projectsListSect.children.length; i++) {
                 if (!projectsListSect.children[i].firstElementChild.checked) count++;
-                if (count === projectsListSect.children.length - 2) allProjectsCheckBox.checked = true;
+                if (count === projectsListSect.children.length - 1) allProjectsCheckBox.checked = true;
             }
             buildedFilter.projectsFilter = selectedProjectsArr;
         }
         if (allProjectsCheckBox.checked) {
-            for (let i = 2; i < projectsListSect.children.length; i++) {
+            for (let i = 1; i < projectsListSect.children.length; i++) {
                 selectedProjectsArr.push(projectsListSect.children[i].firstElementChild.value)
             }
             buildedFilter.projectsFilter = selectedProjectsArr;
@@ -826,13 +842,13 @@ async function buildFilters() {
     // build PROJECTS filter END
 
     // build CONVERSATION TYPES filter START
-    let convTypesSect = getE('.conversationTypesList-fieldset');
+    let convTypesSect = getE('.conversationTypesList-fieldset').firstElementChild.nextElementSibling;
     let allConvTypesCheckBox = getE('#IsShowAllConversationTypes');
 
     allConvTypesCheckBox.checked = true;
-    firstSelectedArr = []
+    firstSelectedArr = [];
     if (allConvTypesCheckBox.checked) {
-        for (let i = 2; i < convTypesSect.children.length; i++) {
+        for (let i = 1; i < convTypesSect.children.length; i++) {
             firstSelectedArr.push(convTypesSect.children[i].firstElementChild.value)
         }
         buildedFilter.convTypesFilter = firstSelectedArr;
@@ -843,20 +859,20 @@ async function buildFilters() {
         if (allConvTypesCheckBox.checked && firstSelectedArr.length > 0 ||
             !allConvTypesCheckBox.checked && firstSelectedArr.length > 0) {
             allConvTypesCheckBox.checked = false;
-            for (let i = 2; i < convTypesSect.children.length; i++) {
+            for (let i = 1; i < convTypesSect.children.length; i++) {
                 if (convTypesSect.children[i].firstElementChild.checked) {
                     selectedConvTypesArr.push(convTypesSect.children[i].firstElementChild.value)
                 }
             }
             let count = 0;
-            for (let i = 2; i < convTypesSect.children.length; i++) {
+            for (let i = 1; i < convTypesSect.children.length; i++) {
                 if (!convTypesSect.children[i].firstElementChild.checked) count++;
-                if (count === convTypesSect.children.length - 2) allConvTypesCheckBox.checked = true;
+                if (count === convTypesSect.children.length - 1) allConvTypesCheckBox.checked = true;
             }
             buildedFilter.convTypesFilter = selectedConvTypesArr;
         }
         if (allConvTypesCheckBox.checked) {
-            for (let i = 2; i < convTypesSect.children.length; i++) {
+            for (let i = 1; i < convTypesSect.children.length; i++) {
                 selectedConvTypesArr.push(convTypesSect.children[i].firstElementChild.value)
             }
             buildedFilter.convTypesFilter = selectedConvTypesArr;
@@ -867,13 +883,13 @@ async function buildFilters() {
     // build CONVERSATION TYPES filter END
 
     // build CATEGORIES filter START
-    let categoriesListSect = getE('.categoriesList-fieldset');
+    let categoriesListSect = getE('.categoriesList-fieldset').firstElementChild.nextElementSibling;
     let allCategoriesCheckBox = getE('#IsShowAllCategories');
 
     allCategoriesCheckBox.checked = true;
-    firstSelectedArr = []
+    firstSelectedArr = [];
     if (allCategoriesCheckBox.checked) {
-        for (let i = 2; i < categoriesListSect.children.length; i++) {
+        for (let i = 1; i < categoriesListSect.children.length; i++) {
             firstSelectedArr.push(categoriesListSect.children[i].firstElementChild.value)
         }
         buildedFilter.categoriesFilter = firstSelectedArr;
@@ -884,20 +900,20 @@ async function buildFilters() {
         if (allCategoriesCheckBox.checked && firstSelectedArr.length > 0 ||
             !allCategoriesCheckBox.checked && firstSelectedArr.length > 0) {
             allCategoriesCheckBox.checked = false;
-            for (let i = 2; i < categoriesListSect.children.length; i++) {
+            for (let i = 1; i < categoriesListSect.children.length; i++) {
                 if (categoriesListSect.children[i].firstElementChild.checked) {
                     selectedCategoriesArr.push(categoriesListSect.children[i].firstElementChild.value);
                 }
             }
             let count = 0;
-            for (let i = 2; i < categoriesListSect.children.length; i++) {
+            for (let i = 1; i < categoriesListSect.children.length; i++) {
                 if (!categoriesListSect.children[i].firstElementChild.checked) count++;
-                if (count === categoriesListSect.children.length - 2) allCategoriesCheckBox.checked = true;
+                if (count === categoriesListSect.children.length - 1) allCategoriesCheckBox.checked = true;
             }
             buildedFilter.categoriesFilter = selectedCategoriesArr;
         }
         if (allCategoriesCheckBox.checked) {
-            for (let i = 2; i < categoriesListSect.children.length; i++) {
+            for (let i = 1; i < categoriesListSect.children.length; i++) {
                 selectedCategoriesArr.push(categoriesListSect.children[i].firstElementChild.value)
             }
             buildedFilter.categoriesFilter = selectedCategoriesArr;
@@ -908,13 +924,13 @@ async function buildFilters() {
     // build CATEGORIES filter END
 
     // build AGENTS filter START
-    let agentsListSect = getE('.agentsList-fieldset');
+    let agentsListSect = getE('.agentsList-fieldset').firstElementChild.nextElementSibling;
     let allAgentsCheckBox = getE('#IsShowAllAgents');
 
     allAgentsCheckBox.checked = true;
-    firstSelectedArr = []
+    firstSelectedArr = [];
     if (allAgentsCheckBox.checked) {
-        for (let i = 2; i < agentsListSect.children.length; i++) {
+        for (let i = 1; i < agentsListSect.children.length; i++) {
             firstSelectedArr.push(agentsListSect.children[i].firstElementChild.value)
         }
         buildedFilter.agentsFilter = firstSelectedArr;
@@ -924,20 +940,20 @@ async function buildFilters() {
         if (allAgentsCheckBox.checked && firstSelectedArr.length > 0 ||
             !allAgentsCheckBox.checked && firstSelectedArr.length > 0) {
             allAgentsCheckBox.checked = false;
-            for (let i = 2; i < agentsListSect.children.length; i++) {
+            for (let i = 1; i < agentsListSect.children.length; i++) {
                 if (agentsListSect.children[i].firstElementChild.checked) {
                     selectedAgentsArr.push(agentsListSect.children[i].firstElementChild.value)
                 }
             }
             let count = 0;
-            for (let i = 2; i < agentsListSect.children.length; i++) {
+            for (let i = 1; i < agentsListSect.children.length; i++) {
                 if (!agentsListSect.children[i].firstElementChild.checked) count++;
-                if (count === agentsListSect.children.length - 2) allAgentsCheckBox.checked = true;
+                if (count === agentsListSect.children.length - 1) allAgentsCheckBox.checked = true;
             }
             buildedFilter.agentsFilter = selectedAgentsArr;
         }
         if (allAgentsCheckBox.checked) {
-            for (let i = 2; i < agentsListSect.children.length; i++) {
+            for (let i = 1; i < agentsListSect.children.length; i++) {
                 selectedAgentsArr.push(agentsListSect.children[i].firstElementChild.value)
             }
             buildedFilter.agentsFilter = selectedAgentsArr;
@@ -990,6 +1006,7 @@ async function filterResults(buildedFilter) {
             }
         }
     }
+
     // filtering by CONVERSATION TYPE END
 
     // filtering by CATEGORY START
@@ -1010,6 +1027,7 @@ async function filterResults(buildedFilter) {
             }
         }
     }
+
     // filtering by CATEGORY END
 
     // filtering by AGENT NAME START
@@ -1032,7 +1050,6 @@ async function filterResults(buildedFilter) {
 
     }
     // filtering by AGENT NAME END
-
     await renderResults(false);
     savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
@@ -1057,19 +1074,18 @@ dataFilteringContainer.onchange = async (e) => {
                     if (optionLabel === catgoryRuNames[key]) optionLabel = key;
                 }
             }
-            let setNewBadgeCount = getE(`#isShow${optionLabel}`).nextElementSibling.firstElementChild;
+            let setNewBadgeCount = getE(`#isShow${optionLabel}`).nextElementSibling.children[1];
             setNewBadgeCount.innerHTML = optionCount;
             // setNewBadgeCount.style.opacity = 1;
             // setNewBadgeCount.classList.remove("zeroRecords");
             countWasSetArr.push(setNewBadgeCount.id);
         }
     }
-
     let allCountBadgeIds = [];
-    for (let sectNum = 0; sectNum < dataFilteringContainer.children.length; sectNum++) {
-        let currSection = dataFilteringContainer.children[sectNum];
+    for (let sectNum = 0; sectNum < dataFilteringContainer.children.length - 1; sectNum++) {
+        let currSection = dataFilteringContainer.children[sectNum].firstElementChild.nextElementSibling;
         for (let elem = 2; elem < currSection.children.length; elem++) {
-            let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.firstElementChild;
+            let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.children[1];
             allCountBadgeIds.push(checkingElem.id)
         }
     }
@@ -1376,8 +1392,11 @@ async function cleanChatRecords() {
                             case "5-Тест":
                                 category = "Тест";
                                 break;
+                            case "5-Технические проблемы (кроме бонусов)":
+                                category = "Технические проблемы (кроме бонусов)";
+                                break;
                             case "5-Технические проблемы(кроме бонусов)":
-                                category = "Технические проблемы(кроме бонусов)";
+                                category = "Технические проблемы (кроме бонусов)";
                                 break;
                             case "5-Финансовые операции":
                                 category = "Финансовые операции";
@@ -1603,8 +1622,11 @@ async function cleanTicketRecords() {
                                 case "4-Тест":
                                     category = "Тест";
                                     break;
+                                case "4-Технические проблемы (кроме бонусов)":
+                                    category = "Технические проблемы (кроме бонусов)";
+                                    break;
                                 case "4-Технические проблемы(кроме бонусов)":
-                                    category = "Технические проблемы(кроме бонусов)";
+                                    category = "Технические проблемы (кроме бонусов)";
                                     break;
                                 case "4-Финансовые операции":
                                     category = "Финансовые операции";
@@ -1795,15 +1817,20 @@ function dialogClean() {
                 // clear empty records start
                 if (cleanChoice[c] === "EMPTY") {
                     if (checkList[i].problemType === "EMPTY") {
-                        if (i !== checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
-                            checkList[i + 1].rmvPosChats -= 1
-                            checkList[i + 1].rmvPosAllList -= 1;
+                        for (let a = 0; a < allRecords.length; a++) {
+                            if (checkList[i].id === allRecords[a].conferenceId) {
+                                allRecords.splice(allRecords.indexOf(allRecords[a]), 1);
+                            }
                         }
-                        if (i === checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
+                        for (let a = 0; a < recordsChats.length; a++) {
+                            if (checkList[i].id === recordsChats[a].conferenceId) {
+                                recordsChats.splice(recordsChats.indexOf(recordsChats[a]), 1);
+                            }
+                        }
+                        for (let a = 0; a < recordsTickets.length; a++) {
+                            if (checkList[i].id === recordsTickets[a].conferenceId) {
+                                recordsTickets.splice(recordsTickets.indexOf(recordsTickets[a]), 1);
+                            }
                         }
                     }
                 }
@@ -1812,15 +1839,20 @@ function dialogClean() {
                 // clear no reply and category records start
                 if (cleanChoice[c] === "NOREPLYANDCAT") {
                     if (checkList[i].problemType === "NOREPLYANDCAT") {
-                        if (i !== checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
-                            checkList[i + 1].rmvPosChats -= 1
-                            checkList[i + 1].rmvPosAllList -= 1;
+                        for (let a = 0; a < allRecords.length; a++) {
+                            if (checkList[i].id === allRecords[a].conferenceId) {
+                                allRecords.splice(allRecords.indexOf(allRecords[a]), 1);
+                            }
                         }
-                        if (i === checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
+                        for (let a = 0; a < recordsChats.length; a++) {
+                            if (checkList[i].id === recordsChats[a].conferenceId) {
+                                recordsChats.splice(recordsChats.indexOf(recordsChats[a]), 1);
+                            }
+                        }
+                        for (let a = 0; a < recordsTickets.length; a++) {
+                            if (checkList[i].id === recordsTickets[a].conferenceId) {
+                                recordsTickets.splice(recordsTickets.indexOf(recordsTickets[a]), 1);
+                            }
                         }
                     }
                 }
@@ -1829,15 +1861,20 @@ function dialogClean() {
                 // clear category dups records start
                 if (cleanChoice[c] === "CATDUPS") {
                     if (checkList[i].problemType === "CATDUPS") {
-                        if (i !== checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
-                            checkList[i + 1].rmvPosChats -= 1
-                            checkList[i + 1].rmvPosAllList -= 1;
+                        for (let a = 0; a < allRecords.length; a++) {
+                            if (checkList[i].id === allRecords[a].conferenceId) {
+                                allRecords.splice(allRecords.indexOf(allRecords[a]), 1);
+                            }
                         }
-                        if (i === checkList.length - 1) {
-                            recordsChats.splice(checkList[i].rmvPosChats, 1);
-                            allRecords.splice(checkList[i].rmvPosAllList, 1);
+                        for (let a = 0; a < recordsChats.length; a++) {
+                            if (checkList[i].id === recordsChats[a].conferenceId) {
+                                recordsChats.splice(recordsChats.indexOf(recordsChats[a]), 1);
+                            }
+                        }
+                        for (let a = 0; a < recordsTickets.length; a++) {
+                            if (checkList[i].id === recordsTickets[a].conferenceId) {
+                                recordsTickets.splice(recordsTickets.indexOf(recordsTickets[a]), 1);
+                            }
                         }
                     }
                 }
@@ -2027,11 +2064,9 @@ menu.onclick = (e) => {
 // DATA TABLE SHOW/HIDE EFFECT FUNCTION END
 
 // getE('.start-instraction-block').style.display = "none";
+// getE('.left').style.display = "none";
 // getE('.data-main').classList.remove("hide");
-// getE('.counter-number').innerHTML = allRecords.length;
-// getE('.counter-header').style.display = "block";
 // buildFilteringSection();
-// showAndBuildDialog(checkList);
 
 // RESET FILTERS BUTTON FUNCTION START
 async function resetFilters() {
@@ -2044,6 +2079,29 @@ function showDataTable() {
     getE('.display-data-container').classList.remove('hide');
 }
 // SHOW DATA TABLE CONTAINER FUCNTION END
+
+let currentDropDownName;
+function showDropDown(e) {
+    currentDropDownName = 'emptyName';
+    for (let i = 0; i < dataFilteringContainer.children.length - 1; i++) {
+        dataFilteringContainer.children[i].firstElementChild.classList.remove('activeDropDown');
+        dataFilteringContainer.children[i].firstElementChild.nextElementSibling.classList.remove('showDropDown');
+    }
+    e.target.nextElementSibling.classList.toggle('showDropDown');
+    e.target.classList.toggle('activeDropDown');
+    currentDropDownName = e.target.getAttribute('name');
+}
+
+window.onclick = (e) => {
+    for (let i = 0; i < dataFilteringContainer.children.length - 1; i++) {
+        let legendElem = dataFilteringContainer.children[i].firstElementChild;
+        if (legendElem.nextElementSibling.classList.contains('showDropDown') &&
+            e.target.getAttribute('name') !== currentDropDownName) {
+            legendElem.nextElementSibling.classList.remove('showDropDown');
+            legendElem.classList.remove('activeDropDown');
+        }
+    }
+}
 
 async function renderResults(isFirst) {
     let tHead = getE('.data-table > thead'),

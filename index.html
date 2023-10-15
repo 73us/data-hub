@@ -13,108 +13,136 @@
 <body>
 
     <div class="container">
-        <div class="left">
-            <!-- FILE INPUT PART START -->
-            <form class="file-input-container ">
-                <fieldset>
-                    <legend>Завантажте звіт по <span>чатах</span>
-                        <p class="info-icon">i</p>
-                        <div class="info-message">
-                            <p>Для того щоб вивантажити звіт поставте галочку напроти відповідного типу. Після того як
-                                файл буде обрано система перевірить чи не переплутані звіти.<br>Кнопка "Опрацювати"
-                                стане
-                                активною як тільки будуть завантажені правильні файли. Кнопка "Скинути" очищує вибрані
-                                файли та опції.</p>
+        <!-- MAIN START -->
+        <main>
+            <div class="left">
+                <!-- FILE INPUT PART START -->
+                <form class="file-input-container ">
+                    <fieldset>
+                        <legend>Завантажте звіт по <span>чатах</span>
+                            <p class="info-icon">i</p>
+                            <div class="info-message">
+                                <p>Для того щоб вивантажити звіт поставте галочку напроти відповідного типу. Після того
+                                    як
+                                    файл буде обрано система перевірить чи не переплутані звіти.<br>Кнопка "Опрацювати"
+                                    стане
+                                    активною як тільки будуть завантажені правильні файли. Кнопка "Скинути" очищує
+                                    вибрані
+                                    файли та опції.</p>
+                            </div>
+                        </legend>
+                        <input type="checkbox" name="isChatsNeeded" id="isChatsNeeded">
+                        <div class="input-chats">
+                            <div class="chats-cover"></div>
+                            <input type="file" name="chatsFileInput" id="chatsFileInput" onchange="" accept=".csv"
+                                disabled>
+                            <span class="checkChat"></span>
                         </div>
-                    </legend>
-                    <input type="checkbox" name="isChatsNeeded" id="isChatsNeeded">
-                    <div class="input-chats">
-                        <div class="chats-cover"></div>
-                        <input type="file" name="chatsFileInput" id="chatsFileInput" onchange="" accept=".csv" disabled>
-                        <span class="checkChat"></span>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Завантажте звіт по <span>тікетах</span></legend>
-                    <input type="checkbox" name="isTicketsNeeded" id="isTicketsNeeded">
-                    <div class="input-tickets">
-                        <div class="tickets-cover"></div>
-                        <input type="file" name="ticketsFileInput" id="ticketsFileInput" onchange="" accept=".csv"
-                            disabled>
-                        <span class="checkTicket"></span>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <input type="button" id="processFiles" value="Опрацювати" onclick="readFiles()" disabled>
-                    <input type="button" id="resetFiles" value="Скинути" onclick="rmvFiles()" disabled>
-                </fieldset>
-                <div class="counter-header">Знайдено <span class="counter-number"></span> релевантних звернень в чатах
-                    та
-                    тікетах</div>
-            </form>
-            <!-- FILE INPUT PART END -->
+                    </fieldset>
+                    <fieldset>
+                        <legend>Завантажте звіт по <span>тікетах</span></legend>
+                        <input type="checkbox" name="isTicketsNeeded" id="isTicketsNeeded">
+                        <div class="input-tickets">
+                            <div class="tickets-cover"></div>
+                            <input type="file" name="ticketsFileInput" id="ticketsFileInput" onchange="" accept=".csv"
+                                disabled>
+                            <span class="checkTicket"></span>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <input type="button" id="processFiles" value="Опрацювати" onclick="readFiles()" disabled>
+                        <input type="button" id="resetFiles" value="Скинути" onclick="rmvFiles()" disabled>
+                    </fieldset>
+                    <div class="counter-header">Знайдено <span class="counter-number"></span> релевантних звернень в
+                        чатах
+                        та
+                        тікетах</div>
+                </form>
+                <!-- FILE INPUT PART END -->
 
-            <!-- DOWNLOAD REPORT PART START -->
-            <div class="report-container">
-            </div>
-            <!-- DOWNLOAD REPORT PART END -->
-        </div>
-        <div class="right">
-            <!-- DISPLAY DATA PART START -->
-            <div class="data-container">
-                <div class="start-instraction-block">
-                    <h1 class="start-instraction-header">Для початку роботи завантажте звіт/и.</h1>
-                    <img src="./images/startGuideGIF.gif" alt="gif how to start guide">
+                <!-- DOWNLOAD REPORT PART START -->
+                <div class="report-container">
                 </div>
-                <div class="data-main hide">
-                    <div class="data-filtering-container"></div>
-                    <div class="data-options-container"></div>
-                    <div class="display-data-container hide">
-                        <nav class="menu">
-                            <li id="item-1" value="item1">Item 1</li>
-                            <li id="item-2" value="item2">Item 2</li>
-                            <li id="item-3" value="item3">Item 3</li>
-                            <li id="item-4" value="item4">Item 4</li>
-                            <li id="item-5" value="item5">Item 5</li>
-                        </nav>
-                        <div class="content">
-                            <table id="data-table-1">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
-                            <table id="data-table-2">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
-                            <table id="data-table-3">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
-                            <table id="data-table-4">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
-                            <table id="data-table-5">
-                                <thead></thead>
-                                <tbody></tbody>
-                            </table>
+                <!-- DOWNLOAD REPORT PART END -->
+            </div>
+            <div class="right">
+                <!-- DISPLAY DATA PART START -->
+                <div class="data-container">
+                    <div class="start-instraction-block">
+                        <h1 class="start-instraction-header">Для початку роботи завантажте звіт/и.</h1>
+                        <img src="./images/startGuideGIF.gif" alt="gif how to start guide">
+                    </div>
+                    <div class="data-main hide">
+                        <div class="data-filtering-container"></div>
+                        <div class="data-options-container"></div>
+                        <div class="display-data-container hide">
+                            <nav class="menu">
+                                <li id="item-1" value="item1">Item 1</li>
+                                <li id="item-2" value="item2">Item 2</li>
+                                <li id="item-3" value="item3">Item 3</li>
+                                <li id="item-4" value="item4">Item 4</li>
+                                <li id="item-5" value="item5">Item 5</li>
+                            </nav>
+                            <div class="content">
+                                <table id="data-table-1">
+                                    <thead>
+                                        <tr>
+                                            <th>Table 1</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <table id="data-table-2">
+                                    <thead>
+                                        <tr>
+                                            <th>Table 2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <table id="data-table-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Table 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <table id="data-table-4">
+                                    <thead>
+                                        <tr>
+                                            <th>Table 4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <table id="data-table-5">
+                                    <thead>
+                                        <tr>
+                                            <th>Table 5</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- DISPLAY DATA PART END -->
             </div>
-            <!-- DISPLAY DATA PART END -->
-        </div>
+        </main>
+        <!-- MAIN END -->
+
+        <!-- FOTTER START -->
+        <footer>
+            <div class="copyright-container">
+                <p>&copy; <span id="currYear">2023</span> - <a
+                        href="https://www.linkedin.com/in/roman-semeniuk-65269b1b6">Roman Semeniuk</a> - All
+                    Rights Reserved.</p>
+            </div>
+        </footer>
+        <!-- FOTTER END -->
     </div>
-
-    <!-- FOTTER START -->
-    <footer>
-        <div class="copyright-container">
-            <p>&copy; <span id="currYear">2023</span> - <a
-                    href="https://www.linkedin.com/in/roman-semeniuk-65269b1b6">Roman Semeniuk</a> - All
-                Rights Reserved.</p>
-        </div>
-    </footer>
-    <!-- FOTTER END -->
 
     <!-- DIALOG WINDOW PART START -->
     <div class="dialogWindow-container hide">
@@ -123,7 +151,8 @@
                 <h2>Зверніть увагу!</h2>
                 <p class="info-icon">i</p>
                 <div class="info-message">
-                    <p>Якщо у ваших звітах є записи які були неправильно опрацьовані з точки зору проставлених параметрів
+                    <p>Якщо у ваших звітах є записи які були неправильно опрацьовані з точки зору проставлених
+                        параметрів
                         вам треба.<br>
                         оберати усі ті пункти які хочете прибрати з фінального звіту щоб не спотворювати данні.<br>
                         За замовчування усі подібні записи відмічені на видалення (пізніше ви зможете окремо
@@ -152,33 +181,10 @@
 
     <!-- TEST START -->
     <div class="test-container hide">
-        <nav class="menu">
-            <li id="item-1" value="item1">Item 1</li>
-            <li id="item-2" value="item2">Item 2</li>
-            <li id="item-3" value="item3">Item 3</li>
-            <li id="item-4" value="item4">Item 4</li>
-            <li id="item-5" value="item5">Item 5</li>
-        </nav>
-        <div class="content">
-            <div id="block-1" class="content-block">
-                <h2>Block 1</h2>
-            </div>
-            <div id="block-2" class="content-block">
-                <h2>Block 2</h2>
-            </div>
-            <div id="block-3" class="content-block">
-                <h2>Block 3</h2>
-            </div>
-            <div id="block-4" class="content-block">
-                <h2>Block 4</h2>
-            </div>
-            <div id="block-5" class="content-block">
-                <h2>Block 5</h2>
-            </div>
-        </div>
+       
     </div>
     <!-- TEST END -->
-<!--  -->
+    <!--  -->
     <script src="./js/main.js"></script>
     <!-- <script src="./TEST/js/mainTEST.js"></script> -->
 </body>
