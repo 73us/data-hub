@@ -323,10 +323,15 @@ async function getInfo() {
     if (recordsChats.length > 0 && recordsTickets.length > 0) generalCountContent = `чатах та тікетах`;
     else if (recordsChats.length > 0) generalCountContent = `чатах`;
     else if (recordsTickets.length > 0) generalCountContent = `тікетах`;
-
+    console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
+    // let reportsTimeRange = 
     getE('.counter-header').style.display = "block";
+    getE(".file-input-container").style.height = "295px";
     getE('.counter-header').innerHTML =
-        `Знайдено <span class="counter-number">${allRecords.length}</span> релевантних звернень в ${generalCountContent}.`;
+        `Період вибірки: <br><span class="counter-number">
+        ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 4)}-
+        ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 4)}</span>.<br>
+        Знайдено <span class="counter-number">${allRecords.length}</span> релевантних звернень в ${generalCountContent}.`;
 }
 
 // CHECK IF CONVERSATION TYPE NEEDED FUNCTION START
@@ -792,7 +797,7 @@ async function buildFilteringSection() {
 
     await getInfo();
     buildFilters();
-    renderResults(true);
+    // renderResults(true);
     await buildReportSection();
 }
 // BUILD FILTERING OPTIONS FUNCTION END
@@ -1050,7 +1055,7 @@ async function filterResults(buildedFilter) {
 
     }
     // filtering by AGENT NAME END
-    await renderResults(false);
+    // await renderResults(false);
     savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
     filteredDataArr = [];
@@ -1084,12 +1089,11 @@ dataFilteringContainer.onchange = async (e) => {
     let allCountBadgeIds = [];
     for (let sectNum = 0; sectNum < dataFilteringContainer.children.length - 1; sectNum++) {
         let currSection = dataFilteringContainer.children[sectNum].firstElementChild.nextElementSibling;
-        for (let elem = 2; elem < currSection.children.length; elem++) {
+        for (let elem = 1; elem < currSection.children.length; elem++) {
             let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.children[1];
             allCountBadgeIds.push(checkingElem.id)
         }
     }
-
     setZerosArr = allCountBadgeIds.filter(function (n) { return !this.has(n) }, new Set(countWasSetArr));
     for (let zeroElem = 0; zeroElem < setZerosArr.length; zeroElem++) {
         getE(`#${setZerosArr[zeroElem]}`).innerHTML = 0;
@@ -1178,7 +1182,8 @@ async function buildObjForTableDisplay(recordsToRenderArr) {
 }
 // BUILD OBJECT FOR TABLE DISPLAY FUNCTION END
 
-// SORT AND CLEAN CHATS FUNCTION START
+// CLEAN CHATS FUNCTION START
+let startDate = 0, endDate;
 async function cleanChatRecords() {
     // find concat positions START
     let fRowArr = dataByRecordsChats[0].substring(1, dataByRecordsChats[0].length - 1).split('","');
@@ -1406,6 +1411,13 @@ async function cleanChatRecords() {
                 }
                 // find record CATEGORY END
 
+                // find report start/end date time START
+                if (!startDate) startDate = new Date(dataByCells[1]).getTime();
+                else if (new Date(dataByCells[1]).getTime() < startDate) startDate = new Date(dataByCells[1]).getTime();
+                if (!endDate) endDate = new Date(dataByCells[1]).getTime();
+                else if (new Date(dataByCells[1]).getTime() > endDate) endDate = new Date(dataByCells[1]).getTime();
+                // find report start/end date time END
+
                 let recordObj = {
                     createdAt: new Date(dataByCells[1]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
                     conferenceId: dataByCells[0], // conversation ID
@@ -1471,7 +1483,9 @@ async function cleanChatRecords() {
         }
     }
 }
-// SORT AND CLEAN TICKETS FUNCTION START
+// CLEAN CHATS FUNCTION END
+
+// CLEAN TICKETS FUNCTION START
 async function cleanTicketRecords() {
     for (let record = 1; record < dataByRecordsTickets.length - 1; record++) {
         let dataByCells = dataByRecordsTickets[record].substring(1, dataByRecordsTickets[record].length - 1).split('","');
@@ -1636,6 +1650,13 @@ async function cleanTicketRecords() {
                     }
                     // find record CATEGORY END
 
+                    // find report start/end date time START
+                    if (!startDate) startDate = new Date(dataByCells[0]).getTime();
+                    else if (new Date(dataByCells[0]).getTime() < startDate) startDate = new Date(dataByCells[0]).getTime();
+                    if (!endDate) endDate = new Date(dataByCells[0]).getTime();
+                    else if (new Date(dataByCells[0]).getTime() > endDate) endDate = new Date(dataByCells[0]).getTime();
+                    // find report start/end date time END
+
                     let record = {
                         createdAt: new Date(dataByCells[0]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
                         conferenceId: dataByCells[3], // conversation ID
@@ -1690,7 +1711,7 @@ async function cleanTicketRecords() {
         }
     }
 }
-// SORT AND CLEAN TICKETS FUNCTION END
+// CLEAN TICKETS FUNCTION END
 
 // SHOW AND BUILD DIALOG WINDOW FUNCTION START
 let dialogContainer = getE('.dialogWindow-container'),
@@ -1922,7 +1943,8 @@ async function buildReportSection() {
             <legend>- по чатах</legend>
             <input type="button" id="createChatReport" 
             onclick="createReport(recordsChats,'chat')" value="Створити">
-            <button disabled><a id="downloadChatReport">Завантажити</a></button>
+            <input type="button" onclick="downloadFile(reportData.chat.fileLink, reportData.chat.reportName)"
+            id="downloadChatReport" value="Завантажити" disabled>
             </fieldset>`
         }
         reportContainer.innerHTML += addContent;
@@ -1932,7 +1954,8 @@ async function buildReportSection() {
             <legend>- по тікетах</legend>
             <input type="button" id="createTicketReport" 
             onclick="createReport(recordsTickets,'ticket')" value="Створити">
-            <button disabled><a id="downloadTicketReport">Завантажити</a></button>
+            <input type="button" onclick="downloadFile(reportData.ticket.fileLink, reportData.ticket.reportName)"
+            id="downloadTicketReport" value="Завантажити" disabled>
             </fieldset>`
         }
         reportContainer.innerHTML += addContent;
@@ -1942,7 +1965,8 @@ async function buildReportSection() {
             <legend>- спільний звіт</legend>
             <input type="button" id="createGeneralReport" 
             onclick="createReport(allRecords,'general')" value="Створити">
-            <button disabled><a id="downloadGeneralReport">Завантажити</a></button>
+            <input type="button" onclick="downloadFile(reportData.general.fileLink, reportData.general.reportName)"
+            id="downloadGeneralReport" value="Завантажити" disabled>
             </fieldset>`
         }
         reportContainer.innerHTML += addContent;
@@ -1952,7 +1976,8 @@ async function buildReportSection() {
             <legend>- звернення на перевірку</legend>
             <input type="button" id="createCheckReport" 
             onclick="createReport(checkList,'check')" value="Створити">
-            <button disabled><a id="downloadCheckReport">Завантажити</a></button>
+            <input type="button" onclick="downloadFile(reportData.check.fileLink, reportData.check.reportName)"
+            id="downloadCheckReport" value="Завантажити" disabled>
             </fieldset>`
         }
         reportContainer.innerHTML += addContent;
@@ -1961,7 +1986,7 @@ async function buildReportSection() {
 // BUILD REPORT SECTION FUNCTION END
 
 // GENERATE REPORT FUNCTION START
-let reportName;
+let reportData = { chat: {}, ticket: {}, general: {}, check: {} };
 async function createReport(recordsForReport, reportType) {
     return new Promise((resolve) => {
         let csv = "";
@@ -2005,45 +2030,57 @@ async function createReport(recordsForReport, reportType) {
         let setToButton;
         let reportDateTime = new Date().toLocaleString("uk-UA");
         if (reportType === "chat") {
-            reportName = "CHAT_report_" + reportDateTime.replace(",", "");
+            reportData.chat.reportName = "CHAT_report_" + reportDateTime.replace(",", "");
+            reportData.chat.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadChatReport');
         }
         if (reportType === "ticket") {
-            reportName = "TICKET_report_" + reportDateTime.replace(",", "");
+            reportData.ticket.reportName = "TICKET_report_" + reportDateTime.replace(",", "");
+            reportData.ticket.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadTicketReport');
         }
         if (reportType === "general") {
-            reportName = "GENERAL_report_" + reportDateTime.replace(",", "");
+            reportData.general.reportName = "GENERAL_report_" + reportDateTime.replace(",", "");
+            reportData.general.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadGeneralReport');
         }
         if (reportType === "check") {
-            reportName = "CHECK_report_" + reportDateTime.replace(",", "");
+            reportData.check.reportName = "CHECK_report_" + reportDateTime.replace(",", "");
+            reportData.check.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadCheckReport');
         }
         if (reportType === "filteredData") {
             reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             setToButton = false;
-
         }
 
         if (!setToButton) {
             let link = document.createElement('a');
-            // link.innerHTML = 'Button';
             link.id = 'download-csv';
             link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
             link.setAttribute('download', `${reportName}.csv`);
             document.body.appendChild(link)
             document.querySelector("#download-csv").click()
         }
-        else {
-            setToButton.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
-            setToButton.setAttribute('download', `${reportName}.csv`);
-            resolve(setToButton.parentNode.disabled = false);
-        }
+        else resolve(setToButton.disabled = false);
     })
 
 }
 // GENERATE REPORT FUNCTION END
+
+// DOWNLOAD FILE FUNCTION START
+function downloadFile(fileLink, reportName) {
+    let newW = window.open();
+    let link = document.createElement('a');
+    link.id = 'download-csv';
+    link.setAttribute('href', fileLink);
+    link.setAttribute('download', `${reportName}.csv`);
+    document.body.appendChild(link);
+    document.querySelector("#download-csv").click();
+    document.querySelector("#download-csv").remove();
+    newW.close();
+}
+// DOWNLOAD FILE FUNCTION END
 
 // DATA TABLE SHOW/HIDE EFFECT FUNCTION START
 let menu = document.querySelector('.menu'),
@@ -2080,18 +2117,24 @@ function showDataTable() {
 }
 // SHOW DATA TABLE CONTAINER FUCNTION END
 
+// SHOW DROP DOWN LIST FUNTION START
 let currentDropDownName;
 function showDropDown(e) {
     currentDropDownName = 'emptyName';
-    for (let i = 0; i < dataFilteringContainer.children.length - 1; i++) {
-        dataFilteringContainer.children[i].firstElementChild.classList.remove('activeDropDown');
-        dataFilteringContainer.children[i].firstElementChild.nextElementSibling.classList.remove('showDropDown');
+    if (!e.target.classList.contains('activeDropDown')) {
+        for (let i = 0; i < dataFilteringContainer.children.length - 1; i++) {
+            dataFilteringContainer.children[i].firstElementChild.classList.remove('activeDropDown');
+            dataFilteringContainer.children[i].firstElementChild.nextElementSibling.classList.remove('showDropDown');
+        }
+        console.log();
+        e.target.nextElementSibling.classList.toggle('showDropDown');
+        e.target.classList.toggle('activeDropDown');
+        currentDropDownName = e.target.getAttribute('name');
     }
-    e.target.nextElementSibling.classList.toggle('showDropDown');
-    e.target.classList.toggle('activeDropDown');
-    currentDropDownName = e.target.getAttribute('name');
 }
+// SHOW DROP DOWN LIST FUNTION END
 
+// HIDE DROP DOWN LIST FUNTION START
 window.onclick = (e) => {
     for (let i = 0; i < dataFilteringContainer.children.length - 1; i++) {
         let legendElem = dataFilteringContainer.children[i].firstElementChild;
@@ -2102,136 +2145,4 @@ window.onclick = (e) => {
         }
     }
 }
-
-async function renderResults(isFirst) {
-    let tHead = getE('.data-table > thead'),
-        tBody = getE('.data-table > tbody');
-
-    let recordsToRenderArr = [];
-    (isFirst) ? recordsToRenderArr = allRecords : recordsToRenderArr = filteredDataArr;
-
-    // await buildObjForTableDisplay(recordsToRenderArr);
-
-    // tHead.innerHTML = "";
-    // tHead.innerHTML = `<tr>
-    //     <th>Проєкт</th>
-    //     <th>Тип звернення</th>
-    //     <th>Категорія</th>
-    //     <th>Керування</th>
-    //     </tr>`
-
-    // console.log(buildedFilter.projectsFilter);
-    let saveLength = 0, projectSpan;
-
-    let rowsCount = 0, projectsSpans = {}, convTypesSpans = {};
-    for (const keyLvl1 in tableDataObj) {
-        for (const keyLvl2 in tableDataObj[keyLvl1]) { // project INDEXes
-            let tableLvl1 = tableDataObj[keyLvl1];
-            for (const keyLvl3 in tableLvl1[keyLvl2]) { // project NAMEs
-                let tableLvl2 = tableLvl1[keyLvl2];
-                for (const keyLvl4 in tableLvl2[keyLvl3]) { // conversation type INDEXes
-                    let tableLvl3 = tableLvl2[keyLvl3];
-                    for (const keyLvl5 in tableLvl3[keyLvl4]) { // categories array level
-                        let tableLvl4 = tableLvl3[keyLvl4];
-                        (keyLvl5 === 'chat') ?
-                            saveLength = tableLvl4[keyLvl5].length :
-                            projectSpan = saveLength + tableLvl4[keyLvl5].length;
-                        projectsSpans[`_${keyLvl3}`] = projectSpan;
-                        projectSpan = 0;
-                        convTypesSpans[`_${keyLvl3}${proper(keyLvl5)}`] = tableLvl4[keyLvl5].length;
-                        rowsCount += tableLvl4[keyLvl5].length;
-                    }
-                }
-            }
-        }
-    }
-    // console.log('Rows Count = ', rowsCount);
-    // console.log('convTypesSpans = ', convTypesSpans);
-    // console.log('projectsSpans = ', projectsSpans);
-    let setToRow = 0;
-    // tBody.innerHTML = "";
-    // for (let row = 0; row < rowsCount; row++) {
-    //     tBody.innerHTML += `<tr></tr>`;
-    // }
-    let limit = 250
-
-    for (let record = 0; record < recordsToRenderArr.length; record++) {
-        // tBody.innerHTML += `
-        // <tr>
-        // <td>${record}</td>
-        // <td>${recordsToRenderArr[record].conversationType}</td>
-        // <td>${recordsToRenderArr[record].conversationCategory}</td>
-        // <td>${recordsToRenderArr[record].operatorNicks}</td>
-        // </tr>`
-        if (record === limit) {
-            break;
-        }
-    }
-
-    // for (let record = 0; record < recordsToRenderArr.length; record++) {
-    //     for (const keyProjSpan in projectsSpans) {
-    //         for (let project = 0; project < buildedFilter.projectsFilter.length; project++) {
-    //             if (record === projectsSpans[keyProjSpan] - 1 &&
-    //                 "_" + buildedFilter.projectsFilter[project] === keyProjSpan) {
-    //                 for (let row = 0; row < tBody.children.length; row++) {
-    //                     if (tBody.children[row].firstElementChild !== null) {
-    //                         setToRow += tBody.children[row].firstElementChild.rowSpan
-    //                     }
-    //                 }
-    //                 // console.log("ENTER -> set to row", setToRow, "#", tBody.children[record].id, "span =", projectsSpans[keyProjSpan]);
-    //                 tBody.children[setToRow].innerHTML =
-    //                     `<td rowspan="${projectsSpans[keyProjSpan]}">${keyProjSpan.slice(1)}</td>`;
-    //                 setToRow = 0;
-    //             }
-    //         }
-    //     }
-    // }
-
-
-
-
-    // `;
-
-
-
-    // document.querySelector('.data-table > tbody').childElementCount;
-    // console.log(tBody.children[0].firstElementChild.rowSpan = projectsSpans._KatsuBet);
-
-
-    // console.log(buildedFilter);
-
-}
-
-function buildHeader() {
-    let theadEl = document.getElementById('tblcsvdata').getElementsByTagName('thead')[0];
-    let dataForTHead = dataByRecords[0].substring(1, dataByRecords[0].length - 1).split('","');
-    theadEl.innerHTML = "";
-
-    // conferenceId
-    // conversationLink
-    // conversationTags
-    // conversationType
-    // createdAt
-    // customerEmail
-    // customerId
-    // projectName
-
-    theadEl.innerHTML = `<tr><th>${dataForTHead[0]}</th>
-                <th>${dataForTHead[1]}</th>
-                <th>${dataForTHead[2]}</th>
-                <th>${dataForTHead[3]}</th>
-                <th>${dataForTHead[4]}</th>
-                <th>${dataForTHead[5]}</th>
-                <th>${dataForTHead[6]}</th>
-                <th>${dataForTHead[7]}</th>
-                <th>${dataForTHead[8]}</th>
-                <th>${dataForTHead[9]}</th>
-                <th>${dataForTHead[10]}</th>
-                <th>${dataForTHead[11]}</th>
-                <th>${dataForTHead[12]}</th>
-                <th>${dataForTHead[13]}</th>
-                <th>${dataForTHead[14]}</th>
-                <th>${dataForTHead[15]}</th>
-                <th>${dataForTHead[16]}</th>
-                <th>${dataForTHead[17]}</th></tr>`
-}
+// HIDE DROP DOWN LIST FUNTION END

@@ -12,6 +12,7 @@
   width: 110px;
   height: 40px;
   border-radius: 10px;
+  font-size: 14px;
   text-align: center;
   border: none;
   outline: 0 solid transparent;
@@ -64,14 +65,11 @@
   ::-webkit-scrollbar-thumb {
     background: $bg-blue;
     border-radius: 50px;
-
-    // border-radius: 3px;
   }
 }
 
 .container {
   margin: 0 auto;
-  max-width: 1900px;
   min-width: 1500px;
   min-height: 100vh;
   width: 100%;
@@ -82,6 +80,7 @@
     margin: 0 auto;
     padding: 10px 0;
     width: 98%;
+    max-width: 1900px;
     height: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -94,7 +93,7 @@
       // FILE INPUT CONTAINER PART START
       .file-input-container {
         height: 49%;
-        max-height: 280px;
+        max-height: 295px;
         background-color: $bg-bluegray;
         display: flex;
         flex-flow: column nowrap;
@@ -105,12 +104,14 @@
         fieldset:nth-of-type(1) {
           position: relative;
           legend {
-            display: flex;
+            position: relative;
             span {
-              margin-left: 5px;
             }
-            p {
-              margin-left: 25px;
+            .info-icon {
+              position: absolute;
+              text-align: right;
+              top: 0;
+              right: 0;
             }
             .info-message {
               background-color: $bg-white;
@@ -153,7 +154,7 @@
           align-items: center;
           legend {
             text-align: start;
-            font-size: 18px;
+            font-size: 14px;
             margin-bottom: 10px;
             width: 100%;
             span {
@@ -278,6 +279,7 @@
         .counter-header {
           display: none;
           height: 45px;
+          font-size: 14px;
           .counter-number {
             font-weight: bold;
           }
@@ -376,25 +378,21 @@
             background-color: $btn-yellow-disabled;
             outline-width: 0;
           }
-          button {
+          input:nth-of-type(2) {
             @extend %def-btn;
             background-color: $btn-blue;
-            a {
-              text-decoration: none;
-              color: $c-white;
-              font-weight: bold;
-            }
+            color: $c-white;
           }
-          button:hover {
+          input:nth-of-type(2):hover {
             cursor: pointer;
             background-color: $btn-blue-hover;
           }
-          button:active {
+          input:nth-of-type(2):active {
             cursor: pointer;
             outline-width: 3px;
             outline-color: rgba(67, 132, 245, 0.3);
           }
-          button:disabled {
+          input:nth-of-type(2):disabled {
             cursor: default;
             background-color: $btn-blue-disabled;
             outline-width: 0;

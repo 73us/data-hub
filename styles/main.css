@@ -270,11 +270,12 @@ table {
   align-items: center;
 }
 
-.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container main .right .data-container .data-main .data-options-container fieldset input, .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters, .container main .left .report-container fieldset button, .container main .left .report-container fieldset input, .container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
+.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container main .right .data-container .data-main .data-options-container fieldset input, .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters, .container main .left .report-container fieldset input:nth-of-type(2), .container main .left .report-container fieldset input, .container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
 .container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
   width: 110px;
   height: 40px;
   border-radius: 10px;
+  font-size: 14px;
   text-align: center;
   border: none;
   outline: 0 solid transparent;
@@ -336,7 +337,6 @@ table {
 
 .container {
   margin: 0 auto;
-  max-width: 1900px;
   min-width: 1500px;
   min-height: 100vh;
   width: 100%;
@@ -348,6 +348,7 @@ table {
   margin: 0 auto;
   padding: 10px 0;
   width: 98%;
+  max-width: 1900px;
   height: 100%;
   display: flex;
   flex-flow: row wrap;
@@ -361,7 +362,7 @@ table {
 }
 .container main .left .file-input-container {
   height: 49%;
-  max-height: 280px;
+  max-height: 295px;
   background-color: #dde4e9;
   display: flex;
   flex-flow: column nowrap;
@@ -373,13 +374,13 @@ table {
   position: relative;
 }
 .container main .left .file-input-container fieldset:nth-of-type(1) legend {
-  display: flex;
+  position: relative;
 }
-.container main .left .file-input-container fieldset:nth-of-type(1) legend span {
-  margin-left: 5px;
-}
-.container main .left .file-input-container fieldset:nth-of-type(1) legend p {
-  margin-left: 25px;
+.container main .left .file-input-container fieldset:nth-of-type(1) legend .info-icon {
+  position: absolute;
+  text-align: right;
+  top: 0;
+  right: 0;
 }
 .container main .left .file-input-container fieldset:nth-of-type(1) legend .info-message {
   background-color: #f8f9fa;
@@ -421,7 +422,7 @@ table {
 }
 .container main .left .file-input-container fieldset legend {
   text-align: start;
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 10px;
   width: 100%;
 }
@@ -530,6 +531,7 @@ table {
 .container main .left .file-input-container .counter-header {
   display: none;
   height: 45px;
+  font-size: 14px;
 }
 .container main .left .file-input-container .counter-header .counter-number {
   font-weight: bold;
@@ -623,24 +625,20 @@ table {
   background-color: #ffc107;
   outline-width: 0;
 }
-.container main .left .report-container fieldset button {
+.container main .left .report-container fieldset input:nth-of-type(2) {
   background-color: #4384f5;
-}
-.container main .left .report-container fieldset button a {
-  text-decoration: none;
   color: #f8f9fa;
-  font-weight: bold;
 }
-.container main .left .report-container fieldset button:hover {
+.container main .left .report-container fieldset input:nth-of-type(2):hover {
   cursor: pointer;
   background-color: #0b5ed7;
 }
-.container main .left .report-container fieldset button:active {
+.container main .left .report-container fieldset input:nth-of-type(2):active {
   cursor: pointer;
   outline-width: 3px;
   outline-color: rgba(67, 132, 245, 0.3);
 }
-.container main .left .report-container fieldset button:disabled {
+.container main .left .report-container fieldset input:nth-of-type(2):disabled {
   cursor: default;
   background-color: #8bb8fc;
   outline-width: 0;
