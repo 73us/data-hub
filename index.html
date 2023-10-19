@@ -53,10 +53,7 @@
                         <input type="button" id="processFiles" value="Опрацювати" onclick="readFiles()" disabled>
                         <input type="button" id="resetFiles" value="Скинути" onclick="rmvFiles()" disabled>
                     </fieldset>
-                    <div class="counter-header">Знайдено <span class="counter-number"></span> релевантних звернень в
-                        чатах
-                        та
-                        тікетах</div>
+
                 </form>
                 <!-- FILE INPUT PART END -->
 
@@ -76,27 +73,29 @@
                         <div class="data-filtering-container"></div>
                         <div class="data-options-container">
                             <fieldset class="filter-control-fieldset">
-                                <input type="button" id="downloadCustomReport"
-                                    onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт" disabled>
-                                <input type="button" id="showDataTable" onclick="showDataTable()" value="Таблиця">
-                                <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше">
-                                <div class="search-block">
-                                    <input type="search" id="searchInput" placeholder="Назва мітки" disabled>
-                                    <div name="tagsDropDown" id="tagsDropDown" class="dropDown"></div>
+                                <div class="left">
+                                    <div class="counter-header">Знайдено <span class="counter-number"></span>
+                                        релевантних звернень в чатах та тікетах</div>
                                 </div>
-                                <input type="button" id="searchBtn" value="Пошук" disabled>
+                                <div class="right">
+                                    <input type="button" id="downloadCustomReport"
+                                        onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт"
+                                        disabled>
+                                    <input type="button" id="showDataTable" onclick="showDataTable()" value="Таблиця">
+                                    <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше">
+                                </div>
                             </fieldset>
                         </div>
                         <div class="display-data-container hide">
                             <nav class="menu">
-                                <li id="item-1" value="item1">Категорії</li>
+                                <li id="item-1" value="item1" class="active">Категорії</li>
                                 <li id="item-2" value="item2">Менеджери</li>
                                 <li id="item-3" value="item3">Мітки</li>
                                 <!-- <li id="item-4" value="item4">Item 4</li> -->
                                 <!-- <li id="item-5" value="item5">Item 5</li> -->
                             </nav>
                             <div class="content">
-                                <table id="data-table-1">
+                                <table id="data-table-1" class="show">
                                     <thead>
                                         <tr>
                                             <th>Категорія</th>

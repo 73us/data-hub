@@ -142,7 +142,7 @@ table {
   align-items: center;
 }
 
-.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container main .right .data-container .data-main .data-options-container fieldset input, .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters, .container main .left .report-container fieldset input:nth-of-type(2), .container main .left .report-container fieldset input, .container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
+.dialogWindow-container .dialogWindow-control #dialogIgnore, .dialogWindow-container .dialogWindow-control #dialogClean, .container main .right .data-container .data-main .data-options-container fieldset .right input, .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters, .container main .left .report-container fieldset input:nth-of-type(2), .container main .left .report-container fieldset input, .container main .left .file-input-container fieldset:nth-last-of-type(1) #resetFiles, .container main .left .file-input-container fieldset:nth-last-of-type(1) #processFiles, .container main .left .file-input-container fieldset .input-chats input[type=file]::file-selector-button,
 .container main .left .file-input-container fieldset .input-tickets input[type=file]::file-selector-button {
   width: 110px;
   height: 40px;
@@ -169,7 +169,7 @@ table {
 .info-message p {
   font-weight: normal;
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
 }
 .info-message p::-moz-selection {
   background-color: transparent;
@@ -233,8 +233,7 @@ table {
   flex-flow: column nowrap;
 }
 .container main .left .file-input-container {
-  height: 49%;
-  max-height: 295px;
+  max-height: 230px;
   background-color: #dde4e9;
   display: flex;
   flex-flow: column nowrap;
@@ -261,7 +260,7 @@ table {
   right: 0px;
   z-index: 100;
   width: 246px;
-  height: 186px;
+  height: 160px;
   border-radius: 5px;
   display: none;
   padding: 7px;
@@ -310,6 +309,9 @@ table {
 }
 .container main .left .file-input-container fieldset input[type=checkbox]:hover {
   cursor: pointer;
+}
+.container main .left .file-input-container fieldset input[type=checkbox]:disabled {
+  cursor: default;
 }
 .container main .left .file-input-container fieldset .input-chats,
 .container main .left .file-input-container fieldset .input-tickets {
@@ -401,14 +403,6 @@ table {
   background-color: #c97981;
   outline-width: 0;
 }
-.container main .left .file-input-container .counter-header {
-  display: none;
-  height: 45px;
-  font-size: 14px;
-}
-.container main .left .file-input-container .counter-header .counter-number {
-  font-weight: bold;
-}
 .container main .left .report-container {
   max-height: 340px;
   height: 0;
@@ -420,6 +414,7 @@ table {
   border-radius: 15px;
   transition: height 0.2s ease-in-out;
   transition: opacity 0.1s ease-in-out 0.1s;
+  font-size: 14px;
 }
 .container main .left .report-container div {
   width: 100%;
@@ -525,7 +520,7 @@ table {
   background-color: #dde4e9;
   width: 100%;
   min-width: 510px;
-  min-height: 640px;
+  min-height: auto;
   border-radius: 15px;
 }
 .container main .right .data-container .start-instraction-block {
@@ -751,90 +746,83 @@ table {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   padding: 5px 20px;
   border-bottom: 3px solid #6c757d;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input {
+.container main .right .data-container .data-main .data-options-container fieldset .left {
+  margin: 0;
+  width: 60%;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .counter-header {
+  display: none;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .counter-header .counter-number {
+  font-weight: bold;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .right {
+  margin: 0;
+  width: 40%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: end;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .right input {
   border-radius: 0;
   color: #f8f9fa;
   outline: none;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input:hover {
+.container main .right .data-container .data-main .data-options-container fieldset .right input:hover {
   cursor: pointer;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input:active {
+.container main .right .data-container .data-main .data-options-container fieldset .right input:active {
   cursor: pointer;
   outline-width: 3px;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset .right input:disabled {
   cursor: default;
   outline-width: 0;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input:nth-of-type(1) {
+.container main .right .data-container .data-main .data-options-container fieldset .right input:nth-of-type(1) {
   border-radius: 10px 0 0 10px;
 }
-.container main .right .data-container .data-main .data-options-container fieldset input:nth-last-of-type(1) {
+.container main .right .data-container .data-main .data-options-container fieldset .right input:nth-last-of-type(1) {
   border-radius: 0 10px 10px 0;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport {
+.container main .right .data-container .data-main .data-options-container fieldset .right #downloadCustomReport {
   background-color: #4384f5;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:hover {
+.container main .right .data-container .data-main .data-options-container fieldset .right #downloadCustomReport:hover {
   cursor: pointer;
   background-color: #0b5ed7;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #downloadCustomReport:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset .right #downloadCustomReport:disabled {
   cursor: default;
   background-color: #8bb8fc;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showDataTable {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showDataTable {
   background-color: #157347;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showDataTable:hover {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showDataTable:hover {
   cursor: pointer;
   background-color: #09884d;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showDataTable:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showDataTable:disabled {
   cursor: default;
   background-color: #157347;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showMoreOptions {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showMoreOptions {
   color: #000000;
   background-color: #fdc51e;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showMoreOptions:hover {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showMoreOptions:hover {
   cursor: pointer;
   background-color: #eeb407;
 }
-.container main .right .data-container .data-main .data-options-container fieldset #showMoreOptions:disabled {
+.container main .right .data-container .data-main .data-options-container fieldset .right #showMoreOptions:disabled {
   cursor: default;
   background-color: #ffc107;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchInput {
-  background-color: #f8f9fa;
-  color: #000000;
-  padding: 0 5px;
-  width: 300px;
-  text-align: left;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchInput:hover {
-  cursor: pointer;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchInput:disabled {
-  cursor: default;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchBtn {
-  background-color: #0dcaf0;
-  color: #000000;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchBtn:hover {
-  cursor: pointer;
-  background-color: #31d2f2;
-}
-.container main .right .data-container .data-main .data-options-container fieldset #searchBtn:disabled {
-  cursor: default;
-  background-color: #13aac8;
 }
 .container main .right .data-container .data-main .display-data-container {
   background-color: #dde4e9;
@@ -912,6 +900,7 @@ table {
   position: relative;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr {
+  padding: 0 15px;
   z-index: 10;
   position: sticky;
   top: 0;
@@ -920,11 +909,16 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th {
   padding: 15px;
 }
-.container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:first-of-type {
+.container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(1) {
   border-radius: 5px 0 0 5px;
+  width: 330px;
 }
-.container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:last-of-type {
+.container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(2) {
+  width: 120px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(3) {
   border-radius: 0 5px 5px 0;
+  width: 200px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr:after {
   position: absolute;
@@ -949,6 +943,7 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 tbody tr:last-of-type {
   border: none;
+  font-weight: bold;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 {
   min-width: 650px;
@@ -1000,6 +995,7 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr:last-of-type {
   border: none;
+  font-weight: bold;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 {
   min-width: 650px;
@@ -1022,11 +1018,16 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th {
   padding: 15px;
 }
-.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:first-of-type {
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(1) {
   border-radius: 5px 0 0 5px;
+  width: 330px;
 }
-.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:last-of-type {
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(2) {
+  width: 120px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(3) {
   border-radius: 0 5px 5px 0;
+  width: 200px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr:after {
   position: absolute;
@@ -1051,6 +1052,7 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 tbody tr:last-of-type {
   border: none;
+  font-weight: bold;
 }
 .container footer {
   margin-bottom: 0;

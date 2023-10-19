@@ -34,7 +34,7 @@
   p {
     font-weight: normal;
     margin: 0;
-    font-size: 15px;
+    font-size: 14px;
   }
   p::selection {
     background-color: transparent;
@@ -97,8 +97,7 @@
       flex-flow: column nowrap;
       // FILE INPUT CONTAINER PART START
       .file-input-container {
-        height: 49%;
-        max-height: 295px;
+        max-height: 230px;
         background-color: $bg-bluegray;
         display: flex;
         flex-flow: column nowrap;
@@ -123,7 +122,7 @@
               right: 0px;
               z-index: 100;
               width: 246px;
-              height: 186px;
+              height: 160px;
               border-radius: 5px;
               display: none;
               padding: 7px;
@@ -175,6 +174,9 @@
           }
           input[type="checkbox"]:hover {
             cursor: pointer;
+          }
+          input[type="checkbox"]:disabled {
+            cursor: default;
           }
           // is options needed checkbox end
 
@@ -280,14 +282,6 @@
           // RESET button end
         }
         // form control buttons fieldset end
-        .counter-header {
-          display: none;
-          height: 45px;
-          font-size: 14px;
-          .counter-number {
-            font-weight: bold;
-          }
-        }
       }
       // FILE INPUT CONTAINER PART END
 
@@ -303,6 +297,7 @@
         border-radius: 15px;
         transition: height 0.2s ease-in-out;
         transition: opacity 0.1s ease-in-out 0.1s;
+        font-size: 14px;
         div {
           width: 100%;
           display: flex;
@@ -415,7 +410,7 @@
         background-color: $bg-bluegray;
         width: 100%;
         min-width: 510px;
-        min-height: 640px;
+        min-height: auto;
         border-radius: 15px;
         .start-instraction-block {
           width: 100%;
@@ -657,106 +652,93 @@
               display: flex;
               flex-flow: row wrap;
               align-items: center;
-              justify-content: end;
+              justify-content: space-between;
               padding: 5px 20px;
               border-bottom: 3px solid $bg-gray;
-              input {
-                @extend %def-btn;
-                border-radius: 0;
-                color: $c-white;
-                outline: none;
+              .left {
+                margin: 0;
+                width: 60%;
+                .counter-header {
+                  display: none;
+                  .counter-number {
+                    font-weight: bold;
+                  }
+                }
               }
-              input:hover {
-                cursor: pointer;
-              }
-              input:active {
-                cursor: pointer;
-                outline-width: 3px;
-              }
-              input:disabled {
-                cursor: default;
-                outline-width: 0;
-              }
-              input:nth-of-type(1) {
-                border-radius: 10px 0 0 10px;
-              }
-              input:nth-last-of-type(1) {
-                border-radius: 0 10px 10px 0;
-              }
+              .right {
+                margin: 0;
+                width: 40%;
+                display: flex;
+                flex-flow: row wrap;
+                align-items: center;
+                justify-content: end;
+                input {
+                  @extend %def-btn;
+                  border-radius: 0;
+                  color: $c-white;
+                  outline: none;
+                }
+                input:hover {
+                  cursor: pointer;
+                }
+                input:active {
+                  cursor: pointer;
+                  outline-width: 3px;
+                }
+                input:disabled {
+                  cursor: default;
+                  outline-width: 0;
+                }
+                input:nth-of-type(1) {
+                  border-radius: 10px 0 0 10px;
+                }
+                input:nth-last-of-type(1) {
+                  border-radius: 0 10px 10px 0;
+                }
 
-              // download custom report button start
-              #downloadCustomReport {
-                background-color: $btn-blue;
-              }
-              #downloadCustomReport:hover {
-                cursor: pointer;
-                background-color: $btn-blue-hover;
-              }
-              #downloadCustomReport:disabled {
-                cursor: default;
-                background-color: $btn-blue-disabled;
-              }
-              // download custom report button start
+                // download custom report button start
+                #downloadCustomReport {
+                  background-color: $btn-blue;
+                }
+                #downloadCustomReport:hover {
+                  cursor: pointer;
+                  background-color: $btn-blue-hover;
+                }
+                #downloadCustomReport:disabled {
+                  cursor: default;
+                  background-color: $btn-blue-disabled;
+                }
+                // download custom report button start
 
-              // show data table button start
-              #showDataTable {
-                background-color: $btn-green;
-              }
-              #showDataTable:hover {
-                cursor: pointer;
-                background-color: $btn-green-hover;
-              }
-              #showDataTable:disabled {
-                cursor: default;
-                background-color: $btn-green;
-              }
-              // show data table button end
+                // show data table button start
+                #showDataTable {
+                  background-color: $btn-green;
+                }
+                #showDataTable:hover {
+                  cursor: pointer;
+                  background-color: $btn-green-hover;
+                }
+                #showDataTable:disabled {
+                  cursor: default;
+                  background-color: $btn-green;
+                }
+                // show data table button end
 
-              // show data table button start
-              #showMoreOptions {
-                color: $c-black;
-                background-color: $btn-yellow;
+                // show data table button start
+                #showMoreOptions {
+                  color: $c-black;
+                  background-color: $btn-yellow;
+                }
+                #showMoreOptions:hover {
+                  cursor: pointer;
+                  background-color: $btn-yellow-hover;
+                }
+                #showMoreOptions:disabled {
+                  cursor: default;
+                  background-color: $btn-yellow-disabled;
+                }
+                // show data table button end
               }
-              #showMoreOptions:hover {
-                cursor: pointer;
-                background-color: $btn-yellow-hover;
-              }
-              #showMoreOptions:disabled {
-                cursor: default;
-                background-color: $btn-yellow-disabled;
-              }
-              // show data table button end
-
-              // search input start
-              #searchInput {
-                background-color: $btn-white;
-                color: $bg-black;
-                padding: 0 5px;
-                width: 300px;
-                text-align: left;
-              }
-              #searchInput:hover {
-                cursor: pointer;
-              }
-              #searchInput:disabled {
-                cursor: default;
-              }
-              // search input end
-
-              // search button start
-              #searchBtn {
-                background-color: $btn-lightblue;
-                color: $bg-black;
-              }
-              #searchBtn:hover {
-                cursor: pointer;
-                background-color: $btn-lightblue-hover;
-              }
-              #searchBtn:disabled {
-                cursor: default;
-                background-color: $btn-lightblue-disabled;
-              }
-              // search button end
             }
           }
           // data control container start
@@ -839,6 +821,7 @@
                   margin-top: 5px;
                   position: relative;
                   tr {
+                    padding: 0 15px;
                     z-index: 10;
                     position: sticky;
                     top: 0;
@@ -846,11 +829,16 @@
                     th {
                       padding: 15px;
                     }
-                    th:first-of-type {
+                    th:nth-of-type(1) {
                       border-radius: 5px 0 0 5px;
+                      width: 330px;
                     }
-                    th:last-of-type {
+                    th:nth-of-type(2) {
+                      width: 120px;
+                    }
+                    th:nth-of-type(3) {
                       border-radius: 0 5px 5px 0;
+                      width: 200px;
                     }
                   }
                   tr:after {
@@ -878,6 +866,7 @@
                   }
                   tr:last-of-type {
                     border: none;
+                    font-weight: bold;
                   }
                 }
               }
@@ -934,6 +923,7 @@
                   }
                   tr:last-of-type {
                     border: none;
+                    font-weight: bold;
                   }
                 }
               }
@@ -958,11 +948,16 @@
                     th {
                       padding: 15px;
                     }
-                    th:first-of-type {
+                    th:nth-of-type(1) {
                       border-radius: 5px 0 0 5px;
+                      width: 330px;
                     }
-                    th:last-of-type {
+                    th:nth-of-type(2) {
+                      width: 120px;
+                    }
+                    th:nth-of-type(3) {
                       border-radius: 0 5px 5px 0;
+                      width: 200px;
                     }
                   }
                   tr:after {
@@ -990,6 +985,7 @@
                   }
                   tr:last-of-type {
                     border: none;
+                    font-weight: bold;
                   }
                 }
               }

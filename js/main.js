@@ -352,10 +352,9 @@ async function getInfo() {
     else if (recordsTickets.length > 0) generalCountContent = `тікетах`;
 
     getE('.counter-header').style.display = "block";
-    getE(".file-input-container").style.height = "280px";
     getE('.counter-header').innerHTML =
         `Період вибірки: <span class="counter-number">
-        ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span><br>
+        ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span>
         Знайдено <span class="counter-number">${allRecords.length}</span> релевантних звернень в ${generalCountContent}.`;
 }
 
@@ -414,7 +413,7 @@ getE(".file-input-container").onchange = () => {
 // READ FILES FUNCTION START
 async function readFiles() {
     getE('.start-instraction-block').style.display = "none";
-    getE('.data-main').classList.remove("hide");
+    disableElem();
     if (isChatsNeeded && isTicketsNeeded) {
         await readChats();
         await cleanChatRecords();
@@ -429,7 +428,6 @@ async function readFiles() {
         await readTickets();
         await cleanTicketRecords();
     }
-    disableElem();
     if (recordsTickets.length > 0) buildReportOptionArr.recordsTickets = "";
     if (recordsChats.length > 0) buildReportOptionArr.recordsChats = "";
     if (allRecords.length > 0) buildReportOptionArr.allRecords = "";
@@ -518,6 +516,8 @@ ticketFileInput.onchange = () => {
 // DISABLE COMPONETS FUNCTION START
 function disableElem() {
     chatFileInput.disabled = true;
+    chatCheckBox.disabled = true;
+    ticketCheckBox.disabled = true;
     ticketFileInput.disabled = true;
     btnProcessFiles.disabled = true;
     getE('.checkChat').style.opacity = 0;
@@ -570,6 +570,8 @@ async function readTickets() {
 function rmvFiles() {
     chatFileInput.value = "";
     ticketFileInput.value = "";
+    chatCheckBox.disabled = false;
+    ticketCheckBox.disabled = false;
     chatFileInput.disabled = false;
     ticketFileInput.disabled = false;
     btnProcessFiles.disabled = true;
@@ -582,10 +584,19 @@ function rmvFiles() {
     ticketCheckBox.checked = false;
     ticketsCover.style.width = "100%";
     isChatsNeeded = false;
+    recordsChats = [];
+    recordsTickets = [];
+    allRecords = [];
+    checkList = [];
     dataByRecordsTickets = [];
     dataByRecordsChats = [];
+    managersList = [];
+    tagsList = [];
     isChatsNeeded = false;
     isTicketsNeeded = false;
+    getE('.data-main').classList.add("hide");
+    reportContainer.classList.add("hide");
+    getE('.start-instraction-block').style.display = "flex";
 }
 // REMOVE INPUT FILE/S FUNCTION END
 // CLEAN CHATS FUNCTION START
@@ -690,6 +701,25 @@ async function cleanChatRecords() {
             // leave only EMPTY, DUPS and other cases END 
 
             if (checkChat) {
+                // mark record with proper PROJECT name START
+                let projectName = "";
+                if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
+                    dataByCells[13] === "7bit Support Deparment" ||
+                    dataByCells[13] === "7bit Support Deparment | login | nodep" ||
+                    dataByCells[13] === "7bit Support Department | login | nodep") {
+                    projectName = "7Bit"
+                }
+                else if (dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
+                    dataByCells[13] === "Katsubet Support Department" ||
+                    dataByCells[13] === "Katsubet Support Department | login | nodep") {
+                    projectName = "KatsuBet"
+                }
+                else if (dataByCells[13] === "Mirax Support | login | 1+ dep" ||
+                    dataByCells[13] === "Mirax Support Department" ||
+                    dataByCells[13] === "Mirax Support Department | login | nodep") {
+                    projectName = "Mirax"
+                }
+                // mark record with proper PROJECT name END
                 // check if CATEGORY doubled START
                 let dupsCheck = 0;
                 for (let i = 0; i < tags.length; i++) {
@@ -698,6 +728,7 @@ async function cleanChatRecords() {
                 if (dupsCheck > 1) {
                     let checkRecord = {
                         id: dataByCells[0],
+                        project: projectName,
                         sourse: "chat",
                         problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
                         problemDesc: "дубльована мітка категорії/й",
@@ -724,6 +755,7 @@ async function cleanChatRecords() {
                 if (noRepAndCATcheck) {
                     let checkRecord = {
                         id: dataByCells[0],
+                        project: projectName,
                         sourse: "chat",
                         problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
                         problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
@@ -735,26 +767,6 @@ async function cleanChatRecords() {
                     checkList.push(checkRecord);
                 }
                 // check if NO REPLY and/or SPAM with CATEGORY END
-
-                // mark record with proper PROJECT name START
-                let projectName = "";
-                if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
-                    dataByCells[13] === "7bit Support Deparment" ||
-                    dataByCells[13] === "7bit Support Deparment | login | nodep" ||
-                    dataByCells[13] === "7bit Support Department | login | nodep") {
-                    projectName = "7Bit"
-                }
-                else if (dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
-                    dataByCells[13] === "Katsubet Support Department" ||
-                    dataByCells[13] === "Katsubet Support Department | login | nodep") {
-                    projectName = "KatsuBet"
-                }
-                else if (dataByCells[13] === "Mirax Support | login | 1+ dep" ||
-                    dataByCells[13] === "Mirax Support Department" ||
-                    dataByCells[13] === "Mirax Support Department | login | nodep") {
-                    projectName = "Mirax"
-                }
-                // mark record with proper PROJECT name END
 
                 // find record CATEGORY START
                 let category;
@@ -874,6 +886,7 @@ async function cleanChatRecords() {
                         if (i === tags.length - 1) {
                             let checkRecord = {
                                 id: dataByCells[0],
+                                project: projectName,
                                 sourse: "chat",
                                 problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
                                 problemDesc: "немає мітки категорії",
@@ -930,56 +943,6 @@ async function cleanTicketRecords() {
                         if (!tagsList.includes(tags[tag])) tagsList.push(tags[tag])
                     }
                 }
-                // check if CATEGORY doubled START
-                let count = 0;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('4')) {
-                        count++;
-                    }
-                }
-                if (count > 1) {
-                    let checkRecord = {
-                        id: dataByCells[3],
-                        sourse: "ticket",
-                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                        problemDesc: "дубльована мітка категорії/й",
-                        problemType: "CATDUPS",
-                        tags: tags,
-                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                else if (count <= 1) {
-                    count = 0;
-                }
-                // check if CATEGORY doubled END
-
-                // check if NO REPLY and/or SPAM with CATEGORY START
-                let noRepAndCATcheck = false;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a].includes('4')) {
-                                noRepAndCATcheck = true;
-                            }
-                        }
-                    }
-                }
-                if (noRepAndCATcheck) {
-                    let checkRecord = {
-                        id: dataByCells[3],
-                        sourse: "ticket",
-                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                        problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
-                        problemType: "NOREPLYANDCAT",
-                        tags: tags,
-                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                // check if NO REPLY and/or SPAM with CATEGORY END
 
                 // mark record with proper PROJECT name START
                 if (dataByCells[9] === "Менеджеры 7bit" ||
@@ -999,6 +962,59 @@ async function cleanTicketRecords() {
                         projectName = "Mirax"
                     }
                     // mark record with proper PROJECT name END
+
+                    // check if CATEGORY doubled START
+                    let count = 0;
+                    for (let i = 0; i < tags.length; i++) {
+                        if (tags[i].includes('4')) {
+                            count++;
+                        }
+                    }
+                    if (count > 1) {
+                        let checkRecord = {
+                            id: dataByCells[3],
+                            project: projectName,
+                            sourse: "ticket",
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemDesc: "дубльована мітка категорії/й",
+                            problemType: "CATDUPS",
+                            tags: tags,
+                            rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                            rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                        }
+                        checkList.push(checkRecord);
+                    }
+                    else if (count <= 1) {
+                        count = 0;
+                    }
+                    // check if CATEGORY doubled END
+
+                    // check if NO REPLY and/or SPAM with CATEGORY START
+                    let noRepAndCATcheck = false;
+                    for (let i = 0; i < tags.length; i++) {
+                        if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
+                            for (let a = 0; a < tags.length; a++) {
+                                if (tags[a].includes('4')) {
+                                    noRepAndCATcheck = true;
+                                }
+                            }
+                        }
+                    }
+                    if (noRepAndCATcheck) {
+                        let checkRecord = {
+                            id: dataByCells[3],
+                            project: projectName,
+                            sourse: "ticket",
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
+                            problemType: "NOREPLYANDCAT",
+                            tags: tags,
+                            rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                            rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                        }
+                        checkList.push(checkRecord);
+                    }
+                    // check if NO REPLY and/or SPAM with CATEGORY END
 
                     // find record CATEGORY START
                     let category;
@@ -1108,6 +1124,7 @@ async function cleanTicketRecords() {
                             if (i === tags.length - 1) {
                                 let checkRecord = {
                                     id: dataByCells[3],
+                                    project: projectName,
                                     sourse: "ticket",
                                     problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
                                     problemDesc: "немає мітки категорії",
@@ -1219,6 +1236,7 @@ async function recordsCounter(dataToCount) {
 
 // BUILD FILTERING OPTIONS FUNCTION START
 async function buildFilteringSection() {
+    getE('.data-main').classList.remove("hide");
     let filterControlContainer = getE(".data-filtering-container");
     let badgeCountsObj = await recordsCounter(allRecords);
 
@@ -1926,8 +1944,8 @@ function dialogIgnore() {
 
 // BUILD REPORT SECTION FUNCTION START
 let buildReportOptionArr = {};
+let reportContainer = getE(".report-container");
 async function buildReportSection() {
-    let reportContainer = getE(".report-container");
     reportContainer.style.opacity = '1';
     reportContainer.style.height = '49%';
     // reportContainer.style.padding = '15px 20px';
@@ -1987,6 +2005,7 @@ async function buildReportSection() {
         }
         reportContainer.innerHTML += addContent;
     }
+    reportContainer.classList.remove('hide');
 }
 // BUILD REPORT SECTION FUNCTION END
 
@@ -2152,34 +2171,6 @@ window.onclick = (e) => {
 }
 // HIDE DROP DOWN LIST FUNTION END
 
-getE('#searchInput').oninput = () => {
-    getE('#searchInput').value.length !== 0 ? getE('#searchBtn').disabled = false : getE('#searchBtn').disabled = true;
-    // console.log();
-    let count = 0;
-    console.log(getE('#searchInput').value);
-
-    if (getE('#searchInput').value.length > 3) {
-        if (count < 6) {
-            console.log(getE('#searchInput').value);
-            for (let tag = 0; tag < tagsList.length; tag++) {
-                if (tagsList[tag].toLowerCase().includes(getE('#searchInput').value.toLowerCase())) {
-                    addCountent += `
-                <li name="tagsDropDown" class="labelBadge" value="${getE('#searchInput').value}">
-                ${(getE('#searchInput').value.length > 21) ? getE('#searchInput').value.substring(0, 20) : getE('#searchInput').value}
-                </li>`;
-                    count++;
-                }
-            }
-            getE('#tagsDropDown').innerHTML = addCountent;
-
-        }
-    }
-}
-
-getE('#searchBtn').onclick = () => {
-    console.log(getE('#searchInput').value);
-}
-
 // COUNT CATEGORIES FUNCTION START
 let countedCategoriesList = [];
 async function countCategories(recordsToCount) {
@@ -2295,14 +2286,14 @@ async function buildTable(dataToWork, tableType) {
                 percent = ((catCount / catSum) * 100);
             content += `<tr><td>${catLabel}</td><td>${catCount}</td><td>${roundNum(percent)}%</td></tr>`;
         }
-        content += `<tr><td>Разом категорій</td><td>${catSum} шт.</td><td>100%</td></tr>`;
+        content += `<tr><td>Разом категорій</td><td>${catSum} шт.</td><td></td></tr>`;
         getE('#data-table-1').firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build CATEGORIES table END
 
     // build MANAGERS PERFORMANCE table START
     if (tableType === "managers") {
-        let convSum = 0;
+        let convSum = 0, teamAvgConvTime = 0, teamAvgFirsrRespTime = 0;
         for (let c = 0; c < dataToWork.length; c++) convSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].convCount;
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < dataToWork.length; i++) {
@@ -2317,8 +2308,14 @@ async function buildTable(dataToWork, tableType) {
             <td>${roundNum(percent)}%</td>
             <td>${roundNum(managerAvgConvTime)} хв</td>
             <td>${roundNum(managerAvgFirsrRespTime)} хв</td></tr>`;
+            teamAvgConvTime += managerAvgConvTime;
+            teamAvgFirsrRespTime += managerAvgFirsrRespTime;
         }
-        content += `<tr><td>Разом чатів</td><td>${convSum} шт.</td><td>100%</td><td></td></tr>`;
+        teamAvgConvTime /= dataToWork.length;
+        teamAvgFirsrRespTime /= dataToWork.length;
+        content += `<tr>
+        <td>Разом чатів</td><td>${convSum} шт.</td>
+        <td>Середні значення</td><td>${roundNum(teamAvgConvTime)} хв</td><td>${roundNum(teamAvgFirsrRespTime)} хв</td></tr>`;
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build MANAGERS PERFORMANCE table END
@@ -2334,7 +2331,7 @@ async function buildTable(dataToWork, tableType) {
                 percent = ((labelCount / tagsSum) * 100);
             content += `<tr><td>${tagLabel}</td><td>${labelCount}</td><td>${roundNum(percent)}%</td></tr>`;
         }
-        content += `<tr><td>Разом міток</td><td>${tagsSum} шт.</td><td>100.00%</td></tr>`;
+        content += `<tr><td>Разом міток</td><td>${tagsSum} шт.</td><td></td></tr>`;
         getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build TAGS table END
