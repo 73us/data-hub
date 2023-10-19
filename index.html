@@ -74,20 +74,34 @@
                     </div>
                     <div class="data-main hide">
                         <div class="data-filtering-container"></div>
-                        <div class="data-options-container"></div>
+                        <div class="data-options-container">
+                            <fieldset class="filter-control-fieldset">
+                                <input type="button" id="downloadCustomReport"
+                                    onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт" disabled>
+                                <input type="button" id="showDataTable" onclick="showDataTable()" value="Таблиця">
+                                <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше">
+                                <div class="search-block">
+                                    <input type="search" id="searchInput" placeholder="Назва мітки" disabled>
+                                    <div name="tagsDropDown" id="tagsDropDown" class="dropDown"></div>
+                                </div>
+                                <input type="button" id="searchBtn" value="Пошук" disabled>
+                            </fieldset>
+                        </div>
                         <div class="display-data-container hide">
                             <nav class="menu">
-                                <li id="item-1" value="item1">Item 1</li>
-                                <li id="item-2" value="item2">Item 2</li>
-                                <li id="item-3" value="item3">Item 3</li>
-                                <li id="item-4" value="item4">Item 4</li>
-                                <li id="item-5" value="item5">Item 5</li>
+                                <li id="item-1" value="item1">Категорії</li>
+                                <li id="item-2" value="item2">Менеджери</li>
+                                <li id="item-3" value="item3">Мітки</li>
+                                <!-- <li id="item-4" value="item4">Item 4</li> -->
+                                <!-- <li id="item-5" value="item5">Item 5</li> -->
                             </nav>
                             <div class="content">
                                 <table id="data-table-1">
                                     <thead>
                                         <tr>
-                                            <th>Table 1</th>
+                                            <th>Категорія</th>
+                                            <th>Кількість</th>
+                                            <th>Співвідношення к-сті</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -95,7 +109,11 @@
                                 <table id="data-table-2">
                                     <thead>
                                         <tr>
-                                            <th>Table 2</th>
+                                            <th>Нікнейм менеджера</th>
+                                            <th>Кількість чатів</th>
+                                            <th>Співвідношення чатів</th>
+                                            <th>Середня тривалість чату</th>
+                                            <th>Швидкість першої відповіді</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -103,12 +121,16 @@
                                 <table id="data-table-3">
                                     <thead>
                                         <tr>
-                                            <th>Table 3</th>
+                                            <th>Назва мітки</th>
+                                            <th>Кількість</th>
+                                            <th>Співвідношення к-сті</th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+                                        <!-- <tr><td>fdssfd sffds fdsd fs</td></tr> -->
+                                    </tbody>
                                 </table>
-                                <table id="data-table-4">
+                                <!-- <table id="data-table-4">
                                     <thead>
                                         <tr>
                                             <th>Table 4</th>
@@ -123,7 +145,7 @@
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -181,7 +203,7 @@
 
     <!-- TEST START -->
     <div class="test-container hide">
-       
+
     </div>
     <!-- TEST END -->
     <!--  -->

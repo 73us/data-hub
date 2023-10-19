@@ -272,9 +272,33 @@ let checkList1 = [
         tags: ['chatbot', 'chatbot-transfer'],
     },
 ]
+let tagsList1 = ['1-  Бонусная рассылка', '1- Бонусная рассылка', '1-Daily cashback', '1-Friday TG', '1-GDPR',
+    '1-Gambling problems', '1-Highroller cashback', '1-Lucky Spin', '1-Monday Reload', '1-Monday Lootbox',
+    '1-Monday Lootbox PRO', '1-Monday Bonus', '1-NO REPLY', '1-Responsible Gambling', '1-S-tag отсутствует',
+    '1-Sing up TG', '1-Sign up TG', '1-SUICIDE THREAT', '1-Sunday TG', '1-S-tag в DSL отсутствует',
+    '1-S-tag не подходит', '1-Thursday High Bet Bonus', '1-Thursday TG', '1-T&C', '1-TG рассылка',
+    '1-Tuesday Lootbox', '1-Thursday Bonus', '1-Trustpilot bonus not issued', '1-UTC', '1-Wednesday FS',
+    '1-Weekly cashback', '1-Weekend Bonus', '1-Weekend TG', '1-Weekend Free Spins', '1-Wednesday Match',
+    '1-Wednesday Bonus', '1-achievements', '1-finance', '1-Аккаунт', '1-Блок (личные причины)',
+    '1-Бонусная рассылка', '1-Блок из-за недоступности бонусов', '1-Блок из-за дубликата',
+    '1-Блок (запрещённая страна)', '1-Блок (не создавал аккаунт)', '1-Блок (USA)', '1-ВИП программа',
+    '1-Вывод по холду', '1-Вейджер', '1-ВИП оффер', '1-Купон', '1-Максимальная ставка',
+    '1-Несоответствие условий бонуса', '1-Несоответствие данных', '1-Приветственный бонус', '1-Промокод',
+    '1-Переоткрытие', '1-Партнерство', '1-Турниры', '1-Частота начисления', '1-бездеп', '1-бездеп регистрация',
+    '1-бонус от партнера', '1-блок из-за проигрышей', '1-бонус истек', '1-блок из-за мультиаккаунта',
+    '1-верификация', '1-выплата неуспешна', '1-вопросы по играм', '1-вывод успешен', '1-выплата зависла',
+    '1-выплата утеряна', '1-выигрыш с FS не зачислен', '1-дубли бонус', '1-другие условия не выполнены',
+    '1-депозит утерян', '1-день рождения', '1-депозит успешен', '1-депозит завис', '1-депозит неуспешен',
+    '1-запрещенная страна бонус', '1-игрок отменил бонус', '1-игры не работают', '1-игра недоступна',
+    '1-компоинты', '1-лимиты', '1-мульты бонус', '1-недостаточная сумма депозита', '1-нерабочий бонус',
+    '1-неизвестный вопрос', '1-несоответствие рассылок', '1-отмена выплаты нужна верификация',
+    '1-отмена выплаты другие причины', '1-отмена выплаты нарушение правил',
+    '1-отмена выплаты вывод недоступен', '1-платежи', '1-пароль', '1-проблема с доступом',
+    '1-сложности с активацией бонуса', '1-сайт не работает'];
 
 const getE = (selector) => document.querySelector(selector);
 const proper = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+const roundNum = (num) => (!/.00$/.test(num.toFixed(2).toString())) ? num.toFixed(2) : num.toFixed(3);
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
@@ -308,29 +332,30 @@ let recordsChats = [],
     allRecords = [],
     checkList = [],
     dataByRecordsTickets = [],
-    dataByRecordsChats = [];
+    dataByRecordsChats = [],
+    managersList = [],
+    tagsList = [];
 
 let isChatsNeeded = false;
 let isTicketsNeeded = false;
-
 
 async function getInfo() {
     console.log("чатів =", recordsChats.length, ", тікетів =", recordsTickets.length, " всього =", allRecords.length);
     console.log(allRecords);
     console.log("Записи на перевірку:", checkList);
+    // console.log('Tag List', tagsList.sort((a, b) => a.charCodeAt(2) - b.charCodeAt(2)));
+    console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
 
     let generalCountContent;
     if (recordsChats.length > 0 && recordsTickets.length > 0) generalCountContent = `чатах та тікетах`;
     else if (recordsChats.length > 0) generalCountContent = `чатах`;
     else if (recordsTickets.length > 0) generalCountContent = `тікетах`;
-    console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
-    // let reportsTimeRange = 
+
     getE('.counter-header').style.display = "block";
-    getE(".file-input-container").style.height = "295px";
+    getE(".file-input-container").style.height = "280px";
     getE('.counter-header').innerHTML =
-        `Період вибірки: <br><span class="counter-number">
-        ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 4)}-
-        ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 4)}</span>.<br>
+        `Період вибірки: <span class="counter-number">
+        ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span><br>
         Знайдено <span class="counter-number">${allRecords.length}</span> релевантних звернень в ${generalCountContent}.`;
 }
 
@@ -563,6 +588,547 @@ function rmvFiles() {
     isTicketsNeeded = false;
 }
 // REMOVE INPUT FILE/S FUNCTION END
+// CLEAN CHATS FUNCTION START
+let startDate, endDate;
+async function cleanChatRecords() {
+    // find concat positions START
+    let fRowArr = dataByRecordsChats[0].substring(1, dataByRecordsChats[0].length - 1).split('","');
+    let operatorNickStart,
+        operatorIdStart,
+        operatorTimeZoneStart,
+        preChatEmailStart,
+        tag1Start,
+        firstResponseTimeStart;
+    for (let i = 0; i < fRowArr.length; i++) {
+        if (fRowArr[i] === "operator 1 nick") operatorNickStart = i;
+        if (fRowArr[i] === "operator 1 id") operatorIdStart = i;
+        if (fRowArr[i] === "operator 1 time zone") operatorTimeZoneStart = i;
+        if (fRowArr[i] === "pre chat: E-mail:") preChatEmailStart = i;
+        if (fRowArr[i] === "tag 1") tag1Start = i;
+        if (fRowArr[i] === "first response time") firstResponseTimeStart = i;
+    }
+    // find concat positions END
+
+    for (let record = 1; record < dataByRecordsChats.length - 1; record++) {
+        let dataByCells = dataByRecordsChats[record].substring(1, dataByRecordsChats[record].length - 1).split('","');
+        if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
+            dataByCells[13] === "7bit Support Deparment" ||
+            dataByCells[13] === "7bit Support Deparment | login | nodep" ||
+            dataByCells[13] === "7bit Support Department | login | nodep" ||
+            dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
+            dataByCells[13] === "Katsubet Support Department" ||
+            dataByCells[13] === "Katsubet Support Department | login | nodep" ||
+            dataByCells[13] === "Mirax Support | login | 1+ dep" ||
+            dataByCells[13] === "Mirax Support Department" ||
+            dataByCells[13] === "Mirax Support Department | login | nodep") {
+
+            // put wide data to arrays START
+            let operatorAccounts = [];
+            for (let i = operatorNickStart; i < operatorIdStart; i++) {
+                if (dataByCells[i] !== "") operatorAccounts.push(dataByCells[i]);
+            }
+            let operatorIds = [];
+            for (let i = operatorIdStart; i < operatorTimeZoneStart; i++) {
+                if (dataByCells[i] !== "") operatorIds.push(dataByCells[i]);
+            }
+            let operatorTimeZones = [];
+            for (let i = operatorTimeZoneStart; i < preChatEmailStart; i++) {
+                if (dataByCells[i] !== "") operatorTimeZones.push(dataByCells[i]);
+            }
+            let tags = [];
+            for (let i = tag1Start; i < firstResponseTimeStart; i++) {
+                if (dataByCells[i] !== "") tags.push(dataByCells[i]);
+                if (/1\s*-/.test(dataByCells[i])) {
+                    if (tagsList.length === 0) tagsList.push(dataByCells[i])
+                    if (!tagsList.includes(dataByCells[i])) tagsList.push(dataByCells[i])
+                }
+            }
+            let operatorNicks = [];
+            for (let tag = 0; tag < tags.length; tag++) {
+                if (/7\s*-/.test(tags[tag])) {
+                    let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
+                    if (tags[tag].includes("/")) setTag = setTag.substring(0, setTag.indexOf('/'));
+                    operatorNicks.push(setTag);
+                    if (managersList.length === 0) managersList.push(setTag);
+                    if (!managersList.includes(setTag)) managersList.push(setTag);
+                }
+            }
+
+            // put wide data to arrays END
+
+            // leave only EMPTY, DUPS and other cases START 
+            let checkChat = false;
+            if (/@/.test(dataByCells[11])) {
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes('5')) {
+                        checkChat = true;
+                        break;
+                    }
+                    if (!tags[i].includes('5') && i === tags.length - 1) {
+                        let noReplyCheck1 = false, spamCheck2 = false;
+                        for (let a = 0; a < tags.length; a++) {
+                            if (tags[a] !== "1-NO REPLY") noReplyCheck1 = true;
+                            else if (tags[a] === "1-NO REPLY") {
+                                noReplyCheck1 = false;
+                                break;
+                            }
+                        }
+                        for (let a = 0; a < tags.length; a++) {
+                            if (tags[a] !== "1-SPAM") spamCheck2 = true;
+                            else if (tags[a] === "1-SPAM") {
+                                spamCheck2 = false;
+                                break;
+                            }
+                        }
+                        if (noReplyCheck1 && spamCheck2) {
+                            checkChat = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            // leave only EMPTY, DUPS and other cases END 
+
+            if (checkChat) {
+                // check if CATEGORY doubled START
+                let dupsCheck = 0;
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes('5')) dupsCheck++;
+                }
+                if (dupsCheck > 1) {
+                    let checkRecord = {
+                        id: dataByCells[0],
+                        sourse: "chat",
+                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                        problemDesc: "дубльована мітка категорії/й",
+                        problemType: "CATDUPS",
+                        tags: tags,
+                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                    }
+                    checkList.push(checkRecord);
+                }
+                // check if CATEGORY doubled END
+
+                // check if NO REPLY and/or SPAM with CATEGORY START
+                let noRepAndCATcheck = false;
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
+                        for (let a = 0; a < tags.length; a++) {
+                            if (tags[a].includes('5')) {
+                                noRepAndCATcheck = true;
+                            }
+                        }
+                    }
+                }
+                if (noRepAndCATcheck) {
+                    let checkRecord = {
+                        id: dataByCells[0],
+                        sourse: "chat",
+                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                        problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
+                        problemType: "NOREPLYANDCAT",
+                        tags: tags,
+                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                    }
+                    checkList.push(checkRecord);
+                }
+                // check if NO REPLY and/or SPAM with CATEGORY END
+
+                // mark record with proper PROJECT name START
+                let projectName = "";
+                if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
+                    dataByCells[13] === "7bit Support Deparment" ||
+                    dataByCells[13] === "7bit Support Deparment | login | nodep" ||
+                    dataByCells[13] === "7bit Support Department | login | nodep") {
+                    projectName = "7Bit"
+                }
+                else if (dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
+                    dataByCells[13] === "Katsubet Support Department" ||
+                    dataByCells[13] === "Katsubet Support Department | login | nodep") {
+                    projectName = "KatsuBet"
+                }
+                else if (dataByCells[13] === "Mirax Support | login | 1+ dep" ||
+                    dataByCells[13] === "Mirax Support Department" ||
+                    dataByCells[13] === "Mirax Support Department | login | nodep") {
+                    projectName = "Mirax"
+                }
+                // mark record with proper PROJECT name END
+
+                // find record CATEGORY START
+                let category;
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes(5)) {
+                        switch (tags[i]) {
+                            case "5-Акции и бонусы":
+                                category = "Акции и бонусы";
+                                break;
+                            case "5-Безопасность":
+                                category = "Безопасность";
+                                break;
+                            case "5-Верификация аккаунта":
+                                category = "Верификация аккаунта";
+                                break;
+                            case "5-Вопросы по сайту":
+                                category = "Вопросы по сайту";
+                                break;
+                            case "5-Восстановление доступа":
+                                category = "Восстановление доступа";
+                                break;
+                            case "5-Другие тикеты":
+                                category = "Другие тикеты";
+                                break;
+                            case "5-Закрытие аккаунта":
+                                category = "Закрытие аккаунта";
+                                break;
+                            case "5-Изменения аккаунта":
+                                category = "Изменения аккаунта";
+                                break;
+                            case "5-Макс бет (игры/слоты)":
+                                category = "Макс бет (игры/слоты)";
+                                break;
+                            case "5-Непройденный депозит":
+                                category = "Непройденный депозит";
+                                break;
+                            case "5-Партнерство":
+                                category = "Партнерство";
+                                break;
+                            case "5-Проблемы по сайту":
+                                category = "Проблемы по сайту";
+                                break;
+                            case "5-Проблемы с играми":
+                                category = "Проблемы с играми";
+                                break;
+                            case "5-Рассылка":
+                                category = "Рассылка";
+                                break;
+                            case "5-Регистрация":
+                                category = "Регистрация";
+                                break;
+                            case "5-Тест":
+                                category = "Тест";
+                                break;
+                            case "5-Технические проблемы (кроме бонусов)":
+                                category = "Технические проблемы (кроме бонусов)";
+                                break;
+                            case "5-Технические проблемы(кроме бонусов)":
+                                category = "Технические проблемы (кроме бонусов)";
+                                break;
+                            case "5-Финансовые операции":
+                                category = "Финансовые операции";
+                                break;
+                        }
+                    }
+                }
+                // find record CATEGORY END
+
+                // find report start/end date time START
+                if (!startDate) startDate = new Date(dataByCells[1]).getTime();
+                else if (new Date(dataByCells[1]).getTime() < startDate) startDate = new Date(dataByCells[1]).getTime();
+                if (!endDate) endDate = new Date(dataByCells[1]).getTime();
+                else if (new Date(dataByCells[1]).getTime() > endDate) endDate = new Date(dataByCells[1]).getTime();
+                // find report start/end date time END
+                let recordObj = {
+                    createdAt: new Date(dataByCells[1]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
+                    conferenceId: dataByCells[0], // conversation ID
+                    projectName: projectName, // project name 
+                    conversationType: "chat",
+                    conversationLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                    conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
+                    conversationTags: tags, // converstaion tags
+                    operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
+                    customerId: dataByCells[7], // customer ID (for chats it has unique ID)
+                    customerEmail: dataByCells[10], // customer email
+                    specialFields: {
+                        converstionTimings: {
+                            conversationDurationSec: dataByCells[5], // conversation duration in seconds
+                            queueDurationSec: dataByCells[6], // conversation queue (before agent receive chat) duration in seconds
+                            firstResponseTime: dataByCells[firstResponseTimeStart], // first response time (seconds)
+                            averageResponseTime: dataByCells[firstResponseTimeStart + 1], // average response time (seconds)
+                            agentsChattingDuration: dataByCells[firstResponseTimeStart + 2], // agents chating duration (seconds)
+                        },
+                        chatStartDate: dataByCells[2], // chatStartDate ***
+                        chatStartUrl: dataByCells[3], // chatStartUrl ***
+                        referrer: dataByCells[4], // referrer ***
+                        visitorNick: dataByCells[8], // customer Name ***
+                        visitorIp: dataByCells[9], // visitorIp ***
+                        lastAccountId: dataByCells[11], // lastAccountId ***
+                        groupNum: dataByCells[12], // groupNum ***
+                        conversationCustomerRating: { rateMark: dataByCells[14], rateComment: dataByCells[15] }, // conversation customer rating ***
+                        operatorIds: operatorIds, // operatorIds ***
+                        operatorTimeZones: operatorTimeZones, // operatorTimeZones ***
+                        preChatEmail: dataByCells[19], // preChatEmail ***
+                        autoInviteOption: { autoInviteUrl: dataByCells[20], autoInviteAction: dataByCells[21] }, // conversation auto invite option ***
+                        conversationGoal: { goalActionName: dataByCells[22], goalDoneBy: dataByCells[23], goalDoneDate: dataByCells[24], }, // conversation goal ***
+                        visitorUserAgent: dataByCells[29], // visitorUserAgent ***
+                        groupStatusAtStart: dataByCells[30], // groupStatusAtStart ***
+                        visitorCountryCode: dataByCells[31], // visitorCountryCode ***
+                        operatorAccounts: operatorAccounts, // manager Account
+                    },
+                }
+                // check if ticket without category START
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes('5')) break;
+                    if (!tags[i].includes('5')) {
+                        if (i === tags.length - 1) {
+                            let checkRecord = {
+                                id: dataByCells[0],
+                                sourse: "chat",
+                                problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                                problemDesc: "немає мітки категорії",
+                                problemType: "EMPTY",
+                                tags: tags,
+                                rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
+                                rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                            }
+                            checkList.push(checkRecord);
+                        }
+                    }
+                }
+                // check if ticket without category END
+
+                recordsChats.push(recordObj);
+                allRecords.push(recordObj);
+            }
+        }
+    }
+}
+// CLEAN CHATS FUNCTION END
+
+// CLEAN TICKETS FUNCTION START
+async function cleanTicketRecords() {
+    for (let record = 1; record < dataByRecordsTickets.length - 1; record++) {
+        let dataByCells = dataByRecordsTickets[record].substring(1, dataByRecordsTickets[record].length - 1).split('","');
+
+        if (dataByCells[9] === "Менеджеры 7bit" ||
+            dataByCells[9] === "Менеджеры WIN7bit" ||
+            dataByCells[9] === "Менеджеры Кatsubet" ||
+            dataByCells[9] === " Менеджеры Mirax" ||
+            dataByCells[9] === "Менеджеры Mirax") {
+
+            let operatorNicks = [];
+            let operatorAccountName = [];
+            if (dataByCells[10] !== "") operatorAccountName.push(dataByCells[10]);
+
+            if (
+                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-NO REPLY") ||
+                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-SPAM") ||
+                dataByCells[12].length !== 0 && !dataByCells[12].includes("1-NO REPLY") && !dataByCells[12].includes("1-SPAM")
+            ) {
+                let tags = dataByCells[12].split(";");
+                for (let tag = 0; tag < tags.length; tag++) {
+                    if (/6\s*-/.test(tags[tag]) || /7\s*-/.test(tags[tag])) {
+                        let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
+                        if (tags[tag].includes("/")) setTag = setTag.substring(0, setTag.indexOf('/'));
+                        operatorNicks.push(setTag);
+                        if (managersList.length === 0) managersList.push(setTag);
+                        if (!managersList.includes(setTag)) managersList.push(setTag);
+                    }
+                    if (/1\s*-/.test(tags[tag])) {
+                        if (tagsList.length === 0) tagsList.push(tags[tag])
+                        if (!tagsList.includes(tags[tag])) tagsList.push(tags[tag])
+                    }
+                }
+                // check if CATEGORY doubled START
+                let count = 0;
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes('4')) {
+                        count++;
+                    }
+                }
+                if (count > 1) {
+                    let checkRecord = {
+                        id: dataByCells[3],
+                        sourse: "ticket",
+                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                        problemDesc: "дубльована мітка категорії/й",
+                        problemType: "CATDUPS",
+                        tags: tags,
+                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                    }
+                    checkList.push(checkRecord);
+                }
+                else if (count <= 1) {
+                    count = 0;
+                }
+                // check if CATEGORY doubled END
+
+                // check if NO REPLY and/or SPAM with CATEGORY START
+                let noRepAndCATcheck = false;
+                for (let i = 0; i < tags.length; i++) {
+                    if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
+                        for (let a = 0; a < tags.length; a++) {
+                            if (tags[a].includes('4')) {
+                                noRepAndCATcheck = true;
+                            }
+                        }
+                    }
+                }
+                if (noRepAndCATcheck) {
+                    let checkRecord = {
+                        id: dataByCells[3],
+                        sourse: "ticket",
+                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                        problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
+                        problemType: "NOREPLYANDCAT",
+                        tags: tags,
+                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                    }
+                    checkList.push(checkRecord);
+                }
+                // check if NO REPLY and/or SPAM with CATEGORY END
+
+                // mark record with proper PROJECT name START
+                if (dataByCells[9] === "Менеджеры 7bit" ||
+                    dataByCells[9] === "Менеджеры WIN7bit" ||
+                    dataByCells[9] === "Менеджеры Кatsubet" ||
+                    dataByCells[9] === " Менеджеры Mirax" ||
+                    dataByCells[9] === "Менеджеры Mirax") {
+                    let projectName = "";
+                    if (dataByCells[9] === "Менеджеры 7bit" || dataByCells[9] === "Менеджеры WIN7bit") {
+                        projectName = "7Bit"
+                    }
+                    else if (dataByCells[9] === "Менеджеры Кatsubet") {
+                        projectName = "KatsuBet"
+                    }
+                    else if (
+                        dataByCells[9] === " Менеджеры Mirax" || dataByCells[9] === "Менеджеры Mirax") {
+                        projectName = "Mirax"
+                    }
+                    // mark record with proper PROJECT name END
+
+                    // find record CATEGORY START
+                    let category;
+                    for (let i = 0; i < tags.length; i++) {
+                        if (tags[i].includes('4')) {
+                            switch (tags[i]) {
+                                case "4-Акции и бонусы":
+                                    category = "Акции и бонусы";
+                                    break;
+                                case "4-Безопасность":
+                                    category = "Безопасность";
+                                    break;
+                                case "4-Верификация аккаунта":
+                                    category = "Верификация аккаунта";
+                                    break;
+                                case "4-Вопросы по сайту":
+                                    category = "Вопросы по сайту";
+                                    break;
+                                case "4-Восстановление доступа":
+                                    category = "Восстановление доступа";
+                                    break;
+                                case "4-Другие тикеты":
+                                    category = "Другие тикеты";
+                                    break;
+                                case "4-Закрытие аккаунта":
+                                    category = "Закрытие аккаунта";
+                                    break;
+                                case "4-Изменения аккаунта":
+                                    category = "Изменения аккаунта";
+                                    break;
+                                case "4-Макс бет (игры/слоты)":
+                                    category = "Макс бет (игры/слоты)";
+                                    break;
+                                case "4-Непройденный депозит":
+                                    category = "Непройденный депозит";
+                                    break;
+                                case "4-Партнерство":
+                                    category = "Партнерство";
+                                    break;
+                                case "4-Проблемы по сайту":
+                                    category = "Проблемы по сайту";
+                                    break;
+                                case "4-Проблемы с играми":
+                                    category = "Проблемы с играми";
+                                    break;
+                                case "4-Рассылка":
+                                    category = "Рассылка";
+                                    break;
+                                case "4-Регистрация":
+                                    category = "Регистрация";
+                                    break;
+                                case "4-Тест":
+                                    category = "Тест";
+                                    break;
+                                case "4-Технические проблемы (кроме бонусов)":
+                                    category = "Технические проблемы (кроме бонусов)";
+                                    break;
+                                case "4-Технические проблемы(кроме бонусов)":
+                                    category = "Технические проблемы (кроме бонусов)";
+                                    break;
+                                case "4-Финансовые операции":
+                                    category = "Финансовые операции";
+                                    break;
+                            }
+                        }
+                    }
+                    // find record CATEGORY END
+
+                    // find report start/end date time START
+                    if (!startDate) startDate = new Date(dataByCells[0]).getTime();
+                    else if (new Date(dataByCells[0]).getTime() < startDate) startDate = new Date(dataByCells[0]).getTime();
+                    if (!endDate) endDate = new Date(dataByCells[0]).getTime();
+                    else if (new Date(dataByCells[0]).getTime() > endDate) endDate = new Date(dataByCells[0]).getTime();
+                    // find report start/end date time END
+
+                    let record = {
+                        createdAt: new Date(dataByCells[0]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
+                        conferenceId: dataByCells[3], // conversation ID
+                        projectName: projectName, // project name 
+                        conversationType: "ticket",
+                        conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                        conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
+                        conversationTags: tags, // converstaion tags
+                        operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
+                        customerId: dataByCells[5], // customer ID (for chats it has unique ID)
+                        customerEmail: dataByCells[5], // customer email
+                        specialFields: {
+                            operatorAccountName: operatorAccountName, // operator account name
+                            requesterName: dataByCells[4], // customer Name ***
+                            lastAccountId: dataByCells[11], // agent account Email (agentEmail) ***
+                            conversationCustomerRating: { rateMark: dataByCells[14], rateComment: dataByCells[15] }, // conversation customer rating ***
+                            updatedAtTicket: dataByCells[1], // ticket last update date&time ***
+                            inboundOutboundTicket: dataByCells[2], // ticket source type ***
+                            ticketStatus: dataByCells[6], // ticket status ***
+                            ticketPriority: dataByCells[7], // ticket priority ***
+                            ticketSubject: dataByCells[8], // ticket subject ***
+                            publicMessages: dataByCells[13], // number of messages in the ticket
+                            ticketInbox: dataByCells[16], // ticket inbox email ***
+                            ticketFolder: dataByCells[17], // ticket folder ***
+                        },
+                    }
+
+                    // check if ticket without category START
+                    for (let i = 0; i < tags.length; i++) {
+                        if (tags[i].includes('4')) break;
+                        if (!tags[i].includes('4')) {
+                            if (i === tags.length - 1) {
+                                let checkRecord = {
+                                    id: dataByCells[3],
+                                    sourse: "ticket",
+                                    problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                                    problemDesc: "немає мітки категорії",
+                                    problemType: "EMPTY",
+                                    tags: tags,
+                                    rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                                    rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                                }
+                                checkList.push(checkRecord);
+                            }
+                        }
+                    }
+                    // check if ticket without category END
+                    recordsTickets.push(record);
+                    allRecords.push(record);
+                }
+            }
+        }
+    }
+}
+// CLEAN TICKETS FUNCTION END
 
 // CREATE FULL COUNTS LIST FUNCTION START
 let cleanRecordsCountObj = {};
@@ -783,22 +1349,12 @@ async function buildFilteringSection() {
     <input type="button" id="resetFilters" onclick="resetFilters()" value="Скинути">
     </fieldset>`;
 
-    // build DATA CONTROL options START
-    getE(".data-options-container").innerHTML =
-        `<fieldset class="filter-control-fieldset">
-        <input type="button" id="downloadCustomReport" 
-        onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт" disabled>
-        <input type="button" id="showDataTable" 
-        onclick="showDataTable()" value="Таблиця">
-        <input type="search" id="searchInput">
-        <input type="button" id="searchBtn" value="Пошук">
-        </fieldset>`;
-    // build DATA CONTROL options END
-
     await getInfo();
     buildFilters();
-    // renderResults(true);
     await buildReportSection();
+    await countCategories(allRecords);
+    await countManagersPerf(allRecords);
+    await countTags(allRecords);
 }
 // BUILD FILTERING OPTIONS FUNCTION END
 
@@ -818,14 +1374,14 @@ async function buildFilters() {
         buildedFilter.projectsFilter = firstSelectedArr;
     }
 
-    projectsListSect.onchange = (e) => {
+    projectsListSect.onchange = () => {
         let selectedProjectsArr = [];
         if (allProjectsCheckBox.checked && firstSelectedArr.length > 0 ||
             !allProjectsCheckBox.checked && firstSelectedArr.length > 0) {
-            allProjectsCheckBox.checked = false;
             for (let i = 1; i < projectsListSect.children.length; i++) {
                 if (projectsListSect.children[i].firstElementChild.checked) {
-                    selectedProjectsArr.push(projectsListSect.children[i].firstElementChild.value)
+                    selectedProjectsArr.push(projectsListSect.children[i].firstElementChild.value);
+                    allProjectsCheckBox.checked = false;
                 }
             }
             let count = 0;
@@ -1055,9 +1611,12 @@ async function filterResults(buildedFilter) {
 
     }
     // filtering by AGENT NAME END
-    // await renderResults(false);
+    await buildObjForTableDisplay(filteredDataArr);
     savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
+    await countCategories(filteredDataArr);
+    await countManagersPerf(filteredDataArr);
+    await countTags(filteredDataArr);
     filteredDataArr = [];
 }
 // FILTER RESULTS FUNCTION END
@@ -1117,7 +1676,6 @@ dataFilteringContainer.onchange = async (e) => {
 let tableDataObj = {};
 async function buildObjForTableDisplay(recordsToRenderArr) {
     let workArr = [];
-
     // build projects START
     let projectKeyName = [];
     for (const key in cleanRecordsCountObj.projectsCount) {
@@ -1128,590 +1686,37 @@ async function buildObjForTableDisplay(recordsToRenderArr) {
     tableDataObj.projects = Object.assign({}, workArr);
     // build projects END
 
-    // build conversation types START
+    // build categories START
     workArr = [];
-    for (const projectKeyName in tableDataObj.projects) {
-        for (const key in cleanRecordsCountObj.convTypesCount) {
-            let newKeyName = Object.keys(cleanRecordsCountObj.convTypesCount[key]);
-            workArr.push({ [newKeyName]: '' })
-        }
-        let key = Object.keys(tableDataObj.projects[projectKeyName]).toString();
-        tableDataObj.projects[projectKeyName][key] = Object.assign({}, workArr);
-        workArr = [];
-    }
-    // build conversation types START
+    // for (let i = 0; i < projectKeyName.length; i++) {
+    for (const projectName in tableDataObj) {
 
-    // build categories START
-    let workArrChat = [], workArrTicket = [];
-    for (const projectKeyIndex in tableDataObj.projects) {
-        let keyProject = Object.keys(tableDataObj.projects[projectKeyIndex]).toString();
         for (let record = 0; record < recordsToRenderArr.length; record++) {
-            a2 = recordsToRenderArr[record];
-            if (recordsToRenderArr[record].projectName === keyProject) {
-                for (const key in tableDataObj.projects[projectKeyIndex]) {
-                    let projectObj = Object.values(tableDataObj.projects[projectKeyIndex][key]);
-                    for (const keyConvTypeIndex in projectObj) {
-                        let keyConvType = Object.keys(projectObj[keyConvTypeIndex]).toString();
-                        if (recordsToRenderArr[record].conversationType === keyConvType && keyConvType === "chat") {
-                            let newRecord = recordsToRenderArr[record].conversationCategory;
-                            workArrChat.push(newRecord);
-                        }
-                        else if (recordsToRenderArr[record].conversationType === keyConvType && keyConvType === "ticket") {
-                            let newRecord = recordsToRenderArr[record].conversationCategory;
-                            workArrTicket.push(newRecord);
-                        }
-                    }
+            if (recordsToRenderArr[record].projectName === projectName) {
+
+                if (workArr.length === 0) {
+                    workArr.push({ [recordsToRenderArr[record].conversationCategory]: 0 })
                 }
+                else if (!workArr.includes(recordsToRenderArr[record].conversationCategory)) {
+                    workArr.push({ [recordsToRenderArr[record].conversationCategory]: 0 })
+                }
+                // const arr = ['name', 'age', 'country'];
+
+
             }
+            // tableDataObj = workArr.reduce((accumulator, value) => {
+            //     return { ...accumulator, [value]: '' };
+            // }, {});
+            // }
+            // tableDataObj[keyProject] = Object.assign({}, workArr);
         }
-        for (const key in tableDataObj.projects[projectKeyIndex]) {
-            for (const convTypeIndex in tableDataObj.projects[projectKeyIndex][key]) {
-                let key1 = Object.keys(tableDataObj.projects[projectKeyIndex][key][convTypeIndex]).toString();
-                if (key1 === "chat") {
-                    tableDataObj.projects[projectKeyIndex][key][convTypeIndex][key1] = workArrChat;
-                    workArrChat = [];
-                }
-                if (key1 === "ticket") {
-                    tableDataObj.projects[projectKeyIndex][key][convTypeIndex][key1] = workArrTicket;
-                    workArrTicket = [];
-                }
-            }
-        }
+        console.log(workArr);
+
     }
     // build categories START
+
 }
 // BUILD OBJECT FOR TABLE DISPLAY FUNCTION END
-
-// CLEAN CHATS FUNCTION START
-let startDate = 0, endDate;
-async function cleanChatRecords() {
-    // find concat positions START
-    let fRowArr = dataByRecordsChats[0].substring(1, dataByRecordsChats[0].length - 1).split('","');
-    let operatorNickStart,
-        operatorIdStart,
-        operatorTimeZoneStart,
-        preChatEmailStart,
-        tag1Start,
-        firstResponseTimeStart;
-    for (let i = 0; i < fRowArr.length; i++) {
-        if (fRowArr[i] === "operator 1 nick") operatorNickStart = i;
-        if (fRowArr[i] === "operator 1 id") operatorIdStart = i;
-        if (fRowArr[i] === "operator 1 time zone") operatorTimeZoneStart = i;
-        if (fRowArr[i] === "pre chat: E-mail:") preChatEmailStart = i;
-        if (fRowArr[i] === "tag 1") tag1Start = i;
-        if (fRowArr[i] === "first response time") firstResponseTimeStart = i;
-    }
-    // find concat positions END
-
-    for (let record = 1; record < dataByRecordsChats.length - 1; record++) {
-        let dataByCells = dataByRecordsChats[record].substring(1, dataByRecordsChats[record].length - 1).split('","');
-        if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
-            dataByCells[13] === "7bit Support Deparment" ||
-            dataByCells[13] === "7bit Support Deparment | login | nodep" ||
-            dataByCells[13] === "7bit Support Department | login | nodep" ||
-            dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
-            dataByCells[13] === "Katsubet Support Department" ||
-            dataByCells[13] === "Katsubet Support Department | login | nodep" ||
-            dataByCells[13] === "Mirax Support | login | 1+ dep" ||
-            dataByCells[13] === "Mirax Support Department" ||
-            dataByCells[13] === "Mirax Support Department | login | nodep") {
-
-            // put wide data to arrays START
-            let operatorAccounts = [];
-            for (let i = operatorNickStart; i < operatorIdStart; i++) {
-                if (dataByCells[i] !== "") operatorAccounts.push(dataByCells[i]);
-            }
-            let operatorIds = [];
-            for (let i = operatorIdStart; i < operatorTimeZoneStart; i++) {
-                if (dataByCells[i] !== "") operatorIds.push(dataByCells[i]);
-            }
-            let operatorTimeZones = [];
-            for (let i = operatorTimeZoneStart; i < preChatEmailStart; i++) {
-                if (dataByCells[i] !== "") operatorTimeZones.push(dataByCells[i]);
-            }
-            let tags = [];
-            for (let i = tag1Start; i < firstResponseTimeStart; i++) {
-                if (dataByCells[i] !== "") tags.push(dataByCells[i]);
-            }
-            let operatorNicks = [];
-            for (let tag = 0; tag < tags.length; tag++) {
-                if (/7\s*-/.test(tags[tag])) {
-                    let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
-                    if (tags[tag].includes("/")) setTag = setTag.substring(0, setTag.indexOf('/'));
-                    operatorNicks.push(setTag);
-                }
-            }
-
-            // put wide data to arrays END
-
-            // leave only EMPTY, DUPS and other cases START 
-            let checkChat = false;
-            if (/@/.test(dataByCells[11])) {
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('5')) {
-                        checkChat = true;
-                        break;
-                    }
-                    if (!tags[i].includes('5') && i === tags.length - 1) {
-                        let noReplyCheck1 = false, spamCheck2 = false;
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a] !== "1-NO REPLY") noReplyCheck1 = true;
-                            else if (tags[a] === "1-NO REPLY") {
-                                noReplyCheck1 = false;
-                                break;
-                            }
-                        }
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a] !== "1-SPAM") spamCheck2 = true;
-                            else if (tags[a] === "1-SPAM") {
-                                spamCheck2 = false;
-                                break;
-                            }
-                        }
-                        if (noReplyCheck1 && spamCheck2) {
-                            checkChat = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            // leave only EMPTY, DUPS and other cases END 
-
-            if (checkChat) {
-                // check if CATEGORY doubled START
-                let dupsCheck = 0;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('5')) dupsCheck++;
-                }
-                if (dupsCheck > 1) {
-                    let checkRecord = {
-                        id: dataByCells[0],
-                        sourse: "chat",
-                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
-                        problemDesc: "дубльована мітка категорії/й",
-                        problemType: "CATDUPS",
-                        tags: tags,
-                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                // check if CATEGORY doubled END
-
-                // check if NO REPLY and/or SPAM with CATEGORY START
-                let noRepAndCATcheck = false;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a].includes('5')) {
-                                noRepAndCATcheck = true;
-                            }
-                        }
-                    }
-                }
-                if (noRepAndCATcheck) {
-                    let checkRecord = {
-                        id: dataByCells[0],
-                        sourse: "chat",
-                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
-                        problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
-                        problemType: "NOREPLYANDCAT",
-                        tags: tags,
-                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                // check if NO REPLY and/or SPAM with CATEGORY END
-
-                // mark record with proper PROJECT name START
-                let projectName = "";
-                if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
-                    dataByCells[13] === "7bit Support Deparment" ||
-                    dataByCells[13] === "7bit Support Deparment | login | nodep" ||
-                    dataByCells[13] === "7bit Support Department | login | nodep") {
-                    projectName = "7Bit"
-                }
-                else if (dataByCells[13] === "Katsubet Support | login | 1+ dep" ||
-                    dataByCells[13] === "Katsubet Support Department" ||
-                    dataByCells[13] === "Katsubet Support Department | login | nodep") {
-                    projectName = "KatsuBet"
-                }
-                else if (dataByCells[13] === "Mirax Support | login | 1+ dep" ||
-                    dataByCells[13] === "Mirax Support Department" ||
-                    dataByCells[13] === "Mirax Support Department | login | nodep") {
-                    projectName = "Mirax"
-                }
-                // mark record with proper PROJECT name END
-
-                // find record CATEGORY START
-                let category;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes(5)) {
-                        switch (tags[i]) {
-                            case "5-Акции и бонусы":
-                                category = "Акции и бонусы";
-                                break;
-                            case "5-Безопасность":
-                                category = "Безопасность";
-                                break;
-                            case "5-Верификация аккаунта":
-                                category = "Верификация аккаунта";
-                                break;
-                            case "5-Вопросы по сайту":
-                                category = "Вопросы по сайту";
-                                break;
-                            case "5-Восстановление доступа":
-                                category = "Восстановление доступа";
-                                break;
-                            case "5-Другие тикеты":
-                                category = "Другие тикеты";
-                                break;
-                            case "5-Закрытие аккаунта":
-                                category = "Закрытие аккаунта";
-                                break;
-                            case "5-Изменения аккаунта":
-                                category = "Изменения аккаунта";
-                                break;
-                            case "5-Макс бет (игры/слоты)":
-                                category = "Макс бет (игры/слоты)";
-                                break;
-                            case "5-Непройденный депозит":
-                                category = "Непройденный депозит";
-                                break;
-                            case "5-Партнерство":
-                                category = "Партнерство";
-                                break;
-                            case "5-Проблемы по сайту":
-                                category = "Проблемы по сайту";
-                                break;
-                            case "5-Проблемы с играми":
-                                category = "Проблемы с играми";
-                                break;
-                            case "5-Рассылка":
-                                category = "Рассылка";
-                                break;
-                            case "5-Регистрация":
-                                category = "Регистрация";
-                                break;
-                            case "5-Тест":
-                                category = "Тест";
-                                break;
-                            case "5-Технические проблемы (кроме бонусов)":
-                                category = "Технические проблемы (кроме бонусов)";
-                                break;
-                            case "5-Технические проблемы(кроме бонусов)":
-                                category = "Технические проблемы (кроме бонусов)";
-                                break;
-                            case "5-Финансовые операции":
-                                category = "Финансовые операции";
-                                break;
-                        }
-                    }
-                }
-                // find record CATEGORY END
-
-                // find report start/end date time START
-                if (!startDate) startDate = new Date(dataByCells[1]).getTime();
-                else if (new Date(dataByCells[1]).getTime() < startDate) startDate = new Date(dataByCells[1]).getTime();
-                if (!endDate) endDate = new Date(dataByCells[1]).getTime();
-                else if (new Date(dataByCells[1]).getTime() > endDate) endDate = new Date(dataByCells[1]).getTime();
-                // find report start/end date time END
-
-                let recordObj = {
-                    createdAt: new Date(dataByCells[1]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
-                    conferenceId: dataByCells[0], // conversation ID
-                    projectName: projectName, // project name 
-                    conversationType: "chat",
-                    conversationLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
-                    conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
-                    conversationTags: tags, // converstaion tags
-                    operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
-                    customerId: dataByCells[7], // customer ID (for chats it has unique ID)
-                    customerEmail: dataByCells[10], // customer email
-                    specialFields: {
-                        converstionTimings: {
-                            conversationDurationSec: dataByCells[5], // conversation duration in seconds
-                            queueDurationSec: dataByCells[6], // conversation queue (before agent receive chat) duration in seconds
-                            firstResponseTime: dataByCells[26], // first response time (seconds)
-                            averageResponseTime: dataByCells[27], // average response time (seconds)
-                            agentsChattingDuration: dataByCells[28], // agents chating duration (seconds)
-                        },
-                        chatStartDate: dataByCells[2], // chatStartDate ***
-                        chatStartUrl: dataByCells[3], // chatStartUrl ***
-                        referrer: dataByCells[4], // referrer ***
-                        visitorNick: dataByCells[8], // customer Name ***
-                        visitorIp: dataByCells[9], // visitorIp ***
-                        lastAccountId: dataByCells[11], // lastAccountId ***
-                        groupNum: dataByCells[12], // groupNum ***
-                        conversationCustomerRating: { rateMark: dataByCells[14], rateComment: dataByCells[15] }, // conversation customer rating ***
-                        operatorIds: operatorIds, // operatorIds ***
-                        operatorTimeZones: operatorTimeZones, // operatorTimeZones ***
-                        preChatEmail: dataByCells[19], // preChatEmail ***
-                        autoInviteOption: { autoInviteUrl: dataByCells[20], autoInviteAction: dataByCells[21] }, // conversation auto invite option ***
-                        conversationGoal: { goalActionName: dataByCells[22], goalDoneBy: dataByCells[23], goalDoneDate: dataByCells[24], }, // conversation goal ***
-                        visitorUserAgent: dataByCells[29], // visitorUserAgent ***
-                        groupStatusAtStart: dataByCells[30], // groupStatusAtStart ***
-                        visitorCountryCode: dataByCells[31], // visitorCountryCode ***
-                        operatorAccounts: operatorAccounts, // manager Account
-                    },
-                }
-                // check if ticket without category START
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('5')) break;
-                    if (!tags[i].includes('5')) {
-                        if (i === tags.length - 1) {
-                            let checkRecord = {
-                                id: dataByCells[0],
-                                sourse: "chat",
-                                problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
-                                problemDesc: "немає мітки категорії",
-                                problemType: "EMPTY",
-                                tags: tags,
-                                rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
-                                rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                            }
-                            checkList.push(checkRecord);
-                        }
-                    }
-                }
-                // check if ticket without category END
-
-                recordsChats.push(recordObj);
-                allRecords.push(recordObj);
-            }
-        }
-    }
-}
-// CLEAN CHATS FUNCTION END
-
-// CLEAN TICKETS FUNCTION START
-async function cleanTicketRecords() {
-    for (let record = 1; record < dataByRecordsTickets.length - 1; record++) {
-        let dataByCells = dataByRecordsTickets[record].substring(1, dataByRecordsTickets[record].length - 1).split('","');
-
-        if (dataByCells[9] === "Менеджеры 7bit" ||
-            dataByCells[9] === "Менеджеры WIN7bit" ||
-            dataByCells[9] === "Менеджеры Кatsubet" ||
-            dataByCells[9] === " Менеджеры Mirax" ||
-            dataByCells[9] === "Менеджеры Mirax") {
-
-            let operatorNicks = [];
-            let operatorAccountName = [];
-            if (dataByCells[10] !== "") operatorAccountName.push(dataByCells[10]);
-
-            if (
-                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-NO REPLY") ||
-                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-SPAM") ||
-                dataByCells[12].length !== 0 && !dataByCells[12].includes("1-NO REPLY") && !dataByCells[12].includes("1-SPAM")
-            ) {
-                let tags = dataByCells[12].split(";");
-                for (let tag = 0; tag < tags.length; tag++) {
-                    if (/6\s*-/.test(tags[tag]) || /7\s*-/.test(tags[tag])) {
-                        let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
-                        if (tags[tag].includes("/")) setTag = setTag.substring(0, setTag.indexOf('/'));
-                        operatorNicks.push(setTag);
-                    }
-                }
-                // check if CATEGORY doubled START
-                let count = 0;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('4')) {
-                        count++;
-                    }
-                }
-                if (count > 1) {
-                    let checkRecord = {
-                        id: dataByCells[3],
-                        sourse: "ticket",
-                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                        problemDesc: "дубльована мітка категорії/й",
-                        problemType: "CATDUPS",
-                        tags: tags,
-                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                else if (count <= 1) {
-                    count = 0;
-                }
-                // check if CATEGORY doubled END
-
-                // check if NO REPLY and/or SPAM with CATEGORY START
-                let noRepAndCATcheck = false;
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a].includes('4')) {
-                                noRepAndCATcheck = true;
-                            }
-                        }
-                    }
-                }
-                if (noRepAndCATcheck) {
-                    let checkRecord = {
-                        id: dataByCells[3],
-                        sourse: "ticket",
-                        problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                        problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
-                        problemType: "NOREPLYANDCAT",
-                        tags: tags,
-                        rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
-                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                    }
-                    checkList.push(checkRecord);
-                }
-                // check if NO REPLY and/or SPAM with CATEGORY END
-
-                // mark record with proper PROJECT name START
-                if (dataByCells[9] === "Менеджеры 7bit" ||
-                    dataByCells[9] === "Менеджеры WIN7bit" ||
-                    dataByCells[9] === "Менеджеры Кatsubet" ||
-                    dataByCells[9] === " Менеджеры Mirax" ||
-                    dataByCells[9] === "Менеджеры Mirax") {
-                    let projectName = "";
-                    if (dataByCells[9] === "Менеджеры 7bit" || dataByCells[9] === "Менеджеры WIN7bit") {
-                        projectName = "7Bit"
-                    }
-                    else if (dataByCells[9] === "Менеджеры Кatsubet") {
-                        projectName = "KatsuBet"
-                    }
-                    else if (
-                        dataByCells[9] === " Менеджеры Mirax" || dataByCells[9] === "Менеджеры Mirax") {
-                        projectName = "Mirax"
-                    }
-                    // mark record with proper PROJECT name END
-
-                    // find record CATEGORY START
-                    let category;
-                    for (let i = 0; i < tags.length; i++) {
-                        if (tags[i].includes('4')) {
-                            switch (tags[i]) {
-                                case "4-Акции и бонусы":
-                                    category = "Акции и бонусы";
-                                    break;
-                                case "4-Безопасность":
-                                    category = "Безопасность";
-                                    break;
-                                case "4-Верификация аккаунта":
-                                    category = "Верификация аккаунта";
-                                    break;
-                                case "4-Вопросы по сайту":
-                                    category = "Вопросы по сайту";
-                                    break;
-                                case "4-Восстановление доступа":
-                                    category = "Восстановление доступа";
-                                    break;
-                                case "4-Другие тикеты":
-                                    category = "Другие тикеты";
-                                    break;
-                                case "4-Закрытие аккаунта":
-                                    category = "Закрытие аккаунта";
-                                    break;
-                                case "4-Изменения аккаунта":
-                                    category = "Изменения аккаунта";
-                                    break;
-                                case "4-Макс бет (игры/слоты)":
-                                    category = "Макс бет (игры/слоты)";
-                                    break;
-                                case "4-Непройденный депозит":
-                                    category = "Непройденный депозит";
-                                    break;
-                                case "4-Партнерство":
-                                    category = "Партнерство";
-                                    break;
-                                case "4-Проблемы по сайту":
-                                    category = "Проблемы по сайту";
-                                    break;
-                                case "4-Проблемы с играми":
-                                    category = "Проблемы с играми";
-                                    break;
-                                case "4-Рассылка":
-                                    category = "Рассылка";
-                                    break;
-                                case "4-Регистрация":
-                                    category = "Регистрация";
-                                    break;
-                                case "4-Тест":
-                                    category = "Тест";
-                                    break;
-                                case "4-Технические проблемы (кроме бонусов)":
-                                    category = "Технические проблемы (кроме бонусов)";
-                                    break;
-                                case "4-Технические проблемы(кроме бонусов)":
-                                    category = "Технические проблемы (кроме бонусов)";
-                                    break;
-                                case "4-Финансовые операции":
-                                    category = "Финансовые операции";
-                                    break;
-                            }
-                        }
-                    }
-                    // find record CATEGORY END
-
-                    // find report start/end date time START
-                    if (!startDate) startDate = new Date(dataByCells[0]).getTime();
-                    else if (new Date(dataByCells[0]).getTime() < startDate) startDate = new Date(dataByCells[0]).getTime();
-                    if (!endDate) endDate = new Date(dataByCells[0]).getTime();
-                    else if (new Date(dataByCells[0]).getTime() > endDate) endDate = new Date(dataByCells[0]).getTime();
-                    // find report start/end date time END
-
-                    let record = {
-                        createdAt: new Date(dataByCells[0]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
-                        conferenceId: dataByCells[3], // conversation ID
-                        projectName: projectName, // project name 
-                        conversationType: "ticket",
-                        conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                        conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
-                        conversationTags: tags, // converstaion tags
-                        operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
-                        customerId: dataByCells[5], // customer ID (for chats it has unique ID)
-                        customerEmail: dataByCells[5], // customer email
-                        specialFields: {
-                            operatorAccountName: operatorAccountName, // operator account name
-                            requesterName: dataByCells[4], // customer Name ***
-                            lastAccountId: dataByCells[11], // agent account Email (agentEmail) ***
-                            conversationCustomerRating: { rateMark: dataByCells[14], rateComment: dataByCells[15] }, // conversation customer rating ***
-                            updatedAtTicket: dataByCells[1], // ticket last update date&time ***
-                            inboundOutboundTicket: dataByCells[2], // ticket source type ***
-                            ticketStatus: dataByCells[6], // ticket status ***
-                            ticketPriority: dataByCells[7], // ticket priority ***
-                            ticketSubject: dataByCells[8], // ticket subject ***
-                            publicMessages: dataByCells[13], // number of messages in the ticket
-                            ticketInbox: dataByCells[16], // ticket inbox email ***
-                            ticketFolder: dataByCells[17], // ticket folder ***
-                        },
-                    }
-
-                    // check if ticket without category START
-                    for (let i = 0; i < tags.length; i++) {
-                        if (tags[i].includes('4')) break;
-                        if (!tags[i].includes('4')) {
-                            if (i === tags.length - 1) {
-                                let checkRecord = {
-                                    id: dataByCells[3],
-                                    sourse: "ticket",
-                                    problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
-                                    problemDesc: "немає мітки категорії",
-                                    problemType: "EMPTY",
-                                    tags: tags,
-                                    rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
-                                    rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                                }
-                                checkList.push(checkRecord);
-                            }
-                        }
-                    }
-                    // check if ticket without category END
-                    recordsTickets.push(record);
-                    allRecords.push(record);
-                }
-            }
-        }
-    }
-}
-// CLEAN TICKETS FUNCTION END
 
 // SHOW AND BUILD DIALOG WINDOW FUNCTION START
 let dialogContainer = getE('.dialogWindow-container'),
@@ -2146,3 +2151,193 @@ window.onclick = (e) => {
     }
 }
 // HIDE DROP DOWN LIST FUNTION END
+
+getE('#searchInput').oninput = () => {
+    getE('#searchInput').value.length !== 0 ? getE('#searchBtn').disabled = false : getE('#searchBtn').disabled = true;
+    // console.log();
+    let count = 0;
+    console.log(getE('#searchInput').value);
+
+    if (getE('#searchInput').value.length > 3) {
+        if (count < 6) {
+            console.log(getE('#searchInput').value);
+            for (let tag = 0; tag < tagsList.length; tag++) {
+                if (tagsList[tag].toLowerCase().includes(getE('#searchInput').value.toLowerCase())) {
+                    addCountent += `
+                <li name="tagsDropDown" class="labelBadge" value="${getE('#searchInput').value}">
+                ${(getE('#searchInput').value.length > 21) ? getE('#searchInput').value.substring(0, 20) : getE('#searchInput').value}
+                </li>`;
+                    count++;
+                }
+            }
+            getE('#tagsDropDown').innerHTML = addCountent;
+
+        }
+    }
+}
+
+getE('#searchBtn').onclick = () => {
+    console.log(getE('#searchInput').value);
+}
+
+// COUNT CATEGORIES FUNCTION START
+let countedCategoriesList = [];
+async function countCategories(recordsToCount) {
+    let allCategories = "";
+    for (let record = 0; record < recordsToCount.length; record++) {
+        allCategories += recordsToCount[record].conversationCategory + ",";
+    }
+    for (const categoryKey in catgoryRuNames) {
+        let categoryName = catgoryRuNames[categoryKey];
+        if (categoryName !== "Макс бет (игры/слоты)" &&
+            categoryName !== "Технические проблемы (кроме бонусов)") {
+            categoryRegex = new RegExp(categoryName, "gm");
+        }
+        if (categoryName === "Макс бет (игры/слоты)") categoryRegex = /Макс бет \(игры\/слоты\)/gm;
+        if (categoryName === "Технические проблемы (кроме бонусов)") categoryRegex = /Технические проблемы \(кроме бонусов\)/gm;
+        if (categoryRegex.test(allCategories)) {
+            let categoryCount = allCategories.match(categoryRegex).length;
+            countedCategoriesList.push({ [categoryName]: categoryCount });
+        }
+    }
+    buildTable(countedCategoriesList, "categories");
+    countedCategoriesList = [];
+}
+// COUNT CATEGORIES FUNCTION END
+
+// COUNT MANAGERS PERFORMANCE FUNCTION START
+let countedManagersPerfList = [];
+async function countManagersPerf(recordsToCount) {
+    let allManagers = "";
+    for (let record = 0; record < recordsToCount.length; record++) {
+        allManagers += recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] + ",";
+    }
+    // manager conversations count START
+    for (let manager = 0; manager < managersList.length; manager++) {
+        let managerRegex = new RegExp(managersList[manager], "gm");
+        if (managerRegex.test(allManagers)) {
+            let managerCount = allManagers.match(managerRegex).length;
+            countedManagersPerfList.push({ [managersList[manager]]: { convCount: managerCount, allConvDur: 0, allFirstResp: 0 } });
+        }
+    }
+    // manager conversations count END
+
+    // all conversations duration per manager START
+    for (let record = 0; record < recordsToCount.length; record++) {
+        if (recordsToCount[record].conversationType === 'chat') {
+            for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
+                currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
+                    countedManagersPerfList[manager][currManagerObj].allConvDur += ((recordsToCount[record].specialFields.converstionTimings.agentsChattingDuration) / 60);
+                }
+            }
+        }
+    }
+    // all conversations duration per manager END
+
+    // all conversations first reponse time per manager START
+    for (let record = 0; record < recordsToCount.length; record++) {
+        if (recordsToCount[record].conversationType === 'chat') {
+            for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
+                currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
+                    countedManagersPerfList[manager][currManagerObj].allFirstResp += ((recordsToCount[record].specialFields.converstionTimings.firstResponseTime) / 60);
+                }
+            }
+        }
+    }
+    // all conversations first reponse time per manager END
+
+    // count average conversations and first response time per manager START
+    for (let keyIndex = 0; keyIndex < countedManagersPerfList.length; keyIndex++) {
+        for (const key in countedManagersPerfList[keyIndex]) {
+            countedManagersPerfList[keyIndex][key].avgConvTime = countedManagersPerfList[keyIndex][key].allConvDur / countedManagersPerfList[keyIndex][key].convCount;
+            countedManagersPerfList[keyIndex][key].avgFirstResp = countedManagersPerfList[keyIndex][key].allFirstResp / countedManagersPerfList[keyIndex][key].convCount;
+        }
+    }
+    // count average conversations and first response time per manager END
+
+    await buildTable(countedManagersPerfList, "managers");
+    countedManagersPerfList = [];
+}
+// COUNT MANAGERS PERFORMANCE FUNCTION END
+
+// COUNT TAGS FUNCTION START
+let countedTagsList = [];
+async function countTags(recordsToCount) {
+    let allTags = "";
+    for (let record = 0; record < recordsToCount.length; record++) {
+        allTags += recordsToCount[record].conversationTags;
+    }
+    for (let tag = 0; tag < tagsList.length; tag++) {
+        let tagRegex = new RegExp(tagsList[tag], "gm");
+        if (tagRegex.test(allTags)) {
+            let tagCount = allTags.match(tagRegex).length;
+            countedTagsList.push({ [tagsList[tag]]: tagCount });
+        }
+    }
+    buildTable(countedTagsList, "tags");
+    countedTagsList = [];
+}
+// COUNT TAGS FUNCTION END
+
+// BUILD DATA TABLES FUNCTION START
+async function buildTable(dataToWork, tableType) {
+    let content = '';
+    // build CATEGORIES table START
+    if (tableType === "categories") {
+        let catSum = 0;
+        for (let c = 0; c < dataToWork.length; c++) catSum += parseInt(Object.values(dataToWork[c]));
+        getE('#data-table-1').firstElementChild.nextElementSibling.innerHTML = "";
+        for (let i = 0; i < Object.keys(dataToWork).length; i++) {
+            let catLabel = Object.keys(dataToWork[i]).toString(),
+                catCount = Object.values(dataToWork[i]).toString(),
+                percent = ((catCount / catSum) * 100);
+            content += `<tr><td>${catLabel}</td><td>${catCount}</td><td>${roundNum(percent)}%</td></tr>`;
+        }
+        content += `<tr><td>Разом категорій</td><td>${catSum} шт.</td><td>100%</td></tr>`;
+        getE('#data-table-1').firstElementChild.nextElementSibling.innerHTML = content;
+    }
+    // build CATEGORIES table END
+
+    // build MANAGERS PERFORMANCE table START
+    if (tableType === "managers") {
+        let convSum = 0;
+        for (let c = 0; c < dataToWork.length; c++) convSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].convCount;
+        getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = "";
+        for (let i = 0; i < dataToWork.length; i++) {
+            let managerLabel = Object.keys(dataToWork[i]).toString(),
+                managerConvCount = dataToWork[i][managerLabel].convCount,
+                managerAvgConvTime = dataToWork[i][managerLabel].avgConvTime,
+                managerAvgFirsrRespTime = dataToWork[i][managerLabel].avgFirstResp,
+                percent = ((managerConvCount / convSum) * 100);
+            content += `<tr>
+            <td>${managerLabel}</td>
+            <td>${managerConvCount}</td>
+            <td>${roundNum(percent)}%</td>
+            <td>${roundNum(managerAvgConvTime)} хв</td>
+            <td>${roundNum(managerAvgFirsrRespTime)} хв</td></tr>`;
+        }
+        content += `<tr><td>Разом чатів</td><td>${convSum} шт.</td><td>100%</td><td></td></tr>`;
+        getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = content;
+    }
+    // build MANAGERS PERFORMANCE table END
+
+    // build TAGS table START
+    if (tableType === "tags") {
+        let tagsSum = 0;
+        for (let c = 0; c < Object.keys(dataToWork).length; c++) tagsSum += parseInt(Object.values(dataToWork[c]));
+        getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = "";
+        for (let i = 0; i < Object.keys(dataToWork).length; i++) {
+            let tagLabel = Object.keys(dataToWork[i]).toString(),
+                labelCount = Object.values(dataToWork[i]).toString(),
+                percent = ((labelCount / tagsSum) * 100);
+            content += `<tr><td>${tagLabel}</td><td>${labelCount}</td><td>${roundNum(percent)}%</td></tr>`;
+        }
+        content += `<tr><td>Разом міток</td><td>${tagsSum} шт.</td><td>100.00%</td></tr>`;
+        getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = content;
+    }
+    // build TAGS table END
+
+}
+// BUILD DATA TABLES FUNCTION END
