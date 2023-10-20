@@ -343,7 +343,6 @@ async function getInfo() {
     console.log("чатів =", recordsChats.length, ", тікетів =", recordsTickets.length, " всього =", allRecords.length);
     console.log(allRecords);
     console.log("Записи на перевірку:", checkList);
-    // console.log('Tag List', tagsList.sort((a, b) => a.charCodeAt(2) - b.charCodeAt(2)));
     console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
 
     let generalCountContent;
@@ -413,7 +412,6 @@ getE(".file-input-container").onchange = () => {
 // READ FILES FUNCTION START
 async function readFiles() {
     getE('.start-instraction-block').style.display = "none";
-    disableElem();
     if (isChatsNeeded && isTicketsNeeded) {
         await readChats();
         await cleanChatRecords();
@@ -428,6 +426,7 @@ async function readFiles() {
         await readTickets();
         await cleanTicketRecords();
     }
+    disableElem();
     if (recordsTickets.length > 0) buildReportOptionArr.recordsTickets = "";
     if (recordsChats.length > 0) buildReportOptionArr.recordsChats = "";
     if (allRecords.length > 0) buildReportOptionArr.allRecords = "";
@@ -599,6 +598,7 @@ function rmvFiles() {
     getE('.start-instraction-block').style.display = "flex";
 }
 // REMOVE INPUT FILE/S FUNCTION END
+
 // CLEAN CHATS FUNCTION START
 let startDate, endDate;
 async function cleanChatRecords() {
@@ -664,38 +664,19 @@ async function cleanChatRecords() {
                     if (!managersList.includes(setTag)) managersList.push(setTag);
                 }
             }
-
             // put wide data to arrays END
 
             // leave only EMPTY, DUPS and other cases START 
             let checkChat = false;
             if (/@/.test(dataByCells[11])) {
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('5')) {
-                        checkChat = true;
-                        break;
-                    }
-                    if (!tags[i].includes('5') && i === tags.length - 1) {
-                        let noReplyCheck1 = false, spamCheck2 = false;
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a] !== "1-NO REPLY") noReplyCheck1 = true;
-                            else if (tags[a] === "1-NO REPLY") {
-                                noReplyCheck1 = false;
-                                break;
-                            }
-                        }
-                        for (let a = 0; a < tags.length; a++) {
-                            if (tags[a] !== "1-SPAM") spamCheck2 = true;
-                            else if (tags[a] === "1-SPAM") {
-                                spamCheck2 = false;
-                                break;
-                            }
-                        }
-                        if (noReplyCheck1 && spamCheck2) {
-                            checkChat = true;
-                            break;
-                        }
-                    }
+                let tagsLine = tags.join(";");
+                if (!/5/.test(tagsLine) &&
+                    tags.includes("1-NO REPLY") === false &&
+                    tags.includes("1-SPAM") === false) {
+                    checkChat = true;
+                }
+                if (/5/.test(tagsLine)) {
+                    checkChat = true;
                 }
             }
             // leave only EMPTY, DUPS and other cases END 
@@ -771,7 +752,7 @@ async function cleanChatRecords() {
                 // find record CATEGORY START
                 let category;
                 for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes(5)) {
+                    if (tags[i].includes("5")) {
                         switch (tags[i]) {
                             case "5-Акции и бонусы":
                                 category = "Акции и бонусы";
@@ -841,6 +822,7 @@ async function cleanChatRecords() {
                 if (!endDate) endDate = new Date(dataByCells[1]).getTime();
                 else if (new Date(dataByCells[1]).getTime() > endDate) endDate = new Date(dataByCells[1]).getTime();
                 // find report start/end date time END
+
                 let recordObj = {
                     createdAt: new Date(dataByCells[1]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
                     conferenceId: dataByCells[0], // conversation ID
@@ -853,7 +835,8 @@ async function cleanChatRecords() {
                     customerId: dataByCells[7], // customer ID (for chats it has unique ID)
                     customerEmail: dataByCells[10], // customer email
                     specialFields: {
-                        converstionTimings: {
+                        createdAtMilis: new Date(dataByCells[1]).getTime(),
+                        conversationTimings: {
                             conversationDurationSec: dataByCells[5], // conversation duration in seconds
                             queueDurationSec: dataByCells[6], // conversation queue (before agent receive chat) duration in seconds
                             firstResponseTime: dataByCells[firstResponseTimeStart], // first response time (seconds)
@@ -879,27 +862,26 @@ async function cleanChatRecords() {
                         operatorAccounts: operatorAccounts, // manager Account
                     },
                 }
-                // check if ticket without category START
-                for (let i = 0; i < tags.length; i++) {
-                    if (tags[i].includes('5')) break;
-                    if (!tags[i].includes('5')) {
-                        if (i === tags.length - 1) {
-                            let checkRecord = {
-                                id: dataByCells[0],
-                                project: projectName,
-                                sourse: "chat",
-                                problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
-                                problemDesc: "немає мітки категорії",
-                                problemType: "EMPTY",
-                                tags: tags,
-                                rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
-                                rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
-                            }
-                            checkList.push(checkRecord);
-                        }
+
+                // check if chat without category START
+                let tagsRow = tags.join(";");
+                if (!/5/.test(tagsRow) &&
+                    tags.includes("1-NO REPLY") === false &&
+                    tags.includes("1-SPAM") === false) {
+                    let checkRecord = {
+                        id: dataByCells[0],
+                        project: projectName,
+                        sourse: "chat",
+                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                        problemDesc: "немає мітки категорії",
+                        problemType: "EMPTY",
+                        tags: tags,
+                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
                     }
+                    checkList.push(checkRecord);
                 }
-                // check if ticket without category END
+                // check if chat without category END
 
                 recordsChats.push(recordObj);
                 allRecords.push(recordObj);
@@ -1147,93 +1129,6 @@ async function cleanTicketRecords() {
 }
 // CLEAN TICKETS FUNCTION END
 
-// CREATE FULL COUNTS LIST FUNCTION START
-let cleanRecordsCountObj = {};
-async function recordsCounter(dataToCount) {
-    // count unique project start
-    let allRecordsProject = [];
-    for (let i = 0; i < dataToCount.length; i++) {
-        allRecordsProject.push(dataToCount[i].projectName)
-    }
-    let projectsList = allRecordsProject.filter((item, i, arr) => arr.indexOf(item) === i);
-    let newProject = [];
-    for (let i = 0; i < projectsList.length; i++) {
-        let regexProjectName = new RegExp(projectsList[i], "g");
-        let projectCount = allRecordsProject.join(" ").match(regexProjectName).length;
-        newProject.push({ [projectsList[i]]: projectCount });
-    }
-    cleanRecordsCountObj.projectsCount = Object.assign({}, newProject);
-    // count unique project end
-
-    // count unique conversation types start
-    let newConvTypes = [];
-    let allRecordsConversationTypes = [];
-    for (let i = 0; i < dataToCount.length; i++) {
-        allRecordsConversationTypes.push(dataToCount[i].conversationType)
-    }
-    let conversationTypesList = allRecordsConversationTypes.filter((item, i, arr) => arr.indexOf(item) === i);
-    addCountent = "";
-    for (let i = 0; i < conversationTypesList.length; i++) {
-        let regexConversationTypes = new RegExp(conversationTypesList[i], "g");
-        let convTypesCount = allRecordsConversationTypes.join(" ").match(regexConversationTypes).length;
-        newConvTypes.push({ [conversationTypesList[i]]: convTypesCount });
-    }
-    cleanRecordsCountObj.convTypesCount = Object.assign({}, newConvTypes);
-    // count unique conversation types end
-
-    // count unique categories start
-    let newCategories = [];
-    let allRecordsCategory = [];
-    for (let i = 0; i < dataToCount.length; i++) {
-        allRecordsCategory.push(dataToCount[i].conversationCategory);
-        if (dataToCount[i].conversationCategory === "Без категорії") {
-        }
-    }
-
-    let categoriesList = allRecordsCategory.filter((item, i, arr) => arr.indexOf(item) === i);
-    addCountent = "";
-    for (let i = 0; i < categoriesList.length; i++) {
-        let regexCategoryName;
-        if (categoriesList[i] !== undefined) {
-            if (categoriesList[i] !== "Макс бет (игры/слоты)" &&
-                categoriesList[i] !== "Технические проблемы (кроме бонусов)") {
-                regexCategoryName = new RegExp(categoriesList[i], "g");
-            }
-            if (categoriesList[i] === "Макс бет (игры/слоты)") {
-                regexCategoryName = /Макс бет \(игры\/слоты\)/g;
-            }
-            if (categoriesList[i] === "Технические проблемы (кроме бонусов)") {
-                regexCategoryName = /Технические проблемы \(кроме бонусов\)/g;
-            }
-            let categoriesCount = allRecordsCategory.join(" ").match(regexCategoryName).length;
-            newCategories.push({ [categoriesList[i]]: categoriesCount });
-        }
-    }
-    cleanRecordsCountObj.categoriesCount = Object.assign({}, newCategories);
-    // count unique categories end
-
-    // count unique agents start
-    let newAgents = [];
-    let allRecordsAgent = [];
-    for (let i = 0; i < dataToCount.length; i++) {
-        allRecordsAgent.push(dataToCount[i].operatorNicks[dataToCount[i].operatorNicks.length - 1])
-    }
-    let agentsList = allRecordsAgent.filter((item, i, arr) => arr.indexOf(item) === i);
-    addCountent = "";
-    for (let i = 0; i < agentsList.length; i++) {
-        if (agentsList[i] !== undefined) {
-            let regexAgentName = new RegExp(agentsList[i], "g");
-            let agentsCount = allRecordsAgent.join(" ").match(regexAgentName).length;
-            newAgents.push({ [agentsList[i]]: agentsCount });
-        }
-    }
-    cleanRecordsCountObj.agentsCount = Object.assign({}, newAgents);
-    // count unique agents end
-
-    return cleanRecordsCountObj;
-}
-// CREATE FULL COUNTS LIST FUNCTION END
-
 // BUILD FILTERING OPTIONS FUNCTION START
 async function buildFilteringSection() {
     getE('.data-main').classList.remove("hide");
@@ -1368,13 +1263,20 @@ async function buildFilteringSection() {
     </fieldset>`;
 
     await getInfo();
-    buildFilters();
+    await buildFilters();
     await buildReportSection();
     await countCategories(allRecords);
     await countManagersPerf(allRecords);
     await countTags(allRecords);
 }
 // BUILD FILTERING OPTIONS FUNCTION END
+
+// RESET FILTERS BUTTON FUNCTION START
+async function resetFilters() {
+    await buildFilteringSection();
+    getE("#downloadCustomReport").disabled = true;
+}
+// RESET FILTERS BUTTON FUNCTION END
 
 // BUILD FILTERS FUNCTION START
 let buildedFilter = {};
@@ -1606,7 +1508,6 @@ async function filterResults(buildedFilter) {
             }
         }
     }
-
     // filtering by CATEGORY END
 
     // filtering by AGENT NAME START
@@ -1629,7 +1530,7 @@ async function filterResults(buildedFilter) {
 
     }
     // filtering by AGENT NAME END
-    await buildObjForTableDisplay(filteredDataArr);
+
     savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
@@ -1639,102 +1540,92 @@ async function filterResults(buildedFilter) {
 }
 // FILTER RESULTS FUNCTION END
 
-// UPDATE ALL COUNTS ON PAGE FUNCTION START
-const dataFilteringContainer = getE(".data-filtering-container");
-dataFilteringContainer.onchange = async (e) => {
-    let badgeCountsObj = await recordsCounter(savedfilteredDataArr);
-    let countObjKeys = [];
-    for (const key in badgeCountsObj) countObjKeys.push(key);
+// CREATE FULL COUNTS LIST FUNCTION START
+let cleanRecordsCountObj = {}, projectsList;
+async function recordsCounter(dataToCount) {
+    // count unique project start
+    let allRecordsProject = [];
+    for (let i = 0; i < dataToCount.length; i++) {
+        allRecordsProject.push(dataToCount[i].projectName)
+    }
+    projectsList = allRecordsProject.filter((item, i, arr) => arr.indexOf(item) === i);
+    let newProject = [];
+    for (let i = 0; i < projectsList.length; i++) {
+        let regexProjectName = new RegExp(projectsList[i], "g");
+        let projectCount = allRecordsProject.join(" ").match(regexProjectName).length;
+        newProject.push({ [projectsList[i]]: projectCount });
+    }
+    cleanRecordsCountObj.projectsCount = Object.assign({}, newProject);
+    // count unique project end
 
-    let countWasSetArr = [];
-    for (let objKey = 0; objKey < countObjKeys.length; objKey++) {
-        for (let i = 0; i < Object.keys(badgeCountsObj[countObjKeys[objKey]]).length; i++) {
-            let optionLabel = Object.keys(badgeCountsObj[countObjKeys[objKey]][i]).toString(),
-                optionCount = Object.values(badgeCountsObj[countObjKeys[objKey]][i]).toString();
-            if (/[А-Яа-я]/.test(optionLabel)) {
-                for (const key in catgoryRuNames) {
-                    if (optionLabel === catgoryRuNames[key]) optionLabel = key;
-                }
+    // count unique conversation types start
+    let newConvTypes = [];
+    let allRecordsConversationTypes = [];
+    for (let i = 0; i < dataToCount.length; i++) {
+        allRecordsConversationTypes.push(dataToCount[i].conversationType)
+    }
+    let conversationTypesList = allRecordsConversationTypes.filter((item, i, arr) => arr.indexOf(item) === i);
+    addCountent = "";
+    for (let i = 0; i < conversationTypesList.length; i++) {
+        let regexConversationTypes = new RegExp(conversationTypesList[i], "g");
+        let convTypesCount = allRecordsConversationTypes.join(" ").match(regexConversationTypes).length;
+        newConvTypes.push({ [conversationTypesList[i]]: convTypesCount });
+    }
+    cleanRecordsCountObj.convTypesCount = Object.assign({}, newConvTypes);
+    // count unique conversation types end
+
+    // count unique categories start
+    let newCategories = [];
+    let allRecordsCategory = [];
+    for (let i = 0; i < dataToCount.length; i++) {
+        allRecordsCategory.push(dataToCount[i].conversationCategory);
+        if (dataToCount[i].conversationCategory === "Без категорії") {
+        }
+    }
+
+    let categoriesList = allRecordsCategory.filter((item, i, arr) => arr.indexOf(item) === i);
+    addCountent = "";
+    for (let i = 0; i < categoriesList.length; i++) {
+        let regexCategoryName;
+        if (categoriesList[i] !== undefined) {
+            if (categoriesList[i] !== "Макс бет (игры/слоты)" &&
+                categoriesList[i] !== "Технические проблемы (кроме бонусов)") {
+                regexCategoryName = new RegExp(categoriesList[i], "g");
             }
-            let setNewBadgeCount = getE(`#isShow${optionLabel}`).nextElementSibling.children[1];
-            setNewBadgeCount.innerHTML = optionCount;
-            // setNewBadgeCount.style.opacity = 1;
-            // setNewBadgeCount.classList.remove("zeroRecords");
-            countWasSetArr.push(setNewBadgeCount.id);
-        }
-    }
-    let allCountBadgeIds = [];
-    for (let sectNum = 0; sectNum < dataFilteringContainer.children.length - 1; sectNum++) {
-        let currSection = dataFilteringContainer.children[sectNum].firstElementChild.nextElementSibling;
-        for (let elem = 1; elem < currSection.children.length; elem++) {
-            let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.children[1];
-            allCountBadgeIds.push(checkingElem.id)
-        }
-    }
-    setZerosArr = allCountBadgeIds.filter(function (n) { return !this.has(n) }, new Set(countWasSetArr));
-    for (let zeroElem = 0; zeroElem < setZerosArr.length; zeroElem++) {
-        getE(`#${setZerosArr[zeroElem]}`).innerHTML = 0;
-        // getE(`#${setZerosArr[zeroElem]}`).style.opacity = 0;
-        // getE(`#${setZerosArr[zeroElem]}`).classList.add("zeroRecords");
-    }
-
-    if (getE('#IsShowAllProjects').checked &&
-        getE('#IsShowAllConversationTypes').checked &&
-        getE('#IsShowAllCategories').checked &&
-        getE('#IsShowAllAgents').checked) {
-        getE("#downloadCustomReport").disabled = true;
-    }
-    else {
-        getE("#downloadCustomReport").disabled = false;
-    }
-}
-// UPDATE ALL COUNTS ON PAGE FUNCTION END
-
-// BUILD OBJECT FOR TABLE DISPLAY FUNCTION START
-let tableDataObj = {};
-async function buildObjForTableDisplay(recordsToRenderArr) {
-    let workArr = [];
-    // build projects START
-    let projectKeyName = [];
-    for (const key in cleanRecordsCountObj.projectsCount) {
-        let newKeyName = Object.keys(cleanRecordsCountObj.projectsCount[key]);
-        workArr.push({ [newKeyName]: '' })
-        projectKeyName.push(newKeyName);
-    }
-    tableDataObj.projects = Object.assign({}, workArr);
-    // build projects END
-
-    // build categories START
-    workArr = [];
-    // for (let i = 0; i < projectKeyName.length; i++) {
-    for (const projectName in tableDataObj) {
-
-        for (let record = 0; record < recordsToRenderArr.length; record++) {
-            if (recordsToRenderArr[record].projectName === projectName) {
-
-                if (workArr.length === 0) {
-                    workArr.push({ [recordsToRenderArr[record].conversationCategory]: 0 })
-                }
-                else if (!workArr.includes(recordsToRenderArr[record].conversationCategory)) {
-                    workArr.push({ [recordsToRenderArr[record].conversationCategory]: 0 })
-                }
-                // const arr = ['name', 'age', 'country'];
-
-
+            if (categoriesList[i] === "Макс бет (игры/слоты)") {
+                regexCategoryName = /Макс бет \(игры\/слоты\)/g;
             }
-            // tableDataObj = workArr.reduce((accumulator, value) => {
-            //     return { ...accumulator, [value]: '' };
-            // }, {});
-            // }
-            // tableDataObj[keyProject] = Object.assign({}, workArr);
+            if (categoriesList[i] === "Технические проблемы (кроме бонусов)") {
+                regexCategoryName = /Технические проблемы \(кроме бонусов\)/g;
+            }
+            let categoriesCount = allRecordsCategory.join(" ").match(regexCategoryName).length;
+            newCategories.push({ [categoriesList[i]]: categoriesCount });
         }
-        console.log(workArr);
-
     }
-    // build categories START
+    cleanRecordsCountObj.categoriesCount = Object.assign({}, newCategories);
+    // count unique categories end
 
+    // count unique agents start
+    let newAgents = [];
+    let allRecordsAgent = [];
+    for (let i = 0; i < dataToCount.length; i++) {
+        allRecordsAgent.push(dataToCount[i].operatorNicks[dataToCount[i].operatorNicks.length - 1])
+    }
+    let agentsList = allRecordsAgent.filter((item, i, arr) => arr.indexOf(item) === i);
+    addCountent = "";
+    for (let i = 0; i < agentsList.length; i++) {
+        if (agentsList[i] !== undefined) {
+            let regexAgentName = new RegExp(agentsList[i], "g");
+            let agentsCount = allRecordsAgent.join(" ").match(regexAgentName).length;
+            newAgents.push({ [agentsList[i]]: agentsCount });
+        }
+    }
+    cleanRecordsCountObj.agentsCount = Object.assign({}, newAgents);
+    // count unique agents end
+
+    return cleanRecordsCountObj;
 }
-// BUILD OBJECT FOR TABLE DISPLAY FUNCTION END
+// CREATE FULL COUNTS LIST FUNCTION END
 
 // SHOW AND BUILD DIALOG WINDOW FUNCTION START
 let dialogContainer = getE('.dialogWindow-container'),
@@ -1942,12 +1833,64 @@ function dialogIgnore() {
 }
 // DIALOG IGNORE BUTTON FUNCTION END
 
+// UPDATE ALL COUNTS ON PAGE FUNCTION START
+const dataFilteringContainer = getE(".data-filtering-container");
+dataFilteringContainer.onchange = async (e) => {
+    let badgeCountsObj = await recordsCounter(savedfilteredDataArr);
+    let countObjKeys = [];
+    for (const key in badgeCountsObj) countObjKeys.push(key);
+
+    let countWasSetArr = [];
+    for (let objKey = 0; objKey < countObjKeys.length; objKey++) {
+        for (let i = 0; i < Object.keys(badgeCountsObj[countObjKeys[objKey]]).length; i++) {
+            let optionLabel = Object.keys(badgeCountsObj[countObjKeys[objKey]][i]).toString(),
+                optionCount = Object.values(badgeCountsObj[countObjKeys[objKey]][i]).toString();
+            if (/[А-Яа-я]/.test(optionLabel)) {
+                for (const key in catgoryRuNames) {
+                    if (optionLabel === catgoryRuNames[key]) optionLabel = key;
+                }
+            }
+            let setNewBadgeCount = getE(`#isShow${optionLabel}`).nextElementSibling.children[1];
+            setNewBadgeCount.innerHTML = optionCount;
+            // setNewBadgeCount.style.opacity = 1;
+            // setNewBadgeCount.classList.remove("zeroRecords");
+            countWasSetArr.push(setNewBadgeCount.id);
+        }
+    }
+    let allCountBadgeIds = [];
+    for (let sectNum = 0; sectNum < dataFilteringContainer.children.length - 1; sectNum++) {
+        let currSection = dataFilteringContainer.children[sectNum].firstElementChild.nextElementSibling;
+        for (let elem = 1; elem < currSection.children.length; elem++) {
+            let checkingElem = currSection.children[elem].firstElementChild.nextElementSibling.children[1];
+            allCountBadgeIds.push(checkingElem.id)
+        }
+    }
+    setZerosArr = allCountBadgeIds.filter(function (n) { return !this.has(n) }, new Set(countWasSetArr));
+    for (let zeroElem = 0; zeroElem < setZerosArr.length; zeroElem++) {
+        getE(`#${setZerosArr[zeroElem]}`).innerHTML = 0;
+        // getE(`#${setZerosArr[zeroElem]}`).style.opacity = 0;
+        // getE(`#${setZerosArr[zeroElem]}`).classList.add("zeroRecords");
+    }
+
+    if (getE('#IsShowAllProjects').checked &&
+        getE('#IsShowAllConversationTypes').checked &&
+        getE('#IsShowAllCategories').checked &&
+        getE('#IsShowAllAgents').checked) {
+        getE("#downloadCustomReport").disabled = true;
+    }
+    else {
+        getE("#downloadCustomReport").disabled = false;
+    }
+}
+// UPDATE ALL COUNTS ON PAGE FUNCTION END
+
 // BUILD REPORT SECTION FUNCTION START
 let buildReportOptionArr = {};
 let reportContainer = getE(".report-container");
 async function buildReportSection() {
     reportContainer.style.opacity = '1';
     reportContainer.style.height = '49%';
+    findChatsForMerge(recordsChats);
     // reportContainer.style.padding = '15px 20px';
     // reportContainer.style.display = 'block';
     let addContent = "";
@@ -2005,12 +1948,22 @@ async function buildReportSection() {
         }
         reportContainer.innerHTML += addContent;
     }
+    if (recordsChats.length !== 0) {
+        addContent = `<fieldset>
+        <legend>- по чатах на об'єднання</legend>
+        <input type="button" id="createChatReport" 
+        onclick="createReport(mergingArr,'merging')" value="Створити">
+        <input type="button" onclick="downloadFile(reportData.merging.fileLink, reportData.merging.reportName)"
+        id="downloadChatMerging" value="Завантажити" disabled>
+        </fieldset>`
+    }
+    reportContainer.innerHTML += addContent;
     reportContainer.classList.remove('hide');
 }
 // BUILD REPORT SECTION FUNCTION END
 
 // GENERATE REPORT FUNCTION START
-let reportData = { chat: {}, ticket: {}, general: {}, check: {} };
+let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {} };
 async function createReport(recordsForReport, reportType) {
     return new Promise((resolve) => {
         let csv = "";
@@ -2073,6 +2026,11 @@ async function createReport(recordsForReport, reportType) {
             reportData.check.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadCheckReport');
         }
+        if (reportType === "merging") {
+            reportData.merging.reportName = "MERGE_CHATS_report_" + reportDateTime.replace(",", "");
+            reportData.merging.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
+            setToButton = getE('#downloadChatMerging');
+        }
         if (reportType === "filteredData") {
             reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             setToButton = false;
@@ -2106,41 +2064,6 @@ function downloadFile(fileLink, reportName) {
 }
 // DOWNLOAD FILE FUNCTION END
 
-// DATA TABLE SHOW/HIDE EFFECT FUNCTION START
-let menu = document.querySelector('.menu'),
-    content = document.querySelector('.content');
-menu.onclick = (e) => {
-    for (let elem = 0; elem < menu.children.length; elem++) {
-        if (menu.children[elem].id === e.target.id) {
-            menu.children[elem].classList.add('active');
-            let idNum = e.target.id.substring(e.target.id.length - 1);
-            for (let conElem = 0; conElem < content.children.length; conElem++) {
-                if (content.children[conElem].id === `data-table-${idNum}`) content.children[conElem].classList.add('show');
-                else content.children[conElem].classList.remove('show');
-            }
-        }
-        else menu.children[elem].classList.remove('active');
-    }
-}
-// DATA TABLE SHOW/HIDE EFFECT FUNCTION END
-
-// getE('.start-instraction-block').style.display = "none";
-// getE('.left').style.display = "none";
-// getE('.data-main').classList.remove("hide");
-// buildFilteringSection();
-
-// RESET FILTERS BUTTON FUNCTION START
-async function resetFilters() {
-    await buildFilteringSection();
-}
-// RESET FILTERS BUTTON FUNCTION END
-
-// SHOW DATA TABLE CONTAINER FUCNTION START
-function showDataTable() {
-    getE('.display-data-container').classList.remove('hide');
-}
-// SHOW DATA TABLE CONTAINER FUCNTION END
-
 // SHOW DROP DOWN LIST FUNTION START
 let currentDropDownName;
 function showDropDown(e) {
@@ -2150,7 +2073,6 @@ function showDropDown(e) {
             dataFilteringContainer.children[i].firstElementChild.classList.remove('activeDropDown');
             dataFilteringContainer.children[i].firstElementChild.nextElementSibling.classList.remove('showDropDown');
         }
-        console.log();
         e.target.nextElementSibling.classList.toggle('showDropDown');
         e.target.classList.toggle('activeDropDown');
         currentDropDownName = e.target.getAttribute('name');
@@ -2170,6 +2092,30 @@ window.onclick = (e) => {
     }
 }
 // HIDE DROP DOWN LIST FUNTION END
+
+// SHOW DATA TABLE CONTAINER FUCNTION START
+function showDataTable() {
+    getE('.display-data-container').classList.remove('hide');
+}
+// SHOW DATA TABLE CONTAINER FUCNTION END
+
+// DATA TABLE SHOW/HIDE EFFECT FUNCTION START
+let menu = document.querySelector('.menu'),
+    content = document.querySelector('.content');
+menu.onclick = (e) => {
+    for (let elem = 0; elem < menu.children.length; elem++) {
+        if (menu.children[elem].id === e.target.id) {
+            menu.children[elem].classList.add('active');
+            let idNum = e.target.id.substring(e.target.id.length - 1);
+            for (let conElem = 0; conElem < content.children.length; conElem++) {
+                if (content.children[conElem].id === `data-table-${idNum}`) content.children[conElem].classList.add('show');
+                else content.children[conElem].classList.remove('show');
+            }
+        }
+        else menu.children[elem].classList.remove('active');
+    }
+}
+// DATA TABLE SHOW/HIDE EFFECT FUNCTION END
 
 // COUNT CATEGORIES FUNCTION START
 let countedCategoriesList = [];
@@ -2215,11 +2161,12 @@ async function countManagersPerf(recordsToCount) {
 
     // all conversations duration per manager START
     for (let record = 0; record < recordsToCount.length; record++) {
-        if (recordsToCount[record].conversationType === 'chat') {
+        if (recordsToCount[record].conversationType === 'chat' &&
+            recordsToCount[record].specialFields !== undefined) {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
                 currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
-                    countedManagersPerfList[manager][currManagerObj].allConvDur += ((recordsToCount[record].specialFields.converstionTimings.agentsChattingDuration) / 60);
+                    countedManagersPerfList[manager][currManagerObj].allConvDur += ((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration) / 60);
                 }
             }
         }
@@ -2232,7 +2179,7 @@ async function countManagersPerf(recordsToCount) {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
                 currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
-                    countedManagersPerfList[manager][currManagerObj].allFirstResp += ((recordsToCount[record].specialFields.converstionTimings.firstResponseTime) / 60);
+                    countedManagersPerfList[manager][currManagerObj].allFirstResp += ((recordsToCount[record].specialFields.conversationTimings.firstResponseTime) / 60);
                 }
             }
         }
@@ -2338,3 +2285,54 @@ async function buildTable(dataToWork, tableType) {
 
 }
 // BUILD DATA TABLES FUNCTION END
+
+// getE('.start-instraction-block').style.display = "none";
+// getE('.left').style.display = "none";
+// getE('.data-main').classList.remove("hide");
+// buildFilteringSection();
+
+// FIND CHATS FOR MERGING FUNCTION START
+let mergingArr = [];
+async function findChatsForMerge(arrToWork) {
+    let mergingObj = {};
+
+    for (const key of projectsList) mergingObj[key] = [];
+    for (let record = 0; record < arrToWork.length; record++) {
+        for (const key in mergingObj) {
+            if (key === arrToWork[record].projectName) {
+                mergingObj[key].push(arrToWork[record]);
+            }
+        }
+    }
+    for (const key in mergingObj) {
+        mergingObj[key].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
+        let count = 0;
+        for (let i = 0; i < mergingObj[key].length; i++) {
+            let currID = mergingObj[key][i].customerId,
+                currTime = mergingObj[key][i].specialFields.createdAtMilis;
+            for (let a = 0; a < mergingObj[key].length; a++) {
+                let compareID = mergingObj[key][a].customerId,
+                    compareTime = mergingObj[key][a].specialFields.createdAtMilis;
+                if (currID === compareID) count++;
+                else count = 0;
+                if (count > 1) {
+                    if (currTime - compareTime < 0 && currTime - compareTime > -86400000) {
+                        if (!mergingArr.includes(mergingObj[key][i]) &&
+                            !mergingArr.includes(mergingObj[key][a])) {
+                            mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
+                        }
+                    }
+                    if (currTime - compareTime > 0 && currTime - compareTime < 86400000) {
+                        if (!mergingArr.includes(mergingObj[key][i]) &&
+                            !mergingArr.includes(mergingObj[key][a])) {
+                            mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+// FIND CHATS FOR MERGING FUNCTION END
+
+function moreOptions() { }

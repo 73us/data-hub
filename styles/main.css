@@ -404,7 +404,7 @@ table {
   outline-width: 0;
 }
 .container main .left .report-container {
-  max-height: 340px;
+  max-height: 380px;
   height: 0;
   background-color: #dde4e9;
   display: flex;
