@@ -1007,10 +1007,11 @@
     justify-content: center;
     align-items: end;
     padding-bottom: 5px;
+    position: relative;
+    font-size: 10px;
+    font-weight: bold;
     .copyright-container {
       text-align: center;
-      font-weight: bold;
-      font-size: 10px;
       p {
         color: $c-black;
         a {
@@ -1018,6 +1019,10 @@
           text-decoration: none;
         }
       }
+    }
+    .version {
+      position: absolute;
+      right: 10px;
     }
   }
 }

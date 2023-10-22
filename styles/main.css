@@ -1063,11 +1063,12 @@ table {
   justify-content: center;
   align-items: end;
   padding-bottom: 5px;
+  position: relative;
+  font-size: 10px;
+  font-weight: bold;
 }
 .container footer .copyright-container {
   text-align: center;
-  font-weight: bold;
-  font-size: 10px;
 }
 .container footer .copyright-container p {
   color: #000000;
@@ -1075,6 +1076,10 @@ table {
 .container footer .copyright-container p a {
   color: #000000;
   text-decoration: none;
+}
+.container footer .version {
+  position: absolute;
+  right: 10px;
 }
 
 .dialogWindow-container {
