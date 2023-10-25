@@ -1038,6 +1038,8 @@
   display: flex;
   justify-content: center;
   padding-top: 100px;
+
+  // dialog window START
   .dialogWindow {
     background-color: $bg-white;
     width: 400px;
@@ -1205,8 +1207,55 @@
       }
     }
   }
+  // dialog window END
+
+  // load screen START
+  .load-box {
+    background-color: $bg-white;
+    width: 300px;
+    height: 200px;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+    .load-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+    }
+    .load-tip {
+      font-size: 14px;
+    }
+  }
+  // load screen END
 }
 // DIALOG WINDOW END
+
+// @keyframes loadAnim {
+//   0% {
+//     -ms-transform: rotate(0deg);
+//     -moz-transform: rotate(0deg);
+//     -webkit-transform: rotate(0deg);
+//     -o-transform: rotate(0deg);
+//     transform: rotate(0deg);
+//     border-radius: 10%;
+//   }
+//   50% {
+//     border-radius: 50%;
+//   }
+//   100% {
+//     -ms-transform: rotate(360deg);
+//     -moz-transform: rotate(360deg);
+//     -webkit-transform: rotate(360deg);
+//     -o-transform: rotate(360deg);
+//     transform: rotate(360deg);
+//     border-radius: 10%;
+//   }
+// }
 
 .show {
   display: block !important;

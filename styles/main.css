@@ -1262,6 +1262,27 @@ table {
   background-color: #c97981;
   outline-width: 0;
 }
+.dialogWindow-container .load-box {
+  background-color: #f8f9fa;
+  width: 300px;
+  height: 200px;
+  padding: 30px;
+  border-radius: 15px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.dialogWindow-container .load-box .load-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+}
+.dialogWindow-container .load-box .load-tip {
+  font-size: 14px;
+}
 
 .show {
   display: block !important;

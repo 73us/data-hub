@@ -567,6 +567,7 @@ async function readTickets() {
 
 // REMOVE INPUT FILE/S FUNCTION START
 function rmvFiles() {
+    document.location.reload();
     chatFileInput.value = "";
     ticketFileInput.value = "";
     chatCheckBox.disabled = false;
@@ -832,6 +833,7 @@ async function cleanChatRecords() {
                     conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                     conversationTags: tags, // converstaion tags
                     operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
+                    lastOperator: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks[operatorNicks.length - 1], // operatorNicks
                     customerId: dataByCells[7], // customer ID (for chats it has unique ID)
                     customerEmail: dataByCells[10], // customer email
                     specialFields: {
@@ -1081,6 +1083,7 @@ async function cleanTicketRecords() {
                         conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                         conversationTags: tags, // converstaion tags
                         operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
+                        lastOperator: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks[operatorNicks.length - 1], // operatorNicks
                         customerId: dataByCells[5], // customer ID (for chats it has unique ID)
                         customerEmail: dataByCells[5], // customer email
                         specialFields: {
@@ -1459,13 +1462,20 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        for (let i = 0; i < filrteringArr.length; i++) {
+        filrteringArr.forEach((record) => {
             for (let a = 0; a < buildedFilter.projectsFilter.length; a++) {
-                if (filrteringArr[i].projectName === buildedFilter.projectsFilter[a]) {
-                    filteredDataArr.push(filrteringArr[i]);
+                if (record.projectName === buildedFilter.projectsFilter[a]) {
+                    filteredDataArr.push(record);
                 }
             }
-        }
+        });
+        // for (let i = 0; i < filrteringArr.length; i++) {
+        //     for (let a = 0; a < buildedFilter.projectsFilter.length; a++) {
+        //         if (filrteringArr[i].projectName === buildedFilter.projectsFilter[a]) {
+        //             filteredDataArr.push(filrteringArr[i]);
+        //         }
+        //     }
+        // }
     }
     // filtering by PROJECT NAME END
 
@@ -1479,13 +1489,20 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        for (let i = 0; i < filrteringArr.length; i++) {
+        filrteringArr.forEach((record) => {
             for (let a = 0; a < buildedFilter.convTypesFilter.length; a++) {
-                if (filrteringArr[i].conversationType === buildedFilter.convTypesFilter[a]) {
-                    filteredDataArr.push(filrteringArr[i]);
+                if (record.conversationType === buildedFilter.convTypesFilter[a]) {
+                    filteredDataArr.push(record);
                 }
             }
-        }
+        });
+        // for (let i = 0; i < filrteringArr.length; i++) {
+        //     for (let a = 0; a < buildedFilter.convTypesFilter.length; a++) {
+        //         if (filrteringArr[i].conversationType === buildedFilter.convTypesFilter[a]) {
+        //             filteredDataArr.push(filrteringArr[i]);
+        //         }
+        //     }
+        // }
     }
 
     // filtering by CONVERSATION TYPE END
@@ -1500,13 +1517,20 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        for (let i = 0; i < filrteringArr.length; i++) {
+        filrteringArr.forEach((record) => {
             for (let a = 0; a < buildedFilter.categoriesFilter.length; a++) {
-                if (filrteringArr[i].conversationCategory === buildedFilter.categoriesFilter[a]) {
-                    filteredDataArr.push(filrteringArr[i]);
+                if (record.conversationCategory === buildedFilter.categoriesFilter[a]) {
+                    filteredDataArr.push(record);
                 }
             }
-        }
+        });
+        // for (let i = 0; i < filrteringArr.length; i++) {
+        //     for (let a = 0; a < buildedFilter.categoriesFilter.length; a++) {
+        //         if (filrteringArr[i].conversationCategory === buildedFilter.categoriesFilter[a]) {
+        //             filteredDataArr.push(filrteringArr[i]);
+        //         }
+        //     }
+        // }
     }
     // filtering by CATEGORY END
 
@@ -1520,18 +1544,28 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        for (let i = 0; i < filrteringArr.length; i++) {
+        filrteringArr.forEach((record) => {
             for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
-                if (filrteringArr[i].operatorNicks[filrteringArr[i].operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
-                    filteredDataArr.push(filrteringArr[i]);
+                if (record.operatorNicks[record.operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
+                    filteredDataArr.push(record);
                 }
             }
-        }
+        });
+        // for (let i = 0; i < filrteringArr.length; i++) {
+        //     for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
+        //         if (filrteringArr[i].operatorNicks[filrteringArr[i].operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
+        //             filteredDataArr.push(filrteringArr[i]);
 
+        //         }
+        //     }
+        // }
     }
     // filtering by AGENT NAME END
 
-    savedfilteredDataArr = filteredDataArr;
+    savedfilteredDataArr = [...filteredDataArr];
+    // console.log(savedfilteredDataArr);
+
+    // savedfilteredDataArr = filteredDataArr;
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
     await countManagersPerf(filteredDataArr);
@@ -1890,7 +1924,7 @@ let reportContainer = getE(".report-container");
 async function buildReportSection() {
     reportContainer.style.opacity = '1';
     reportContainer.style.height = '49%';
-    findChatsForMerge(recordsChats);
+
     // reportContainer.style.padding = '15px 20px';
     // reportContainer.style.display = 'block';
     let addContent = "";
@@ -1951,7 +1985,7 @@ async function buildReportSection() {
     if (recordsChats.length !== 0) {
         addContent = `<fieldset>
         <legend>- по чатах на об'єднання</legend>
-        <input type="button" id="createChatReport" 
+        <input type="button" id="createMergingChatReport" 
         onclick="createReport(mergingArr,'merging')" value="Створити">
         <input type="button" onclick="downloadFile(reportData.merging.fileLink, reportData.merging.reportName)"
         id="downloadChatMerging" value="Завантажити" disabled>
@@ -1965,41 +1999,61 @@ async function buildReportSection() {
 // GENERATE REPORT FUNCTION START
 let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {} };
 async function createReport(recordsForReport, reportType) {
+    let recordsToWork = [...recordsForReport];
+    if (reportType === "merging") {
+        getE('#createMergingChatReport').disabled = true;
+        dialogContainer.innerHTML = `
+        <div class="load-box">
+        <div class="load-image"><img src="./images/icons8-analyze.gif" alt="analyze gif icon"></div>
+        <p class="load-tip">Перепочиньте поки ми шукаємо чати для потенційного об'єднання для вас!)</p>
+        </div>`;
+        dialogContainer.classList.remove('hide');
+        new Promise((resolve) => {
+            // recordsToWork = findChatsForMerge(recordsChats);
+            resolve(findChatsForMerge(recordsChats));
+        })
+    }
+
     return new Promise((resolve) => {
+
+
         let csv = "";
         let fRow = false;
-        for (let row = 0; row < recordsForReport.length; row++) {
+        for (let row = 0; row < recordsToWork.length; row++) {
             if (reportType === "check") {
-                delete recordsForReport[row].rmvPosChats;
-                delete recordsForReport[row].rmvPosTickets;
-                delete recordsForReport[row].rmvPosAllList;
+                delete recordsToWork[row].rmvPosChats;
+                delete recordsToWork[row].rmvPosTickets;
+                delete recordsToWork[row].rmvPosAllList;
             }
-            else {
-                delete recordsForReport[row].specialFields;
-            }
-            let keysAmount = Object.keys(recordsForReport[row]).length;
+            let keysAmount = Object.keys(recordsToWork[row]).length;
             let keysCounter = 0;
             if (row === 0) {
-                for (let key in recordsForReport[row]) {
-                    let dataToSet = "\"" + key + "\"";
-                    csv += dataToSet + (keysCounter + 1 < keysAmount ? ',' : '\r\n');
-                    keysCounter++;
-                    fRow = true;
+                for (let key in recordsToWork[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + key + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                        fRow = true;
+                    }
                 }
             }
             keysCounter = 0;
             if (row === 0 && fRow) {
-                for (let key in recordsForReport[row]) {
-                    let dataToSet = "\"" + (Array.isArray(recordsForReport[row][key]) ? recordsForReport[row][key].join(";") : recordsForReport[row][key]) + "\"";
-                    csv += dataToSet + (keysCounter + 1 < keysAmount ? ',' : '\r\n');
-                    keysCounter++;
+                for (let key in recordsToWork[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + (Array.isArray(recordsToWork[row][key]) ? recordsToWork[row][key].join(";") : recordsToWork[row][key]) + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                    }
                 }
             }
             else {
-                for (let key in recordsForReport[row]) {
-                    let dataToSet = "\"" + (Array.isArray(recordsForReport[row][key]) ? recordsForReport[row][key].join(";") : recordsForReport[row][key]) + "\"";
-                    csv += dataToSet + (keysCounter + 1 < keysAmount ? ',' : '\r\n');
-                    keysCounter++;
+                for (let key in recordsToWork[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + (Array.isArray(recordsToWork[row][key]) ? recordsToWork[row][key].join(";") : recordsToWork[row][key]) + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                    }
                 }
             }
             keysCounter = 0;
@@ -2294,7 +2348,8 @@ async function buildTable(dataToWork, tableType) {
 // FIND CHATS FOR MERGING FUNCTION START
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
-    let mergingObj = {};
+    let mergingObj = {}, projectsArr = [];
+
 
     for (const key of projectsList) mergingObj[key] = [];
     for (let record = 0; record < arrToWork.length; record++) {
@@ -2304,35 +2359,57 @@ async function findChatsForMerge(arrToWork) {
             }
         }
     }
-    for (const key in mergingObj) {
-        mergingObj[key].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
+
+    for (const key in mergingObj) projectsArr.push(key);
+
+    let count = 0;
+    start:
+    for (let proj = count; proj < projectsArr.length; proj++) {
+        let curProj = projectsArr[proj];
+        mergingObj[curProj].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
         let count = 0;
-        for (let i = 0; i < mergingObj[key].length; i++) {
-            let currID = mergingObj[key][i].customerId,
-                currTime = mergingObj[key][i].specialFields.createdAtMilis;
-            for (let a = 0; a < mergingObj[key].length; a++) {
-                let compareID = mergingObj[key][a].customerId,
-                    compareTime = mergingObj[key][a].specialFields.createdAtMilis;
+        for (let i = 0; i < mergingObj[curProj].length; i++) {
+            let currID = mergingObj[curProj][i].customerId,
+                currTime = mergingObj[curProj][i].specialFields.createdAtMilis;
+            for (let a = 0; a < mergingObj[curProj].length; a++) {
+                let compareID = mergingObj[curProj][a].customerId,
+                    compareTime = mergingObj[curProj][a].specialFields.createdAtMilis;
                 if (currID === compareID) count++;
                 else count = 0;
                 if (count > 1) {
                     if (currTime - compareTime < 0 && currTime - compareTime > -86400000) {
-                        if (!mergingArr.includes(mergingObj[key][i]) &&
-                            !mergingArr.includes(mergingObj[key][a])) {
-                            mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
+                        if (!mergingArr.includes(mergingObj[curProj][i]) &&
+                            !mergingArr.includes(mergingObj[curProj][a])) {
+                            mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
                         }
                     }
                     if (currTime - compareTime > 0 && currTime - compareTime < 86400000) {
-                        if (!mergingArr.includes(mergingObj[key][i]) &&
-                            !mergingArr.includes(mergingObj[key][a])) {
-                            mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
+                        if (!mergingArr.includes(mergingObj[curProj][i]) &&
+                            !mergingArr.includes(mergingObj[curProj][a])) {
+                            mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
                         }
                     }
                 }
             }
         }
+        // setTimeout(() => {
+        count++;
+        // }, 100);
+        continue start;
     }
+
+    dialogContainer.classList.add('hide');
+    return mergingArr;
 }
 // FIND CHATS FOR MERGING FUNCTION END
 
 function moreOptions() { }
+
+
+// let arr1 = [1, 2, 3, 4, 5];
+// let arr2 = [...arr1];
+// arr2[2] = 10;
+// arr2[4] = 0;
+
+// console.log(arr1);
+// console.log(arr2);
