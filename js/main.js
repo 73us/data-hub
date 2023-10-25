@@ -1,3 +1,5 @@
+"use strict";
+
 let allRecords1 = [
     {
         conferenceId: "S16TLHO7QA",
@@ -1462,20 +1464,13 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        filrteringArr.forEach((record) => {
+        for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.projectsFilter.length; a++) {
-                if (record.projectName === buildedFilter.projectsFilter[a]) {
-                    filteredDataArr.push(record);
+                if (filrteringArr[i].projectName === buildedFilter.projectsFilter[a]) {
+                    filteredDataArr.push(filrteringArr[i]);
                 }
             }
-        });
-        // for (let i = 0; i < filrteringArr.length; i++) {
-        //     for (let a = 0; a < buildedFilter.projectsFilter.length; a++) {
-        //         if (filrteringArr[i].projectName === buildedFilter.projectsFilter[a]) {
-        //             filteredDataArr.push(filrteringArr[i]);
-        //         }
-        //     }
-        // }
+        }
     }
     // filtering by PROJECT NAME END
 
@@ -1489,20 +1484,13 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        filrteringArr.forEach((record) => {
+        for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.convTypesFilter.length; a++) {
-                if (record.conversationType === buildedFilter.convTypesFilter[a]) {
-                    filteredDataArr.push(record);
+                if (filrteringArr[i].conversationType === buildedFilter.convTypesFilter[a]) {
+                    filteredDataArr.push(filrteringArr[i]);
                 }
             }
-        });
-        // for (let i = 0; i < filrteringArr.length; i++) {
-        //     for (let a = 0; a < buildedFilter.convTypesFilter.length; a++) {
-        //         if (filrteringArr[i].conversationType === buildedFilter.convTypesFilter[a]) {
-        //             filteredDataArr.push(filrteringArr[i]);
-        //         }
-        //     }
-        // }
+        }
     }
 
     // filtering by CONVERSATION TYPE END
@@ -1517,20 +1505,13 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        filrteringArr.forEach((record) => {
+        for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.categoriesFilter.length; a++) {
-                if (record.conversationCategory === buildedFilter.categoriesFilter[a]) {
-                    filteredDataArr.push(record);
+                if (filrteringArr[i].conversationCategory === buildedFilter.categoriesFilter[a]) {
+                    filteredDataArr.push(filrteringArr[i]);
                 }
             }
-        });
-        // for (let i = 0; i < filrteringArr.length; i++) {
-        //     for (let a = 0; a < buildedFilter.categoriesFilter.length; a++) {
-        //         if (filrteringArr[i].conversationCategory === buildedFilter.categoriesFilter[a]) {
-        //             filteredDataArr.push(filrteringArr[i]);
-        //         }
-        //     }
-        // }
+        }
     }
     // filtering by CATEGORY END
 
@@ -1544,21 +1525,13 @@ async function filterResults(buildedFilter) {
         else if (filteredDataArr.length === 0) {
             filrteringArr = allRecords;
         }
-        filrteringArr.forEach((record) => {
+        for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
-                if (record.operatorNicks[record.operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
-                    filteredDataArr.push(record);
+                if (filrteringArr[i].operatorNicks[filrteringArr[i].operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
+                    filteredDataArr.push(filrteringArr[i]);
                 }
             }
-        });
-        // for (let i = 0; i < filrteringArr.length; i++) {
-        //     for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
-        //         if (filrteringArr[i].operatorNicks[filrteringArr[i].operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
-        //             filteredDataArr.push(filrteringArr[i]);
-
-        //         }
-        //     }
-        // }
+        }
     }
     // filtering by AGENT NAME END
 
@@ -1599,7 +1572,7 @@ async function recordsCounter(dataToCount) {
         allRecordsConversationTypes.push(dataToCount[i].conversationType)
     }
     let conversationTypesList = allRecordsConversationTypes.filter((item, i, arr) => arr.indexOf(item) === i);
-    addCountent = "";
+    let addCountent = "";
     for (let i = 0; i < conversationTypesList.length; i++) {
         let regexConversationTypes = new RegExp(conversationTypesList[i], "g");
         let convTypesCount = allRecordsConversationTypes.join(" ").match(regexConversationTypes).length;
@@ -1899,7 +1872,7 @@ dataFilteringContainer.onchange = async (e) => {
             allCountBadgeIds.push(checkingElem.id)
         }
     }
-    setZerosArr = allCountBadgeIds.filter(function (n) { return !this.has(n) }, new Set(countWasSetArr));
+    let setZerosArr = allCountBadgeIds.filter(function (n) { return !this.has(n) }, new Set(countWasSetArr));
     for (let zeroElem = 0; zeroElem < setZerosArr.length; zeroElem++) {
         getE(`#${setZerosArr[zeroElem]}`).innerHTML = 0;
         // getE(`#${setZerosArr[zeroElem]}`).style.opacity = 0;
@@ -2179,7 +2152,7 @@ async function countCategories(recordsToCount) {
         allCategories += recordsToCount[record].conversationCategory + ",";
     }
     for (const categoryKey in catgoryRuNames) {
-        let categoryName = catgoryRuNames[categoryKey];
+        let categoryName = catgoryRuNames[categoryKey], categoryRegex;
         if (categoryName !== "Макс бет (игры/слоты)" &&
             categoryName !== "Технические проблемы (кроме бонусов)") {
             categoryRegex = new RegExp(categoryName, "gm");
@@ -2218,8 +2191,8 @@ async function countManagersPerf(recordsToCount) {
         if (recordsToCount[record].conversationType === 'chat' &&
             recordsToCount[record].specialFields !== undefined) {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
-                currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
-                if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
+                let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allConvDur += ((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration) / 60);
                 }
             }
@@ -2231,8 +2204,8 @@ async function countManagersPerf(recordsToCount) {
     for (let record = 0; record < recordsToCount.length; record++) {
         if (recordsToCount[record].conversationType === 'chat') {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
-                currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
-                if (recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] === currManagerObj) {
+                let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allFirstResp += ((recordsToCount[record].specialFields.conversationTimings.firstResponseTime) / 60);
                 }
             }
