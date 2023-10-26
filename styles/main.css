@@ -490,7 +490,7 @@ table {
 }
 .container main .left .report-container fieldset input:disabled {
   cursor: default;
-  background-color: #ffc107;
+  background-color: #eed37b;
   outline-width: 0;
 }
 .container main .left .report-container fieldset input:nth-of-type(2) {
@@ -611,6 +611,12 @@ table {
   background-color: #0b5ed7;
   border-color: #0b5ed7;
   color: white;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset legend::-moz-selection {
+  background-color: transparent !important;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset legend::selection {
+  background-color: transparent !important;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown {
   position: absolute;
@@ -822,7 +828,7 @@ table {
 }
 .container main .right .data-container .data-main .data-options-container fieldset .right #showMoreOptions:disabled {
   cursor: default;
-  background-color: #ffc107;
+  background-color: #eed37b;
 }
 .container main .right .data-container .data-main .display-data-container {
   background-color: #dde4e9;

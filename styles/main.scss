@@ -499,6 +499,9 @@
                 border-color: $btn-blue-hover;
                 color: white;
               }
+              legend::selection {
+                background-color: transparent !important;
+              }
               .dropDown {
                 position: absolute;
                 width: 100%;
@@ -806,10 +809,10 @@
                     th::selection {
                       background-color: transparent;
                     }
-                    th{
+                    th {
                       text-align: left;
-                      span::selection{
-                      background-color: transparent;
+                      span::selection {
+                        background-color: transparent;
                       }
                     }
                   }
@@ -1129,9 +1132,6 @@
         }
         input[type="checkbox"]:hover {
           cursor: pointer;
-        }
-        input[type="checkbox"]:active {
-          // cursor: pointer;
         }
         input[type="checkbox"]:disabled {
           cursor: default;

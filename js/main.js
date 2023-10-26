@@ -1,303 +1,5 @@
 "use strict";
 
-let allRecords1 = [
-    {
-        conferenceId: "S16TLHO7QA",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://my.livechatinc.com/archives/S16TLHO7QA",
-        conversationTags: ['1-дубли бонус', '1-Бонусная рассылка', '2-Менеджеры Katsubet', '3-Низкий', '4-Простой', '5-Акции и бонусы', '6-Английский', '7- Antony'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:04:22",
-        customerEmail: "phonya@.com",
-        customerId: "f23e8e88-67aa-4dc6-a545-6f348a01ab3a",
-        operatorNicks: ['Mikola'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "S16TMH5H2J",
-        conversationCategory: "Финансовые операции",
-        conversationLink: "https://my.livechatinc.com/archives/S16TMH5H2J",
-        conversationTags: ['chatbot', 'chatbot-transfer', '1-депозит неуспешен', '1-платежи', '2-Менеджеры Katsubet', '3-Средний', '4-Простой', '5-Финансовые операции', '6-Английский', '7-Henry'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:10:31",
-        customerEmail: "sdsd@sdds.com",
-        customerId: "ed719be9-dc78-4006-9038-8128ddaf80fe",
-        operatorNicks: ['Katsubet Support', 'Dave'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "S16TMHDNQU",
-        conversationCategory: "Макс бет (игры/слоты)",
-        conversationLink: "https://my.livechatinc.com/archives/S16TMHDNQU",
-        conversationTags: ['chatbot', 'chatbot-transfer', '6-Английский', '4-Простой', '3-Низкий', '5-Акции и бонусы', '7 - Claire', '2-Менеджеры WIN7bit AUSTRALIA', '1-бездеп регистрация'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:14:18",
-        customerEmail: "",
-        customerId: "47257c9d-0ea3-4ee6-ad70-130a96453448",
-        operatorNicks: ['Customer Support', 'Emma'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "S4QV5P",
-        conversationCategory: "Закрытие аккаунта",
-        conversationLink: "https://app.helpdesk.com/tickets/S4QV5P",
-        conversationTags: ['1-GAMBLING рассылка', '2-Менеджеры 7bit', '4-Закрытие аккаунта', '5-Английский', '6-Mark', '9-Я. Ангелина', '9-Проблемный кейс уточняем/передаем в сс'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T00:37:59+03:00",
-        customerEmail: "wwwwwwwwww@gmail.com",
-        customerId: "wwwwwwww@gmail.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "EQQYYF",
-        conversationCategory: "Восстановление доступа",
-        conversationLink: "https://app.helpdesk.com/tickets/EQQYYF",
-        conversationTags: ['1-Переоткрытие', '2-Менеджеры 7bit', '4-Восстановление доступа', '5-Английский', '6-Pablo', '6-Jamie'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:12:33+03:00",
-        customerEmail: "romoooooo@gmail.com",
-        customerId: "romoooooo@gmail.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "W2U04U",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://app.helpdesk.com/tickets/W2U04U",
-        conversationTags: ['1-Daily cashback', '2-Менеджеры Katsubet', '4-Акции и бонусы', '5-Английский', '7-Henry', '1-UTC', '1-другие условия не выполнены', '7-Ethan', '1-NO REPLY'],
-        conversationType: "chat",
-        createdAt: "2023-10-01T01:21:56+03:00",
-        customerEmail: "vasillll@hotmail.com",
-        customerId: "vasillll@hotmail.com",
-        operatorNicks: ['Olivia'],
-        projectName: "Mirax"
-    },
-    {
-        conferenceId: "G7P8UZ",
-        conversationCategory: "Технические проблемы (кроме бонусов)",
-        conversationLink: "https://app.helpdesk.com/tickets/G7P8UZ",
-        conversationTags: ['1-неизвестный вопрос', '2-Менеджеры 7bit', '5-Английский', '6-Mark', '4-Другие тикеты'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:53:27+03:00",
-        customerEmail: "lolol@gmail.com",
-        customerId: "lolol@gmail.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "5DINWJ",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://app.helpdesk.com/tickets/5DINWJ",
-        conversationTags: ['1-бездеп', '2-Менеджеры 7bit', '4-Акции и бонусы', '5-Английский', '6-Mark', '6-Hope'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:56:41+03:00",
-        customerEmail: "prakesh@wws.com",
-        customerId: "prakesh@wws.com",
-        operatorNicks: ['Emma'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "6BQN9D",
-        conversationCategory: "Другие тикеты",
-        conversationLink: "https://app.helpdesk.com/tickets/6BQN9D",
-        conversationTags: ['1-неизвестный вопрос', '2-Менеджеры Katsubet', '4-Другие тикеты', '5-Английский', '7-Antony'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T02:02:24+03:00",
-        customerEmail: "asdfrt@gmail.com",
-        customerId: "asdfrt@gmail.com",
-        operatorNicks: ['Jimmy'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "FI05HO",
-        conversationCategory: "Финансовые операции",
-        conversationLink: "https://app.helpdesk.com/tickets/FI05HO",
-        conversationTags: ['2-Менеджеры Mirax', '1-депозит успешен', '4-Финансовые операции', '5-Английский', '7-Antony', '1-недостаточная сумма депозита', '1-Lucky Spin'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T02:13:47+03:00",
-        customerEmail: "aaasdfffdsa@gmail.com",
-        customerId: "aaasdfffdsa@gmail.com",
-        operatorNicks: ['Jimmy'],
-        projectName: "Mirax"
-    },
-    {
-        conferenceId: "S16TLHO7QA",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://my.livechatinc.com/archives/S16TLHO7QA",
-        conversationTags: ['1-дубли бонус', '1-Бонусная рассылка', '2-Менеджеры Katsubet', '3-Низкий', '4-Простой', '5-Акции и бонусы', '6-Английский', '7- Antony'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:04:22",
-        customerEmail: "12121212@rrr.com",
-        customerId: "f23e8e88-67aa-4dc6-a545-6f348a01ab3a",
-        operatorNicks: ['Jimmy'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "S16TMH5H2J",
-        conversationCategory: "Финансовые операции",
-        conversationLink: "https://my.livechatinc.com/archives/S16TMH5H2J",
-        conversationTags: ['chatbot', 'chatbot-transfer', '1-депозит неуспешен', '1-платежи', '2-Менеджеры Katsubet', '3-Средний', '4-Простой', '5-Финансовые операции', '6-Английский', '7-Henry'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:10:31",
-        customerEmail: "12123123@uiop.com",
-        customerId: "ed719be9-dc78-4006-9038-8128ddaf80fe",
-        operatorNicks: ['Katsubet Support', 'Dave'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "S16TMHDNQU",
-        conversationCategory: "Макс бет (игры/слоты)",
-        conversationLink: "https://my.livechatinc.com/archives/S16TMHDNQU",
-        conversationTags: ['chatbot', 'chatbot-transfer', '6-Английский', '4-Простой', '3-Низкий', '5-Акции и бонусы', '7 - Claire', '2-Менеджеры WIN7bit AUSTRALIA', '1-бездеп регистрация'],
-        conversationType: "chat",
-        createdAt: "2023-10-01 00:14:18",
-        customerEmail: "",
-        customerId: "47257c9d-0ea3-4ee6-ad70-130a96453448",
-        operatorNicks: ['Customer Support', 'Emma'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "S4QV5P",
-        conversationCategory: "Закрытие аккаунта",
-        conversationLink: "https://app.helpdesk.com/tickets/S4QV5P",
-        conversationTags: ['1-GAMBLING рассылка', '2-Менеджеры 7bit', '4-Закрытие аккаунта', '5-Английский', '6-Mark', '9-Я. Ангелина', '9-Проблемный кейс уточняем/передаем в сс'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T00:37:59+03:00",
-        customerEmail: "dodik@dd.com",
-        customerId: "dodik@dd.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "EQQYYF",
-        conversationCategory: "Восстановление доступа",
-        conversationLink: "https://app.helpdesk.com/tickets/EQQYYF",
-        conversationTags: ['1-Переоткрытие', '2-Менеджеры 7bit', '4-Восстановление доступа', '5-Английский', '6-Pablo', '6-Jamie'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:12:33+03:00",
-        customerEmail: "mmm@eee.com",
-        customerId: "mmm@eee.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "W2U04U",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://app.helpdesk.com/tickets/W2U04U",
-        conversationTags: ['1-Daily cashback', '2-Менеджеры Katsubet', '4-Акции и бонусы', '5-Английский', '7-Henry', '1-UTC', '1-другие условия не выполнены', '7-Ethan', '1-NO REPLY'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:21:56+03:00",
-        customerEmail: "123@hotmail.com",
-        customerId: "123@hotmail.com",
-        operatorNicks: ['noAgent'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "G7P8UZ",
-        conversationCategory: "Другие тикеты",
-        conversationLink: "https://app.helpdesk.com/tickets/G7P8UZ",
-        conversationTags: ['1-неизвестный вопрос', '2-Менеджеры 7bit', '5-Английский', '6-Mark', '4-Другие тикеты'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:53:27+03:00",
-        customerEmail: "mnhj@gmail.com",
-        customerId: "mnhj@gmail.com",
-        operatorNicks: ['Silvia'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "5DINWJ",
-        conversationCategory: "Акции и бонусы",
-        conversationLink: "https://app.helpdesk.com/tickets/5DINWJ",
-        conversationTags: ['1-бездеп', '2-Менеджеры 7bit', '4-Акции и бонусы', '5-Английский', '6-Mark', '6-Hope'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T01:56:41+03:00",
-        customerEmail: "ghurt.com",
-        customerId: "ghurt.com",
-        operatorNicks: ['Emma'],
-        projectName: "7Bit"
-    },
-    {
-        conferenceId: "6BQN9D",
-        conversationCategory: "Другие тикеты",
-        conversationLink: "https://app.helpdesk.com/tickets/6BQN9D",
-        conversationTags: ['1-неизвестный вопрос', '2-Менеджеры Katsubet', '4-Другие тикеты', '5-Английский', '7-Antony'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T02:02:24+03:00",
-        customerEmail: "golto@gmail.com",
-        customerId: "golto@gmail.com",
-        operatorNicks: ['Jimmy'],
-        projectName: "KatsuBet"
-    },
-    {
-        conferenceId: "FI05HO",
-        conversationCategory: "Финансовые операции",
-        conversationLink: "https://app.helpdesk.com/tickets/FI05HO",
-        conversationTags: ['2-Менеджеры Mirax', '1-депозит успешен', '4-Финансовые операции', '5-Английский', '7-Antony', '1-недостаточная сумма депозита', '1-Lucky Spin'],
-        conversationType: "ticket",
-        createdAt: "2023-10-01T02:13:47+03:00",
-        customerEmail: "mmm@s.com",
-        customerId: "mmm@s.com",
-        operatorNicks: ['Jimmy'],
-        projectName: "Mirax"
-    }
-]
-let checkList1 = [
-    {
-        id: "S19VQ01VTT",
-        problemDesc: "немає мітки категорії",
-        problemLink: "https://my.livechatinc.com/archives/S19VQ01VTT",
-        problemType: "EMPTY",
-        rmvPosAllList: 3712,
-        rmvPosChats: 3712,
-        sourse: "chat",
-        tags: ['chatbot', 'chatbot-transfer'],
-    },
-    {
-        id: "S19VQ01VTT",
-        problemDesc: "немає мітки категорії",
-        problemLink: "https://my.livechatinc.com/archives/S19VQ01VTT",
-        problemType: "NOREPLYANDCAT",
-        rmvPosAllList: 3712,
-        rmvPosChats: 3712,
-        sourse: "chat",
-        tags: ['chatbot', 'chatbot-transfer'],
-    },
-    {
-        id: "S19VQ01VTT",
-        problemDesc: "немає мітки категорії",
-        problemLink: "https://my.livechatinc.com/archives/S19VQ01VTT",
-        problemType: "CATDUPS",
-        rmvPosAllList: 3712,
-        rmvPosChats: 3712,
-        sourse: "chat",
-        tags: ['chatbot', 'chatbot-transfer'],
-    },
-]
-let tagsList1 = ['1-  Бонусная рассылка', '1- Бонусная рассылка', '1-Daily cashback', '1-Friday TG', '1-GDPR',
-    '1-Gambling problems', '1-Highroller cashback', '1-Lucky Spin', '1-Monday Reload', '1-Monday Lootbox',
-    '1-Monday Lootbox PRO', '1-Monday Bonus', '1-NO REPLY', '1-Responsible Gambling', '1-S-tag отсутствует',
-    '1-Sing up TG', '1-Sign up TG', '1-SUICIDE THREAT', '1-Sunday TG', '1-S-tag в DSL отсутствует',
-    '1-S-tag не подходит', '1-Thursday High Bet Bonus', '1-Thursday TG', '1-T&C', '1-TG рассылка',
-    '1-Tuesday Lootbox', '1-Thursday Bonus', '1-Trustpilot bonus not issued', '1-UTC', '1-Wednesday FS',
-    '1-Weekly cashback', '1-Weekend Bonus', '1-Weekend TG', '1-Weekend Free Spins', '1-Wednesday Match',
-    '1-Wednesday Bonus', '1-achievements', '1-finance', '1-Аккаунт', '1-Блок (личные причины)',
-    '1-Бонусная рассылка', '1-Блок из-за недоступности бонусов', '1-Блок из-за дубликата',
-    '1-Блок (запрещённая страна)', '1-Блок (не создавал аккаунт)', '1-Блок (USA)', '1-ВИП программа',
-    '1-Вывод по холду', '1-Вейджер', '1-ВИП оффер', '1-Купон', '1-Максимальная ставка',
-    '1-Несоответствие условий бонуса', '1-Несоответствие данных', '1-Приветственный бонус', '1-Промокод',
-    '1-Переоткрытие', '1-Партнерство', '1-Турниры', '1-Частота начисления', '1-бездеп', '1-бездеп регистрация',
-    '1-бонус от партнера', '1-блок из-за проигрышей', '1-бонус истек', '1-блок из-за мультиаккаунта',
-    '1-верификация', '1-выплата неуспешна', '1-вопросы по играм', '1-вывод успешен', '1-выплата зависла',
-    '1-выплата утеряна', '1-выигрыш с FS не зачислен', '1-дубли бонус', '1-другие условия не выполнены',
-    '1-депозит утерян', '1-день рождения', '1-депозит успешен', '1-депозит завис', '1-депозит неуспешен',
-    '1-запрещенная страна бонус', '1-игрок отменил бонус', '1-игры не работают', '1-игра недоступна',
-    '1-компоинты', '1-лимиты', '1-мульты бонус', '1-недостаточная сумма депозита', '1-нерабочий бонус',
-    '1-неизвестный вопрос', '1-несоответствие рассылок', '1-отмена выплаты нужна верификация',
-    '1-отмена выплаты другие причины', '1-отмена выплаты нарушение правил',
-    '1-отмена выплаты вывод недоступен', '1-платежи', '1-пароль', '1-проблема с доступом',
-    '1-сложности с активацией бонуса', '1-сайт не работает'];
-
 const getE = (selector) => document.querySelector(selector);
 const proper = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 const roundNum = (num) => (!/.00$/.test(num.toFixed(2).toString())) ? num.toFixed(2) : num.toFixed(3);
@@ -1996,18 +1698,13 @@ async function createReport(recordsForReport, reportType) {
         dialogContainer.innerHTML = `
         <div class="load-box">
         <div class="load-image"><img src="./images/icons8-analyze.gif" alt="analyze gif icon"></div>
-        <p class="load-tip">Перепочиньте поки ми шукаємо чати для потенційного об'єднання для вас!)</p>
+        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
         </div>`;
         dialogContainer.classList.remove('hide');
-        new Promise((resolve) => {
-            // recordsToWork = findChatsForMerge(recordsChats);
-            resolve(findChatsForMerge(recordsChats));
-        })
+        setTimeout(() => { findChatsForMerge(recordsChats), 2000 });
     }
 
     return new Promise((resolve) => {
-
-
         let csv = "";
         let fRow = false;
         for (let row = 0; row < recordsToWork.length; row++) {
@@ -2052,21 +1749,25 @@ async function createReport(recordsForReport, reportType) {
         let setToButton;
         let reportDateTime = new Date().toLocaleString("uk-UA");
         if (reportType === "chat") {
+            getE('#createChatReport').disabled = true;
             reportData.chat.reportName = "CHAT_report_" + reportDateTime.replace(",", "");
             reportData.chat.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadChatReport');
         }
         if (reportType === "ticket") {
+            getE('#createTicketReport').disabled = true;
             reportData.ticket.reportName = "TICKET_report_" + reportDateTime.replace(",", "");
             reportData.ticket.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadTicketReport');
         }
         if (reportType === "general") {
+            getE('#createGeneralReport').disabled = true;
             reportData.general.reportName = "GENERAL_report_" + reportDateTime.replace(",", "");
             reportData.general.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadGeneralReport');
         }
         if (reportType === "check") {
+            getE('#createCheckReport').disabled = true;
             reportData.check.reportName = "CHECK_report_" + reportDateTime.replace(",", "");
             reportData.check.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadCheckReport');
@@ -2275,6 +1976,7 @@ async function countManagersPerf(recordsToCount) {
 // COUNT TAGS FUNCTION START
 let countedTagsList = [], savedCountedTagsList = [];
 async function countTags(recordsToCount) {
+    console.log(tagsList);
     let allTags = "";
     for (let record = 0; record < recordsToCount.length; record++) {
         allTags += recordsToCount[record].conversationTags;

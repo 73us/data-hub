@@ -81,7 +81,7 @@
                                         onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт"
                                         disabled>
                                     <input type="button" id="showDataTable" onclick="showDataTable()" value="Таблиця">
-                                    <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше">
+                                    <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше" disabled>
                                 </div>
                             </fieldset>
                         </div>
@@ -91,9 +91,9 @@
                                 <li id="item-2" value="item2">Менеджери</li>
                                 <li id="item-3" value="item3">Мітки</li>
                                 <!-- <li id="item-4" value="item4">Item 4</li> -->
-                                <!-- <li id="item-5" value="item5">Item 5</li> -->
                             </nav>
                             <div class="content">
+                                <!-- TBALE 1 START -->
                                 <table id="data-table-1" class="show">
                                     <thead>
                                         <tr>
@@ -107,6 +107,9 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
+                                <!-- TBALE 1 END -->
+
+                                <!-- TBALE 2 START -->
                                 <table id="data-table-2">
                                     <thead>
                                         <tr>
@@ -128,6 +131,9 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
+                                <!-- TBALE 2 END -->
+
+                                <!-- TBALE 3 START -->
                                 <table id="data-table-3">
                                     <thead>
                                         <tr>
@@ -139,26 +145,9 @@
                                                 name="true">Співвідношення<span></span></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!-- <tr><td>fdssfd sffds fdsd fs</td></tr> -->
-                                    </tbody>
-                                </table>
-                                <!-- <table id="data-table-4">
-                                    <thead>
-                                        <tr>
-                                            <th>Table 4</th>
-                                        </tr>
-                                    </thead>
                                     <tbody></tbody>
                                 </table>
-                                <table id="data-table-5">
-                                    <thead>
-                                        <tr>
-                                            <th>Table 5</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table> -->
+                                <!-- TBALE 3 END -->
                             </div>
                         </div>
                     </div>
@@ -176,7 +165,7 @@
                     Rights Reserved.</p>
             </div>
             <div class="version">
-                <p>v 0.6</p>
+                <p>v 0.6.0.1</p>
             </div>
         </footer>
         <!-- FOTTER END -->
