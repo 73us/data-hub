@@ -552,7 +552,6 @@
                     .countBadge {
                       height: 20px;
                       width: 21%;
-                      // text-align: left;
                       padding: 0 2px;
                       background-color: $btn-white;
                       border: 1px solid #000;
@@ -560,10 +559,7 @@
                       font-size: 12px;
                       border-radius: 5px;
                       margin-left: 3px;
-
-                      // @extend %d-flex;
                       display: flex;
-                      // justify-content: start;
                       justify-content: start;
                       align-items: center;
                     }
@@ -781,8 +777,6 @@
               li:hover {
                 cursor: pointer;
                 background-color: $btn-white-hover;
-                // border: 2px solid $bg-blue;
-                // color: $c-white;
               }
               .active {
                 background-color: $btn-white;
@@ -799,18 +793,32 @@
             .content {
               position: relative;
               min-width: 500px;
-              height: 450px;
+              height: 680px;
               width: 100%;
               margin-top: 39px;
               z-index: 0;
               display: flex;
               justify-content: center;
-              // background-color: $bg-white;
+              table {
+                height: 680px;
+                thead {
+                  tr {
+                    th::selection {
+                      background-color: transparent;
+                    }
+                    th{
+                      text-align: left;
+                      span::selection{
+                      background-color: transparent;
+                      }
+                    }
+                  }
+                }
+              }
 
               // table CATEGORIES START
               #data-table-1 {
                 min-width: 650px;
-                height: 450px;
                 background-color: $bg-white;
                 display: none;
                 overflow: auto;
@@ -875,7 +883,6 @@
               // table MANAGERS START
               #data-table-2 {
                 min-width: 650px;
-                height: 450px;
                 background-color: $bg-white;
                 display: none;
                 overflow: auto;
@@ -893,6 +900,9 @@
                     }
                     th:first-of-type {
                       border-radius: 5px 0 0 5px;
+                    }
+                    th:nth-of-type(4) {
+                      font-weight: bold;
                     }
                     th:last-of-type {
                       border-radius: 0 5px 5px 0;
@@ -917,6 +927,9 @@
                     td:first-of-type {
                       border-radius: 5px 0 0 5px;
                     }
+                    td:nth-of-type(4) {
+                      font-weight: bold;
+                    }
                     td:last-of-type {
                       border-radius: 0 5px 5px 0;
                     }
@@ -932,7 +945,6 @@
               // table TAGS START
               #data-table-3 {
                 min-width: 650px;
-                height: 450px;
                 background-color: $bg-white;
                 display: none;
                 overflow: auto;

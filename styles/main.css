@@ -878,16 +878,33 @@ table {
 .container main .right .data-container .data-main .display-data-container .content {
   position: relative;
   min-width: 500px;
-  height: 450px;
+  height: 680px;
   width: 100%;
   margin-top: 39px;
   z-index: 0;
   display: flex;
   justify-content: center;
 }
+.container main .right .data-container .data-main .display-data-container .content table {
+  height: 680px;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th::-moz-selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th::selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th {
+  text-align: left;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th span::-moz-selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th span::selection {
+  background-color: transparent;
+}
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 {
   min-width: 650px;
-  height: 450px;
   background-color: #f8f9fa;
   display: none;
   overflow: auto;
@@ -947,7 +964,6 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 {
   min-width: 650px;
-  height: 450px;
   background-color: #f8f9fa;
   display: none;
   overflow: auto;
@@ -968,6 +984,9 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:first-of-type {
   border-radius: 5px 0 0 5px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(4) {
+  font-weight: bold;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:last-of-type {
   border-radius: 0 5px 5px 0;
@@ -990,6 +1009,9 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:first-of-type {
   border-radius: 5px 0 0 5px;
 }
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:nth-of-type(4) {
+  font-weight: bold;
+}
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:last-of-type {
   border-radius: 0 5px 5px 0;
 }
@@ -999,7 +1021,6 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 {
   min-width: 650px;
-  height: 450px;
   background-color: #f8f9fa;
   display: none;
   overflow: auto;

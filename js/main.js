@@ -834,8 +834,8 @@ async function cleanChatRecords() {
                     conversationLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
                     conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                     conversationTags: tags, // converstaion tags
-                    operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
-                    lastOperator: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks[operatorNicks.length - 1], // operatorNicks
+                    operatorNicks: (operatorNicks.length === 0) ? "noAgent" : operatorNicks, // operatorNicks
+                    lastOperator: (operatorNicks.length === 0) ? "noAgent" : operatorNicks[operatorNicks.length - 1], // operatorNicks
                     customerId: dataByCells[7], // customer ID (for chats it has unique ID)
                     customerEmail: dataByCells[10], // customer email
                     specialFields: {
@@ -1084,8 +1084,8 @@ async function cleanTicketRecords() {
                         conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
                         conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                         conversationTags: tags, // converstaion tags
-                        operatorNicks: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks, // operatorNicks
-                        lastOperator: (operatorNicks.length === 0) ? ["noAgent"] : operatorNicks[operatorNicks.length - 1], // operatorNicks
+                        operatorNicks: (operatorNicks.length === 0) ? "noAgent" : operatorNicks, // operatorNicks
+                        lastOperator: (operatorNicks.length === 0) ? "noAgent" : operatorNicks[operatorNicks.length - 1], // operatorNicks
                         customerId: dataByCells[5], // customer ID (for chats it has unique ID)
                         customerEmail: dataByCells[5], // customer email
                         specialFields: {
@@ -1266,6 +1266,16 @@ async function buildFilteringSection() {
     <fieldset class="reset-btn-fieldset">
     <input type="button" id="resetFilters" onclick="resetFilters()" value="Скинути">
     </fieldset>`;
+
+    // reset sort arrows START
+    for (let table = 0; table < getE('.content').children.length; table++) {
+        let tRow = getE('.content').children[table].firstElementChild.firstElementChild;
+        for (let i = 0; i < tRow.children.length; i++) {
+            tRow.children[i].setAttribute('name', true);
+            tRow.children[i].firstElementChild.innerHTML = "";
+        }
+    }
+    // reset sort arrows END
 
     await getInfo();
     await buildFilters();
@@ -1527,7 +1537,7 @@ async function filterResults(buildedFilter) {
         }
         for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
-                if (filrteringArr[i].operatorNicks[filrteringArr[i].operatorNicks.length - 1] === buildedFilter.agentsFilter[a]) {
+                if (filrteringArr[i].lastOperator === buildedFilter.agentsFilter[a]) {
                     filteredDataArr.push(filrteringArr[i]);
                 }
             }
@@ -1535,10 +1545,17 @@ async function filterResults(buildedFilter) {
     }
     // filtering by AGENT NAME END
 
-    savedfilteredDataArr = [...filteredDataArr];
-    // console.log(savedfilteredDataArr);
+    // reset sort arrows START
+    for (let table = 0; table < getE('.content').children.length; table++) {
+        let tRow = getE('.content').children[table].firstElementChild.firstElementChild;
+        for (let i = 0; i < tRow.children.length; i++) {
+            tRow.children[i].setAttribute('name', true);
+            tRow.children[i].firstElementChild.innerHTML = "";
+        }
+    }
+    // reset sort arrows END
 
-    // savedfilteredDataArr = filteredDataArr;
+    savedfilteredDataArr = [...filteredDataArr];
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
     await countManagersPerf(filteredDataArr);
@@ -1616,7 +1633,7 @@ async function recordsCounter(dataToCount) {
     let newAgents = [];
     let allRecordsAgent = [];
     for (let i = 0; i < dataToCount.length; i++) {
-        allRecordsAgent.push(dataToCount[i].operatorNicks[dataToCount[i].operatorNicks.length - 1])
+        allRecordsAgent.push(dataToCount[i].lastOperator)
     }
     let agentsList = allRecordsAgent.filter((item, i, arr) => arr.indexOf(item) === i);
     addCountent = "";
@@ -1627,6 +1644,7 @@ async function recordsCounter(dataToCount) {
             newAgents.push({ [agentsList[i]]: agentsCount });
         }
     }
+
     cleanRecordsCountObj.agentsCount = Object.assign({}, newAgents);
     // count unique agents end
 
@@ -2145,7 +2163,7 @@ menu.onclick = (e) => {
 // DATA TABLE SHOW/HIDE EFFECT FUNCTION END
 
 // COUNT CATEGORIES FUNCTION START
-let countedCategoriesList = [];
+let countedCategoriesList = [], savedCountedCategoriesList = [];
 async function countCategories(recordsToCount) {
     let allCategories = "";
     for (let record = 0; record < recordsToCount.length; record++) {
@@ -2164,27 +2182,53 @@ async function countCategories(recordsToCount) {
             countedCategoriesList.push({ [categoryName]: categoryCount });
         }
     }
-    buildTable(countedCategoriesList, "categories");
+    await buildTable(countedCategoriesList, "categories");
+    savedCountedCategoriesList = [...countedCategoriesList];
     countedCategoriesList = [];
 }
 // COUNT CATEGORIES FUNCTION END
 
 // COUNT MANAGERS PERFORMANCE FUNCTION START
-let countedManagersPerfList = [];
+let countedManagersPerfList = [], savedCountedManagersPerfList = [];
 async function countManagersPerf(recordsToCount) {
-    let allManagers = "";
+    let allManagersChat = "",
+        allManagersGen = "";
     for (let record = 0; record < recordsToCount.length; record++) {
-        allManagers += recordsToCount[record].operatorNicks[recordsToCount[record].operatorNicks.length - 1] + ",";
+        if (recordsToCount[record].conversationType === 'chat') {
+            allManagersChat += recordsToCount[record].lastOperator + ",";
+        }
+        allManagersGen += recordsToCount[record].lastOperator + ",";
     }
-    // manager conversations count START
+    // manager all conversations count START
     for (let manager = 0; manager < managersList.length; manager++) {
         let managerRegex = new RegExp(managersList[manager], "gm");
-        if (managerRegex.test(allManagers)) {
-            let managerCount = allManagers.match(managerRegex).length;
-            countedManagersPerfList.push({ [managersList[manager]]: { convCount: managerCount, allConvDur: 0, allFirstResp: 0 } });
+        if (managerRegex.test(allManagersGen)) {
+            let managerCount = allManagersGen.match(managerRegex).length;
+            countedManagersPerfList.push({ [managersList[manager]]: { convCount: managerCount, allConvDur: 0, allFirstResp: 0, chatsCount: 0, ticketsCount: 0 } });
         }
     }
-    // manager conversations count END
+    // manager all conversations count END
+
+    // manager chats and tickets separately count START
+    for (let record = 0; record < recordsToCount.length; record++) {
+        if (recordsToCount[record].conversationType === 'chat') {
+            for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
+                let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].lastOperator === currManagerObj) {
+                    countedManagersPerfList[manager][currManagerObj].chatsCount++;
+                }
+            }
+        }
+        else if (recordsToCount[record].conversationType === 'ticket') {
+            for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
+                let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
+                if (recordsToCount[record].lastOperator === currManagerObj) {
+                    countedManagersPerfList[manager][currManagerObj].ticketsCount++;
+                }
+            }
+        }
+    }
+    // manager chats and tickets separately count END
 
     // all conversations duration per manager START
     for (let record = 0; record < recordsToCount.length; record++) {
@@ -2216,19 +2260,20 @@ async function countManagersPerf(recordsToCount) {
     // count average conversations and first response time per manager START
     for (let keyIndex = 0; keyIndex < countedManagersPerfList.length; keyIndex++) {
         for (const key in countedManagersPerfList[keyIndex]) {
-            countedManagersPerfList[keyIndex][key].avgConvTime = countedManagersPerfList[keyIndex][key].allConvDur / countedManagersPerfList[keyIndex][key].convCount;
-            countedManagersPerfList[keyIndex][key].avgFirstResp = countedManagersPerfList[keyIndex][key].allFirstResp / countedManagersPerfList[keyIndex][key].convCount;
+            countedManagersPerfList[keyIndex][key].avgConvTime = countedManagersPerfList[keyIndex][key].allConvDur / countedManagersPerfList[keyIndex][key].chatsCount;
+            countedManagersPerfList[keyIndex][key].avgFirstResp = countedManagersPerfList[keyIndex][key].allFirstResp / countedManagersPerfList[keyIndex][key].chatsCount;
         }
     }
     // count average conversations and first response time per manager END
 
     await buildTable(countedManagersPerfList, "managers");
+    savedCountedManagersPerfList = [...countedManagersPerfList];
     countedManagersPerfList = [];
 }
 // COUNT MANAGERS PERFORMANCE FUNCTION END
 
 // COUNT TAGS FUNCTION START
-let countedTagsList = [];
+let countedTagsList = [], savedCountedTagsList = [];
 async function countTags(recordsToCount) {
     let allTags = "";
     for (let record = 0; record < recordsToCount.length; record++) {
@@ -2241,7 +2286,8 @@ async function countTags(recordsToCount) {
             countedTagsList.push({ [tagsList[tag]]: tagCount });
         }
     }
-    buildTable(countedTagsList, "tags");
+    await buildTable(countedTagsList, "tags");
+    savedCountedTagsList = [...countedTagsList];
     countedTagsList = [];
 }
 // COUNT TAGS FUNCTION END
@@ -2249,6 +2295,7 @@ async function countTags(recordsToCount) {
 // BUILD DATA TABLES FUNCTION START
 async function buildTable(dataToWork, tableType) {
     let content = '';
+
     // build CATEGORIES table START
     if (tableType === "categories") {
         let catSum = 0;
@@ -2272,12 +2319,16 @@ async function buildTable(dataToWork, tableType) {
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < dataToWork.length; i++) {
             let managerLabel = Object.keys(dataToWork[i]).toString(),
+                managerChatsCount = dataToWork[i][managerLabel].chatsCount,
+                managerTicketsCount = dataToWork[i][managerLabel].ticketsCount,
                 managerConvCount = dataToWork[i][managerLabel].convCount,
                 managerAvgConvTime = dataToWork[i][managerLabel].avgConvTime,
                 managerAvgFirsrRespTime = dataToWork[i][managerLabel].avgFirstResp,
                 percent = ((managerConvCount / convSum) * 100);
             content += `<tr>
             <td>${managerLabel}</td>
+            <td>${managerChatsCount}</td>
+            <td>${managerTicketsCount}</td>
             <td>${managerConvCount}</td>
             <td>${roundNum(percent)}%</td>
             <td>${roundNum(managerAvgConvTime)} хв</td>
@@ -2288,7 +2339,7 @@ async function buildTable(dataToWork, tableType) {
         teamAvgConvTime /= dataToWork.length;
         teamAvgFirsrRespTime /= dataToWork.length;
         content += `<tr>
-        <td>Разом чатів</td><td>${convSum} шт.</td>
+        <td></td><td></td><td>Разом звернень</td><td>${convSum} шт.</td>
         <td>Середні значення</td><td>${roundNum(teamAvgConvTime)} хв</td><td>${roundNum(teamAvgFirsrRespTime)} хв</td></tr>`;
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = content;
     }
@@ -2313,16 +2364,10 @@ async function buildTable(dataToWork, tableType) {
 }
 // BUILD DATA TABLES FUNCTION END
 
-// getE('.start-instraction-block').style.display = "none";
-// getE('.left').style.display = "none";
-// getE('.data-main').classList.remove("hide");
-// buildFilteringSection();
-
 // FIND CHATS FOR MERGING FUNCTION START
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
     let mergingObj = {}, projectsArr = [];
-
 
     for (const key of projectsList) mergingObj[key] = [];
     for (let record = 0; record < arrToWork.length; record++) {
@@ -2376,13 +2421,78 @@ async function findChatsForMerge(arrToWork) {
 }
 // FIND CHATS FOR MERGING FUNCTION END
 
+// SORT STRING COLUMN FUNCTION START
+let arrowUp = "&#11205",
+    arrowDown = "&#11206";
+async function sortColumnStr(e, recordsToSort) {
+    let sortedRecords;
+    if (e.target.getAttribute('name') === "false") {
+        sortedRecords = recordsToSort.sort((a, b) => Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase() ? 1 : -1);
+        e.target.setAttribute('name', true);
+        e.target.firstElementChild.innerHTML = arrowUp;
+    }
+    else if (e.target.getAttribute('name')) {
+        sortedRecords = recordsToSort.sort((a, b) => Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase() ? -1 : 1);
+        e.target.setAttribute('name', false);
+        e.target.firstElementChild.innerHTML = arrowDown;
+    }
+    let parent = e.target.parentNode;
+    for (let elem = 0; elem < parent.children.length; elem++) {
+        if (parent.children[elem] !== e.target) {
+            parent.children[elem].setAttribute('name', true);
+            parent.children[elem].firstElementChild.innerHTML = "";
+        }
+    }
+    if (recordsToSort === savedCountedCategoriesList) {
+        await buildTable(sortedRecords, "categories");
+    }
+    if (recordsToSort === savedCountedManagersPerfList) {
+        await buildTable(sortedRecords, "managers");
+    }
+    if (recordsToSort === savedCountedTagsList) {
+        await buildTable(sortedRecords, "tags");
+    }
+}
+// SORT STRING COLUMN FUNCTION END
+
+// SORT NUMBER COLUMN FUNCTION START
+async function sortColumnNum(e, recordsToSort, sortBy) {
+    let sortedRecords;
+    if (e.target.getAttribute('name') === "false") {
+        (sortBy === "") ?
+            sortedRecords = recordsToSort.sort(function (a, b) { return a[Object.keys(a)[0]] - b[Object.keys(b)[0]] }) :
+            sortedRecords = recordsToSort.sort(function (a, b) { return a[Object.keys(a)[0]][sortBy] - b[Object.keys(b)[0]][sortBy] });
+        e.target.setAttribute('name', true);
+        e.target.firstElementChild.innerHTML = arrowUp;
+    }
+    else if (e.target.getAttribute('name')) {
+        (sortBy === "") ?
+            sortedRecords = recordsToSort.sort(function (a, b) { return b[Object.keys(b)[0]] - a[Object.keys(a)[0]] }) :
+            sortedRecords = recordsToSort.sort(function (a, b) { return b[Object.keys(b)[0]][sortBy] - a[Object.keys(a)[0]][sortBy] });
+        e.target.setAttribute('name', false);
+        e.target.firstElementChild.innerHTML = arrowDown;
+    }
+    let parent = e.target.parentNode;
+    for (let elem = 0; elem < parent.children.length; elem++) {
+        if (parent.children[elem] !== e.target) {
+            parent.children[elem].setAttribute('name', true);
+            parent.children[elem].firstElementChild.innerHTML = "";
+        }
+    }
+    if (recordsToSort === savedCountedCategoriesList) {
+        await buildTable(sortedRecords, "categories");
+    }
+    if (recordsToSort === savedCountedManagersPerfList) {
+        await buildTable(sortedRecords, "managers");
+    }
+    if (recordsToSort === savedCountedTagsList) {
+        await buildTable(sortedRecords, "tags");
+    }
+}
+// SORT NUMBER COLUMN FUNCTION END
+
+// getE('.start-instraction-block').style.display = "none";
+// getE('.left').style.display = "none";
+// getE('.data-main').classList.remove("hide");
+// buildFilteringSection();
 function moreOptions() { }
-
-
-// let arr1 = [1, 2, 3, 4, 5];
-// let arr2 = [...arr1];
-// arr2[2] = 10;
-// arr2[4] = 0;
-
-// console.log(arr1);
-// console.log(arr2);
