@@ -781,6 +781,9 @@
                 cursor: pointer;
                 background-color: $btn-white-hover;
               }
+              li::selection {
+                background-color: transparent;
+              }
               .active {
                 background-color: $btn-white;
                 border: 1px solid $bg-black;
@@ -1236,8 +1239,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 100px;
-      height: 100px;
+      background-image: url("../images/icons8-analyze.gif");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 80px;
+      height: 80px;
     }
     .load-tip {
       font-size: 14px;

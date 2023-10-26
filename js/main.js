@@ -1697,7 +1697,7 @@ async function createReport(recordsForReport, reportType) {
         getE('#createMergingChatReport').disabled = true;
         dialogContainer.innerHTML = `
         <div class="load-box">
-        <div class="load-image"><img src="./images/icons8-analyze.gif" alt="analyze gif icon"></div>
+        <div class="load-image"></div>
         <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
         </div>`;
         dialogContainer.classList.remove('hide');
@@ -1976,7 +1976,6 @@ async function countManagersPerf(recordsToCount) {
 // COUNT TAGS FUNCTION START
 let countedTagsList = [], savedCountedTagsList = [];
 async function countTags(recordsToCount) {
-    console.log(tagsList);
     let allTags = "";
     for (let record = 0; record < recordsToCount.length; record++) {
         allTags += recordsToCount[record].conversationTags;
@@ -2069,57 +2068,55 @@ async function buildTable(dataToWork, tableType) {
 // FIND CHATS FOR MERGING FUNCTION START
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
-    let mergingObj = {}, projectsArr = [];
+    return new Promise((resolve) => {
+        let mergingObj = {}, projectsArr = [];
 
-    for (const key of projectsList) mergingObj[key] = [];
-    for (let record = 0; record < arrToWork.length; record++) {
-        for (const key in mergingObj) {
-            if (key === arrToWork[record].projectName) {
-                mergingObj[key].push(arrToWork[record]);
+        for (const key of projectsList) mergingObj[key] = [];
+        for (let record = 0; record < arrToWork.length; record++) {
+            for (const key in mergingObj) {
+                if (key === arrToWork[record].projectName) {
+                    mergingObj[key].push(arrToWork[record]);
+                }
             }
         }
-    }
+        for (const key in mergingObj) projectsArr.push(key);
 
-    for (const key in mergingObj) projectsArr.push(key);
-
-    let count = 0;
-    start:
-    for (let proj = count; proj < projectsArr.length; proj++) {
-        let curProj = projectsArr[proj];
-        mergingObj[curProj].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
         let count = 0;
-        for (let i = 0; i < mergingObj[curProj].length; i++) {
-            let currID = mergingObj[curProj][i].customerId,
-                currTime = mergingObj[curProj][i].specialFields.createdAtMilis;
-            for (let a = 0; a < mergingObj[curProj].length; a++) {
-                let compareID = mergingObj[curProj][a].customerId,
-                    compareTime = mergingObj[curProj][a].specialFields.createdAtMilis;
-                if (currID === compareID) count++;
-                else count = 0;
-                if (count > 1) {
-                    if (currTime - compareTime < 0 && currTime - compareTime > -86400000) {
-                        if (!mergingArr.includes(mergingObj[curProj][i]) &&
-                            !mergingArr.includes(mergingObj[curProj][a])) {
-                            mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+        start:
+        for (let proj = count; proj < projectsArr.length; proj++) {
+            let curProj = projectsArr[proj];
+            mergingObj[curProj].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
+            let count = 0;
+            for (let i = 0; i < mergingObj[curProj].length; i++) {
+                let currID = mergingObj[curProj][i].customerId,
+                    currTime = mergingObj[curProj][i].specialFields.createdAtMilis;
+                for (let a = 0; a < mergingObj[curProj].length; a++) {
+                    let compareID = mergingObj[curProj][a].customerId,
+                        compareTime = mergingObj[curProj][a].specialFields.createdAtMilis;
+                    if (currID === compareID) count++;
+                    else count = 0;
+                    if (count > 1) {
+                        if (currTime - compareTime < 0 && currTime - compareTime > -86400000) {
+                            if (!mergingArr.includes(mergingObj[curProj][i]) &&
+                                !mergingArr.includes(mergingObj[curProj][a])) {
+                                mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+                            }
                         }
-                    }
-                    if (currTime - compareTime > 0 && currTime - compareTime < 86400000) {
-                        if (!mergingArr.includes(mergingObj[curProj][i]) &&
-                            !mergingArr.includes(mergingObj[curProj][a])) {
-                            mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+                        if (currTime - compareTime > 0 && currTime - compareTime < 86400000) {
+                            if (!mergingArr.includes(mergingObj[curProj][i]) &&
+                                !mergingArr.includes(mergingObj[curProj][a])) {
+                                mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+                            }
                         }
                     }
                 }
             }
+            count++;
+            continue start;
         }
-        // setTimeout(() => {
-        count++;
-        // }, 100);
-        continue start;
-    }
-
-    dialogContainer.classList.add('hide');
-    return mergingArr;
+        dialogContainer.classList.add('hide');
+        resolve(mergingArr)
+    })
 }
 // FIND CHATS FOR MERGING FUNCTION END
 
@@ -2127,20 +2124,21 @@ async function findChatsForMerge(arrToWork) {
 let arrowUp = "&#11205",
     arrowDown = "&#11206";
 async function sortColumnStr(e, recordsToSort) {
-    let sortedRecords;
-    if (e.target.getAttribute('name') === "false") {
+    let currentElem, sortedRecords;
+    (e.target.tagName.toLowerCase() === "span") ? currentElem = e.target.parentNode : currentElem = e.target;
+    if (currentElem.getAttribute('name') === "false") {
         sortedRecords = recordsToSort.sort((a, b) => Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase() ? 1 : -1);
-        e.target.setAttribute('name', true);
-        e.target.firstElementChild.innerHTML = arrowUp;
+        currentElem.setAttribute('name', true);
+        currentElem.firstElementChild.innerHTML = arrowUp;
     }
-    else if (e.target.getAttribute('name')) {
+    else if (currentElem.getAttribute('name')) {
         sortedRecords = recordsToSort.sort((a, b) => Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase() ? -1 : 1);
-        e.target.setAttribute('name', false);
-        e.target.firstElementChild.innerHTML = arrowDown;
+        currentElem.setAttribute('name', false);
+        currentElem.firstElementChild.innerHTML = arrowDown;
     }
-    let parent = e.target.parentNode;
+    let parent = currentElem.parentNode;
     for (let elem = 0; elem < parent.children.length; elem++) {
-        if (parent.children[elem] !== e.target) {
+        if (parent.children[elem] !== currentElem) {
             parent.children[elem].setAttribute('name', true);
             parent.children[elem].firstElementChild.innerHTML = "";
         }
@@ -2159,24 +2157,25 @@ async function sortColumnStr(e, recordsToSort) {
 
 // SORT NUMBER COLUMN FUNCTION START
 async function sortColumnNum(e, recordsToSort, sortBy) {
-    let sortedRecords;
-    if (e.target.getAttribute('name') === "false") {
+    let currentElem, sortedRecords;
+    (e.target.tagName.toLowerCase() === "span") ? currentElem = e.target.parentNode : currentElem = e.target;
+    if (currentElem.getAttribute('name') === "false") {
         (sortBy === "") ?
             sortedRecords = recordsToSort.sort(function (a, b) { return a[Object.keys(a)[0]] - b[Object.keys(b)[0]] }) :
             sortedRecords = recordsToSort.sort(function (a, b) { return a[Object.keys(a)[0]][sortBy] - b[Object.keys(b)[0]][sortBy] });
-        e.target.setAttribute('name', true);
-        e.target.firstElementChild.innerHTML = arrowUp;
+        currentElem.setAttribute('name', true);
+        currentElem.firstElementChild.innerHTML = arrowUp;
     }
-    else if (e.target.getAttribute('name')) {
+    else if (currentElem.getAttribute('name')) {
         (sortBy === "") ?
             sortedRecords = recordsToSort.sort(function (a, b) { return b[Object.keys(b)[0]] - a[Object.keys(a)[0]] }) :
             sortedRecords = recordsToSort.sort(function (a, b) { return b[Object.keys(b)[0]][sortBy] - a[Object.keys(a)[0]][sortBy] });
-        e.target.setAttribute('name', false);
-        e.target.firstElementChild.innerHTML = arrowDown;
+        currentElem.setAttribute('name', false);
+        currentElem.firstElementChild.innerHTML = arrowDown;
     }
-    let parent = e.target.parentNode;
+    let parent = currentElem.parentNode;
     for (let elem = 0; elem < parent.children.length; elem++) {
-        if (parent.children[elem] !== e.target) {
+        if (parent.children[elem] !== currentElem) {
             parent.children[elem].setAttribute('name', true);
             parent.children[elem].firstElementChild.innerHTML = "";
         }

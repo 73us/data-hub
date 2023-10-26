@@ -870,6 +870,12 @@ table {
   cursor: pointer;
   background-color: #e0e2e4;
 }
+.container main .right .data-container .data-main .display-data-container .menu li::-moz-selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .menu li::selection {
+  background-color: transparent;
+}
 .container main .right .data-container .data-main .display-data-container .menu .active {
   background-color: #f8f9fa;
   border: 1px solid #000000;
@@ -1304,8 +1310,12 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  background-image: url("../images/icons8-analyze.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 80px;
+  height: 80px;
 }
 .dialogWindow-container .load-box .load-tip {
   font-size: 14px;
