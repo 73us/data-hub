@@ -1692,18 +1692,21 @@ async function buildReportSection() {
 // GENERATE REPORT FUNCTION START
 let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {} };
 async function createReport(recordsForReport, reportType) {
-    let recordsToWork = [...recordsForReport];
+    let recordsToWork;
     if (reportType === "merging") {
         getE('#createMergingChatReport').disabled = true;
-        dialogContainer.innerHTML = `
-        <div class="load-box">
-        <div class="load-image"></div>
-        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
-        </div>`;
-        dialogContainer.classList.remove('hide');
-        setTimeout(() => { findChatsForMerge(recordsChats), 2000 });
+        // dialogContainer.innerHTML = `
+        // <div class="load-box">
+        // <div class="load-image"></div>
+        // <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
+        // </div>`;
+        // dialogContainer.classList.remove('hide');
+        recordsToWork = await findChatsForMerge(recordsChats);
     }
-
+    else {
+        recordsToWork = [...recordsForReport];
+    }
+    console.log(recordsToWork, 'a', recordsForReport);
     return new Promise((resolve) => {
         let csv = "";
         let fRow = false;
@@ -1778,11 +1781,11 @@ async function createReport(recordsForReport, reportType) {
             setToButton = getE('#downloadChatMerging');
         }
         if (reportType === "filteredData") {
-            reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             setToButton = false;
         }
 
         if (!setToButton) {
+            let reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             let link = document.createElement('a');
             link.id = 'download-csv';
             link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
@@ -2069,6 +2072,12 @@ async function buildTable(dataToWork, tableType) {
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
     return new Promise((resolve) => {
+        dialogContainer.innerHTML = `
+        <div class="load-box">
+        <div class="load-image"></div>
+        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
+        </div>`;
+        dialogContainer.classList.remove('hide');
         let mergingObj = {}, projectsArr = [];
 
         for (const key of projectsList) mergingObj[key] = [];
@@ -2115,8 +2124,8 @@ async function findChatsForMerge(arrToWork) {
             continue start;
         }
         dialogContainer.classList.add('hide');
-        resolve(mergingArr)
-    })
+        resolve(mergingArr);
+    });
 }
 // FIND CHATS FOR MERGING FUNCTION END
 
