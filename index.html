@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <!-- MAIN START -->
         <main>
@@ -81,7 +80,8 @@
                                         onclick="createReport(savedfilteredDataArr,'filteredData')" value="Звіт"
                                         disabled>
                                     <input type="button" id="showDataTable" onclick="showDataTable()" value="Таблиця">
-                                    <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше" disabled>
+                                    <input type="button" id="showMoreOptions" onclick="moreOptions()" value="Більше"
+                                        disabled>
                                 </div>
                             </fieldset>
                         </div>
@@ -97,12 +97,17 @@
                                 <table id="data-table-1" class="show">
                                     <thead>
                                         <tr>
-                                            <th onclick="sortColumnStr(event, savedCountedCategoriesList)"
-                                                name="true">Категорія<span></span></th>
+                                            <th onclick="sortColumnStr(event, savedCountedCategoriesList)" name="true">
+                                                Категорія<span></span></th>
                                             <th onclick="sortColumnNum(event, savedCountedCategoriesList, '')"
                                                 name="true">Кількість<span></span></th>
                                             <th onclick="sortColumnNum(event, savedCountedCategoriesList, '')"
                                                 name="true">Співвідношення<span></span></th>
+                                            <th>
+                                                <button onclick="copyTableText(event)"
+                                                    title="Скопіювати дані таблиці"></button>
+                                                <span class="copy-label">Скопійовано!</span>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -127,6 +132,11 @@
                                                 name="true">Середня тривалість чату<span></span></th>
                                             <th onclick="sortColumnNum(event, savedCountedManagersPerfList, 'avgFirstResp')"
                                                 name="true">Швидкість першої відповіді<span></span></th>
+                                            <!-- <th>
+                                                <button onclick="copyTableText(event)"
+                                                    title="Скопіювати дані таблиці"></button>
+                                                    <span class="copy-label">Скопійовано!</span>
+                                            </th> -->
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -137,12 +147,17 @@
                                 <table id="data-table-3">
                                     <thead>
                                         <tr>
-                                            <th onclick="sortColumnStr(event, savedCountedTagsList)"
-                                                name="true">Мітка<span></span></th>
-                                            <th onclick="sortColumnNum(event, savedCountedTagsList, '')"
-                                                name="true">Кількість<span></span></th>
-                                            <th onclick="sortColumnNum(event, savedCountedTagsList, '')"
-                                                name="true">Співвідношення<span></span></th>
+                                            <th onclick="sortColumnStr(event, savedCountedTagsList)" name="true">
+                                                Мітка<span></span></th>
+                                            <th onclick="sortColumnNum(event, savedCountedTagsList, '')" name="true">
+                                                Кількість<span></span></th>
+                                            <th onclick="sortColumnNum(event, savedCountedTagsList, '')" name="true">
+                                                Співвідношення<span></span></th>
+                                            <th>
+                                                <button onclick="copyTableText(event)"
+                                                    title="Скопіювати дані таблиці"></button>
+                                                <span class="copy-label">Скопійовано!</span>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -165,7 +180,7 @@
                     Rights Reserved.</p>
             </div>
             <div class="version">
-                <p>v 0.6.0.3</p>
+                <p>v 0.6.5 DEV VER</p>
             </div>
         </footer>
         <!-- FOTTER END -->

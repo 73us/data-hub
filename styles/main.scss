@@ -809,15 +809,60 @@
                 height: 680px;
                 thead {
                   tr {
-                    th::selection {
-                      background-color: transparent;
-                    }
+                    position: relative;
                     th {
                       text-align: left;
                       span::selection {
                         background-color: transparent;
                       }
                     }
+                    th:hover {
+                      cursor: pointer;
+                    }
+                    th::selection {
+                      background-color: transparent;
+                    }
+                    th:first-of-type {
+                      border-radius: 5px 0 0 5px;
+                    }
+                    th:last-of-type {
+                      border-radius: 0 5px 5px 0;
+                    }
+                  }
+                  button {
+                    position: absolute;
+                    display: block;
+                    top: 50px;
+                    right: 0;
+                    width: 30px;
+                    height: 30px;
+                    background-color: $bg-white;
+                    background-image: url(../images/copy-icon.png);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    border: 2px solid $bg-bluegray;
+                    z-index: 10;
+                  }
+                  button:hover {
+                    cursor: pointer;
+                  }
+                  button:disabled {
+                    cursor: default;
+                  }
+                  .copy-label {
+                    font-size: 10px;
+                    z-index: 20;
+                    background-color: $bg-bluegray;
+                    position: absolute;
+                    top: 58px;
+                    right: 31px;
+                    padding: 2px 0;
+                    border-radius: 2px;
+                    width: 0;
+                    overflow: hidden;
+                    transition: width 0.5s ease-in-out;
                   }
                 }
               }
@@ -844,14 +889,12 @@
                       padding: 15px;
                     }
                     th:nth-of-type(1) {
-                      border-radius: 5px 0 0 5px;
                       width: 330px;
                     }
                     th:nth-of-type(2) {
                       width: 120px;
                     }
                     th:nth-of-type(3) {
-                      border-radius: 0 5px 5px 0;
                       width: 200px;
                     }
                   }
@@ -904,14 +947,8 @@
                     th {
                       padding: 15px;
                     }
-                    th:first-of-type {
-                      border-radius: 5px 0 0 5px;
-                    }
                     th:nth-of-type(4) {
                       font-weight: bold;
-                    }
-                    th:last-of-type {
-                      border-radius: 0 5px 5px 0;
                     }
                   }
                   tr:after {
@@ -967,14 +1004,12 @@
                       padding: 15px;
                     }
                     th:nth-of-type(1) {
-                      border-radius: 5px 0 0 5px;
                       width: 330px;
                     }
                     th:nth-of-type(2) {
                       width: 120px;
                     }
                     th:nth-of-type(3) {
-                      border-radius: 0 5px 5px 0;
                       width: 200px;
                     }
                   }

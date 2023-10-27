@@ -900,11 +900,8 @@ table {
 .container main .right .data-container .data-main .display-data-container .content table {
   height: 680px;
 }
-.container main .right .data-container .data-main .display-data-container .content table thead tr th::-moz-selection {
-  background-color: transparent;
-}
-.container main .right .data-container .data-main .display-data-container .content table thead tr th::selection {
-  background-color: transparent;
+.container main .right .data-container .data-main .display-data-container .content table thead tr {
+  position: relative;
 }
 .container main .right .data-container .data-main .display-data-container .content table thead tr th {
   text-align: left;
@@ -914,6 +911,56 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content table thead tr th span::selection {
   background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th:hover {
+  cursor: pointer;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th::-moz-selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th::selection {
+  background-color: transparent;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th:first-of-type {
+  border-radius: 5px 0 0 5px;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead tr th:last-of-type {
+  border-radius: 0 5px 5px 0;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead button {
+  position: absolute;
+  display: block;
+  top: 50px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #f8f9fa;
+  background-image: url(../images/copy-icon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #dde4e9;
+  z-index: 10;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead button:hover {
+  cursor: pointer;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead button:disabled {
+  cursor: default;
+}
+.container main .right .data-container .data-main .display-data-container .content table thead .copy-label {
+  font-size: 10px;
+  z-index: 20;
+  background-color: #dde4e9;
+  position: absolute;
+  top: 58px;
+  right: 31px;
+  padding: 2px 0;
+  border-radius: 2px;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 {
   min-width: 650px;
@@ -939,14 +986,12 @@ table {
   padding: 15px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(1) {
-  border-radius: 5px 0 0 5px;
   width: 330px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(2) {
   width: 120px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(3) {
-  border-radius: 0 5px 5px 0;
   width: 200px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr:after {
@@ -994,14 +1039,8 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th {
   padding: 15px;
 }
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:first-of-type {
-  border-radius: 5px 0 0 5px;
-}
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(4) {
   font-weight: bold;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:last-of-type {
-  border-radius: 0 5px 5px 0;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr:after {
   position: absolute;
@@ -1052,14 +1091,12 @@ table {
   padding: 15px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(1) {
-  border-radius: 5px 0 0 5px;
   width: 330px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(2) {
   width: 120px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(3) {
-  border-radius: 0 5px 5px 0;
   width: 200px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr:after {
