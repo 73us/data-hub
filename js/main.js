@@ -3,6 +3,7 @@
 const getE = (selector) => document.querySelector(selector);
 const proper = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 const roundNum = (num) => (!/.00$/.test(num.toFixed(2).toString())) ? num.toFixed(2) : num.toFixed(3);
+const replaceSpecialSymbol = (str) => str.split("").map((x) => (x === "(" || x === ")" || x === "/") ? x = `\\` + x : x).join("");
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
@@ -1690,23 +1691,23 @@ async function buildReportSection() {
 // BUILD REPORT SECTION FUNCTION END
 
 // GENERATE REPORT FUNCTION START
-let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {} };
+let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {}, filtered: {} };
 async function createReport(recordsForReport, reportType) {
     let recordsToWork;
     if (reportType === "merging") {
         getE('#createMergingChatReport').disabled = true;
-        // dialogContainer.innerHTML = `
-        // <div class="load-box">
-        // <div class="load-image"></div>
-        // <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
-        // </div>`;
-        // dialogContainer.classList.remove('hide');
+        dialogContainer.innerHTML = `
+        <div class="load-box">
+        <div class="load-image"></div>
+        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
+        </div>`;
+        dialogContainer.classList.remove('hide');
         recordsToWork = await findChatsForMerge(recordsChats);
+        dialogContainer.classList.add('hide');
     }
-    else {
+    if (reportType !== "merging") {
         recordsToWork = [...recordsForReport];
     }
-    console.log(recordsToWork, 'a', recordsForReport);
     return new Promise((resolve) => {
         let csv = "";
         let fRow = false;
@@ -1781,15 +1782,18 @@ async function createReport(recordsForReport, reportType) {
             setToButton = getE('#downloadChatMerging');
         }
         if (reportType === "filteredData") {
+            reportData.filtered.reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
+            reportData.filtered.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = false;
         }
 
         if (!setToButton) {
-            let reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             let link = document.createElement('a');
             link.id = 'download-csv';
-            link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
-            link.setAttribute('download', `${reportName}.csv`);
+            link.setAttribute('href', reportData.filtered.fileLink);
+
+            // link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
+            link.setAttribute('download', `${reportData.filtered.reportName}.csv`);
             document.body.appendChild(link)
             document.querySelector("#download-csv").click()
         }
@@ -1981,10 +1985,15 @@ let countedTagsList = [], savedCountedTagsList = [];
 async function countTags(recordsToCount) {
     let allTags = "";
     for (let record = 0; record < recordsToCount.length; record++) {
-        allTags += recordsToCount[record].conversationTags;
+        allTags += recordsToCount[record].conversationTags + ',';
     }
     for (let tag = 0; tag < tagsList.length; tag++) {
-        let tagRegex = new RegExp(tagsList[tag], "gm");
+        let currTag;
+        (tagsList[tag].includes('(') || tagsList[tag].includes(')') || tagsList[tag].includes('/')) ?
+            currTag = replaceSpecialSymbol(tagsList[tag]) :
+            currTag = tagsList[tag];
+        (currTag === "1-бездеп") ? currTag = currTag + "," : currTag
+        let tagRegex = new RegExp(currTag, "gm");
         if (tagRegex.test(allTags)) {
             let tagCount = allTags.match(tagRegex).length;
             countedTagsList.push({ [tagsList[tag]]: tagCount });
@@ -2072,14 +2081,7 @@ async function buildTable(dataToWork, tableType) {
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
     return new Promise((resolve) => {
-        dialogContainer.innerHTML = `
-        <div class="load-box">
-        <div class="load-image"></div>
-        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
-        </div>`;
-        dialogContainer.classList.remove('hide');
         let mergingObj = {}, projectsArr = [];
-
         for (const key of projectsList) mergingObj[key] = [];
         for (let record = 0; record < arrToWork.length; record++) {
             for (const key in mergingObj) {
@@ -2089,7 +2091,6 @@ async function findChatsForMerge(arrToWork) {
             }
         }
         for (const key in mergingObj) projectsArr.push(key);
-
         let count = 0;
         start:
         for (let proj = count; proj < projectsArr.length; proj++) {
@@ -2123,7 +2124,6 @@ async function findChatsForMerge(arrToWork) {
             count++;
             continue start;
         }
-        dialogContainer.classList.add('hide');
         resolve(mergingArr);
     });
 }
@@ -2201,8 +2201,38 @@ async function sortColumnNum(e, recordsToSort, sortBy) {
 }
 // SORT NUMBER COLUMN FUNCTION END
 
+// COPY TABLE DATA TO CLIPBOARD FUNCTION START
+function copyTableText(e) {
+    let copyData = '',
+        copyTable = e.target.parentNode.parentNode.parentNode.parentNode,
+        copyText = copyTable.firstElementChild.nextElementSibling.innerHTML.toString();
+    let dataByRows = copyText.split("</tr>");
+    for (let i = 0; i < dataByRows.length; i++) {
+        dataByRows[i] = dataByRows[i].replace("<tr>", "");
+        dataByRows[i] = dataByRows[i].replace("&amp;", "\&");
+        dataByRows[i] = dataByRows[i].replace(/<td>/g, "");
+        dataByRows[i] = dataByRows[i].replace(/<\/td>/g, "\t");
+        dataByRows[i] = dataByRows[i].slice(0, -1);
+    }
+    dataByRows.pop();
+    copyData = dataByRows.join('\n');
+    navigator.clipboard.writeText(copyData);
+    e.target.disabled = true;
+    e.target.style.backgroundImage = "url(../images/accept.png)";
+    e.target.nextElementSibling.style.width = '65px';
+    e.target.nextElementSibling.style.padding = '2px';
+    setTimeout(() => {
+        e.target.style.backgroundImage = "url(../images/copy-icon.png)";
+        e.target.nextElementSibling.style.width = '0';
+        e.target.nextElementSibling.style.padding = '2px 0';
+        e.target.disabled = false;
+    }, 1000);
+}
+// COPY TABLE DATA TO CLIPBOARD FUNCTION END
+
 // getE('.start-instraction-block').style.display = "none";
 // getE('.left').style.display = "none";
 // getE('.data-main').classList.remove("hide");
 // buildFilteringSection();
 function moreOptions() { }
+
