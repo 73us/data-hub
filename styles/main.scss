@@ -1,7 +1,6 @@
 @import "./base/base";
 @import "./base/variables";
 @import "./base/mixins";
-// @import "../TEST/styles/test";
 
 // DEFAULT STYLES START
 %d-flex {
@@ -35,6 +34,10 @@
     font-weight: normal;
     margin: 0;
     font-size: 14px;
+    text-indent: 15px;
+  }
+  p::-moz-selection {
+    background-color: transparent;
   }
   p::selection {
     background-color: transparent;
@@ -124,6 +127,7 @@
               width: 246px;
               height: 160px;
               border-radius: 5px;
+              overflow: auto;
               display: none;
               padding: 7px;
               p {
@@ -467,6 +471,7 @@
             background-color: $bg-bluegray;
             border-radius: 15px;
             padding: 10px;
+            padding-right: 25px;
             display: flex;
             flex-flow: row wrap;
             justify-content: space-evenly;
@@ -499,6 +504,9 @@
                 border-color: $btn-blue-hover;
                 color: white;
               }
+              legend::-moz-selection {
+                background-color: transparent !important;
+              }
               legend::selection {
                 background-color: transparent !important;
               }
@@ -521,10 +529,8 @@
                   padding: 0 10px 0 10px;
                   width: 100%;
                   background-color: $btn-white;
-                  // border-radius: 5px;
                   height: 40px;
                   border-bottom: 2px solid $bg-bluegray;
-                  // margin: 0 4px 3px 0;
 
                   // filter option checkbox start
                   input {
@@ -566,11 +572,17 @@
                       justify-content: start;
                       align-items: center;
                     }
+                    .countBadge::-moz-selection {
+                      background-color: transparent;
+                    }
                     .countBadge::selection {
                       background-color: transparent;
                     }
                   }
                   // filter option label text end
+                  div::-moz-selection {
+                    background-color: transparent;
+                  }
                   div::selection {
                     background-color: transparent;
                   }
@@ -603,13 +615,15 @@
 
                 fieldset:nth-of-type(1),
                 fieldset:nth-of-type(2) {
-                  // background-color: red;
                   width: 50%;
                 }
               }
             }
             .reset-btn-fieldset {
+              width: -webkit-fit-content;
+              width: -moz-fit-content;
               width: fit-content;
+              position: relative;
               // reset filter button start
               #resetFilters {
                 @extend %def-btn;
@@ -631,6 +645,52 @@
                 background-color: $btn-red-disabled;
               }
               // reset filter button start
+
+              // filtering section info box start
+              .info-box {
+                position: absolute;
+                top: 0;
+                right: -20px;
+                .info-icon {
+                  position: absolute;
+                  text-align: right;
+                  top: 0;
+                  right: 0;
+                }
+                .info-message {
+                  background-color: $bg-white;
+                  position: absolute;
+                  top: 0;
+                  right: 15px;
+                  z-index: 100;
+                  width: 320px;
+                  height: 300px;
+                  border-radius: 5px;
+                  border: 1px solid $bg-bluegray;
+                  overflow: auto;
+                  display: none;
+                  padding: 7px;
+                  p {
+                    font-weight: normal;
+                    margin: 0;
+                  }
+                }
+                .info-icon:hover + .info-message,
+                .info-message:hover {
+                  display: block;
+                }
+                .info-icon:after {
+                  content: "";
+                  background-color: transparent;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  z-index: 100;
+                  width: 17px;
+                  height: 25px;
+                }
+              }
+              // filtering section info box end
             }
           }
           // data filterring container end
@@ -652,7 +712,7 @@
               flex-flow: row wrap;
               align-items: center;
               justify-content: space-between;
-              padding: 5px 20px;
+              padding: 5px 32px 0 20px;
               border-bottom: 3px solid $bg-gray;
               .left {
                 margin: 0;
@@ -781,6 +841,9 @@
                 cursor: pointer;
                 background-color: $btn-white-hover;
               }
+              li::-moz-selection {
+                background-color: transparent;
+              }
               li::selection {
                 background-color: transparent;
               }
@@ -812,12 +875,18 @@
                     position: relative;
                     th {
                       text-align: left;
+                      span::-moz-selection {
+                        background-color: transparent;
+                      }
                       span::selection {
                         background-color: transparent;
                       }
                     }
                     th:hover {
                       cursor: pointer;
+                    }
+                    th::-moz-selection {
+                      background-color: transparent;
                     }
                     th::selection {
                       background-color: transparent;
@@ -882,6 +951,7 @@
                   tr {
                     padding: 0 15px;
                     z-index: 10;
+                    position: -webkit-sticky;
                     position: sticky;
                     top: 0;
                     background-color: $bg-bluegray;
@@ -941,14 +1011,34 @@
                 thead {
                   position: relative;
                   tr {
+                    position: -webkit-sticky;
                     position: sticky;
                     top: 0;
                     background-color: $bg-bluegray;
                     th {
                       padding: 15px;
                     }
+                    th:nth-of-type(1) {
+                      width: 130px;
+                    }
+                    th:nth-of-type(2) {
+                      width: 90px;
+                    }
+                    th:nth-of-type(3) {
+                      width: 100px;
+                    }
                     th:nth-of-type(4) {
                       font-weight: bold;
+                      width: 100px;
+                    }
+                    th:nth-of-type(5) {
+                      width: 190px;
+                    }
+                    th:nth-of-type(6) {
+                      width: 230px;
+                    }
+                    th:nth-of-type(7) {
+                      width: 250px;
                     }
                   }
                   tr:after {
@@ -997,6 +1087,7 @@
                 thead {
                   position: relative;
                   tr {
+                    position: -webkit-sticky;
                     position: sticky;
                     top: 0;
                     background-color: $bg-bluegray;
@@ -1175,12 +1266,18 @@
           cursor: default;
           accent-color: $btn-blue-disabled;
         }
+        span::-moz-selection {
+          background: transparent;
+        }
         span::selection {
           background: transparent;
         }
       }
       label:hover {
         cursor: pointer;
+      }
+      label::-moz-selection {
+        background: transparent;
       }
       label::selection {
         background: transparent;
@@ -1212,6 +1309,9 @@
       }
       label:hover {
         cursor: pointer;
+      }
+      label::-moz-selection {
+        background: transparent;
       }
       label::selection {
         background: transparent;
@@ -1288,28 +1388,6 @@
   // load screen END
 }
 // DIALOG WINDOW END
-
-// @keyframes loadAnim {
-//   0% {
-//     -ms-transform: rotate(0deg);
-//     -moz-transform: rotate(0deg);
-//     -webkit-transform: rotate(0deg);
-//     -o-transform: rotate(0deg);
-//     transform: rotate(0deg);
-//     border-radius: 10%;
-//   }
-//   50% {
-//     border-radius: 50%;
-//   }
-//   100% {
-//     -ms-transform: rotate(360deg);
-//     -moz-transform: rotate(360deg);
-//     -webkit-transform: rotate(360deg);
-//     -o-transform: rotate(360deg);
-//     transform: rotate(360deg);
-//     border-radius: 10%;
-//   }
-// }
 
 .show {
   display: block !important;

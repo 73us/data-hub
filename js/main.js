@@ -4,6 +4,13 @@ const getE = (selector) => document.querySelector(selector);
 const proper = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 const roundNum = (num) => (!/.00$/.test(num.toFixed(2).toString())) ? num.toFixed(2) : num.toFixed(3);
 const replaceSpecialSymbol = (str) => str.split("").map((x) => (x === "(" || x === ")" || x === "/") ? x = `\\` + x : x).join("");
+function convertSectoMinSec(inputSec) {
+    let mm = Math.floor(inputSec / 60),
+        ss = (inputSec % 60).toFixed();
+    mm = (mm < 10) ? "0" + mm : mm;
+    ss = (ss < 10) ? "0" + ss : ss;
+    return mm + " хв " + ss + " сек";
+}
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
@@ -544,11 +551,11 @@ async function cleanChatRecords() {
                     specialFields: {
                         createdAtMilis: new Date(dataByCells[1]).getTime(),
                         conversationTimings: {
-                            conversationDurationSec: dataByCells[5], // conversation duration in seconds
-                            queueDurationSec: dataByCells[6], // conversation queue (before agent receive chat) duration in seconds
-                            firstResponseTime: dataByCells[firstResponseTimeStart], // first response time (seconds)
-                            averageResponseTime: dataByCells[firstResponseTimeStart + 1], // average response time (seconds)
-                            agentsChattingDuration: dataByCells[firstResponseTimeStart + 2], // agents chating duration (seconds)
+                            conversationDurationSec: dataByCells[5] !== "" ? parseInt(dataByCells[5]) : 0, // conversation duration in seconds
+                            queueDurationSec: dataByCells[6] !== "" ? parseInt(dataByCells[6]) : 0, // conversation queue (before agent receive chat) duration in seconds
+                            firstResponseTime: dataByCells[firstResponseTimeStart] !== "" ? parseInt(dataByCells[firstResponseTimeStart]) : 0, // first response time (seconds)
+                            averageResponseTime: dataByCells[firstResponseTimeStart + 1] !== "" ? parseInt(dataByCells[firstResponseTimeStart + 1]) : 0, // average response time (seconds)
+                            agentsChattingDuration: dataByCells[firstResponseTimeStart + 2] !== "" ? parseInt(dataByCells[firstResponseTimeStart + 2]) : 0, // agents chating duration (seconds)
                         },
                         chatStartDate: dataByCells[2], // chatStartDate ***
                         chatStartUrl: dataByCells[3], // chatStartUrl ***
@@ -965,10 +972,29 @@ async function buildFilteringSection() {
         </fieldset>`;
     // get&build AGENTS list END
 
+    // reset button and info box START
     filterControlContainer.innerHTML += `
     <fieldset class="reset-btn-fieldset">
     <input type="button" id="resetFilters" onclick="resetFilters()" value="Скинути">
+    <div class="info-box"><p class="info-icon">i</p>
+    <div class="info-message">
+    <p>В даній секції у вас є фільтри які побудовані на основі отриманої інформації.<br>
+    <p>Щоб обрати якийсь конкретний пункт просто натисніть на нього. Коли ні одна опція не вибрана 
+    за замовчуванням будуть відображатися усі пункти.</p>
+    <p>Кнопка "Скинути" скидає усі обрані вами фільтри та сортування таблиць до початкових значень.</p>
+    <p>Під фільтрами ви можете бачити дату та кількість звернень за той період вигрузки/ок які ви надали.</p>
+    <p>Опція "Звіт" стане активною як тільки ви обирете хоч один фільтр.</p>
+    <p>Кнопка "Таблиця" відкриє зведені таблиці які містять різну інформацію по:<br>
+    - категоріяx (конкретні назви, кількості, відсоткове співідношення);<br>
+    - менеджерах (нік менеджера, кількісті опрацьованих ним чатів, листів та всього звернень, відсоткове співідношення, середня тривалість чатів працівника, швидкість першої відповіді в чатах);<br>
+    - мітках (назва мітки, її кількість та співідношення у відсотках).</p>
+    <p>Кожна таблиця буде оновлюватися відповідно до того фільтру який ви обираєте.</p>
+    <p>Колонки мають функцію сортування яка працює по натисканню на назву колонки, тип сортування змінюється автоматично від А до Я та навпаки.</p>
+    <p>В деяких таблицях присутня кнопка копіювання, яка дозволяє швидко скопіювати данні з конкретної таблиці.</p>
+    <p>Кнопка "Більше" поки неактивна і очікує свого зіркового часу для виконання інших цікавих завдань.</p>
+    </div></div>
     </fieldset>`;
+    // reset button and info box END
 
     // reset sort arrows START
     for (let table = 0; table < getE('.content').children.length; table++) {
@@ -1624,17 +1650,18 @@ async function buildReportSection() {
     let addContent = "";
     reportContainer.innerHTML = `
             <div><h2>Сформувати очищені звіти:</h2><p class="info-icon">i</p><div class="info-message">
-            <p>На основі оброблених данних з ваших звітім можна сформувати типізовані звіти:<br>
-            - по чатах;<br>
-            - тікетах;<br>
-            - загальний (чати та тікети разом);<br>
-            - звіт з неправильно проставленими мітками.<br>
-            Для того щоб завантажити звіт потрібно спочатку створити відповідний кнопкою "Створити". Коли звіт буде готовий кнопка "Завантажити" стане активною.<br>
-            В результаті завантаження ви отримаєте потрібний файл/и у форматі .csv.</p></div></div>`;
+            <p>На основі оброблених данних з ваших звітів можна сформувати типізовані звіти з:<br>
+            - чатами;<br>
+            - листами;<br>
+            - всіма зверненнями (чати та листи разом);<br>
+            - неправильно проставленими мітками;<br>
+            - чатами для перевірки на об'єднання.</p>
+            <p>Для того щоб завантажити звіт потрібно спочатку створити відповідний кнопкою "Створити". Коли звіт буде готовий кнопка "Завантажити" стане активною.<br>
+            В результаті завантаження ви отримаєте потрібний/і файл/и у форматі .csv.</p></div></div>`;
     for (let i = 0; i < Object.keys(buildReportOptionArr).length; i++) {
         if (Object.keys(buildReportOptionArr)[i] === "recordsChats") {
             addContent = `<fieldset>
-            <legend>- по чатах</legend>
+            <legend>- чати</legend>
             <input type="button" id="createChatReport" 
             onclick="createReport(recordsChats,'chat')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.chat.fileLink, reportData.chat.reportName)"
@@ -1645,7 +1672,7 @@ async function buildReportSection() {
         addContent = "";
         if (Object.keys(buildReportOptionArr)[i] === "recordsTickets") {
             addContent = `<fieldset>
-            <legend>- по тікетах</legend>
+            <legend>- листи</legend>
             <input type="button" id="createTicketReport" 
             onclick="createReport(recordsTickets,'ticket')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.ticket.fileLink, reportData.ticket.reportName)"
@@ -1678,7 +1705,7 @@ async function buildReportSection() {
     }
     if (recordsChats.length !== 0) {
         addContent = `<fieldset>
-        <legend>- по чатах на об'єднання</legend>
+        <legend>- чати на об'єднання</legend>
         <input type="button" id="createMergingChatReport" 
         onclick="createReport(mergingArr,'merging')" value="Створити">
         <input type="button" onclick="downloadFile(reportData.merging.fileLink, reportData.merging.reportName)"
@@ -1791,11 +1818,9 @@ async function createReport(recordsForReport, reportType) {
             let link = document.createElement('a');
             link.id = 'download-csv';
             link.setAttribute('href', reportData.filtered.fileLink);
-
-            // link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
             link.setAttribute('download', `${reportData.filtered.reportName}.csv`);
-            document.body.appendChild(link)
-            document.querySelector("#download-csv").click()
+            document.body.appendChild(link);
+            document.querySelector("#download-csv").click();
         }
         else resolve(setToButton.disabled = false);
     })
@@ -1813,6 +1838,8 @@ function downloadFile(fileLink, reportName) {
     document.body.appendChild(link);
     document.querySelector("#download-csv").click();
     document.querySelector("#download-csv").remove();
+    fileLink = '';
+    reportName = '';
     newW.close();
 }
 // DOWNLOAD FILE FUNCTION END
@@ -1945,7 +1972,7 @@ async function countManagersPerf(recordsToCount) {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
                 let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].lastOperator === currManagerObj) {
-                    countedManagersPerfList[manager][currManagerObj].allConvDur += ((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration) / 60);
+                    countedManagersPerfList[manager][currManagerObj].allConvDur += (parseInt((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration)));
                 }
             }
         }
@@ -1958,7 +1985,7 @@ async function countManagersPerf(recordsToCount) {
             for (let manager = 0; manager < countedManagersPerfList.length; manager++) {
                 let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].lastOperator === currManagerObj) {
-                    countedManagersPerfList[manager][currManagerObj].allFirstResp += ((recordsToCount[record].specialFields.conversationTimings.firstResponseTime) / 60);
+                    countedManagersPerfList[manager][currManagerObj].allFirstResp += (parseInt((recordsToCount[record].specialFields.conversationTimings.firstResponseTime)));
                 }
             }
         }
@@ -2008,7 +2035,6 @@ async function countTags(recordsToCount) {
 // BUILD DATA TABLES FUNCTION START
 async function buildTable(dataToWork, tableType) {
     let content = '';
-
     // build CATEGORIES table START
     if (tableType === "categories") {
         let catSum = 0;
@@ -2027,16 +2053,20 @@ async function buildTable(dataToWork, tableType) {
 
     // build MANAGERS PERFORMANCE table START
     if (tableType === "managers") {
-        let convSum = 0, teamAvgConvTime = 0, teamAvgFirsrRespTime = 0;
-        for (let c = 0; c < dataToWork.length; c++) convSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].convCount;
+        let convSum = 0, chatSum = 0, ticketSum = 0, teamAvgConvTime = 0, teamAvgFirsrRespTime = 0;
+        for (let c = 0; c < dataToWork.length; c++) {
+            convSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].convCount;
+            chatSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].chatsCount;
+            ticketSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].ticketsCount;
+        }
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < dataToWork.length; i++) {
             let managerLabel = Object.keys(dataToWork[i]).toString(),
                 managerChatsCount = dataToWork[i][managerLabel].chatsCount,
                 managerTicketsCount = dataToWork[i][managerLabel].ticketsCount,
                 managerConvCount = dataToWork[i][managerLabel].convCount,
-                managerAvgConvTime = dataToWork[i][managerLabel].avgConvTime,
-                managerAvgFirsrRespTime = dataToWork[i][managerLabel].avgFirstResp,
+                managerAvgConvTime = dataToWork[i][managerLabel].avgConvTime ? dataToWork[i][managerLabel].avgConvTime : 0,
+                managerAvgFirsrRespTime = dataToWork[i][managerLabel].avgFirstResp ? dataToWork[i][managerLabel].avgFirstResp : 0,
                 percent = ((managerConvCount / convSum) * 100);
             content += `<tr>
             <td>${managerLabel}</td>
@@ -2044,16 +2074,16 @@ async function buildTable(dataToWork, tableType) {
             <td>${managerTicketsCount}</td>
             <td>${managerConvCount}</td>
             <td>${roundNum(percent)}%</td>
-            <td>${roundNum(managerAvgConvTime)} хв</td>
-            <td>${roundNum(managerAvgFirsrRespTime)} хв</td></tr>`;
+            <td>${convertSectoMinSec(managerAvgConvTime)}</td>
+            <td>${convertSectoMinSec(managerAvgFirsrRespTime)}</td></tr>`;
             teamAvgConvTime += managerAvgConvTime;
             teamAvgFirsrRespTime += managerAvgFirsrRespTime;
         }
-        teamAvgConvTime /= dataToWork.length;
-        teamAvgFirsrRespTime /= dataToWork.length;
+        teamAvgConvTime ? teamAvgConvTime /= dataToWork.length : 0;
+        teamAvgFirsrRespTime ? teamAvgFirsrRespTime /= dataToWork.length : 0;
         content += `<tr>
-        <td></td><td></td><td>Разом звернень</td><td>${convSum} шт.</td>
-        <td>Середні значення</td><td>${roundNum(teamAvgConvTime)} хв</td><td>${roundNum(teamAvgFirsrRespTime)} хв</td></tr>`;
+        <td>Разом</td><td>${chatSum}</td><td>${ticketSum}</td><td>${convSum}</td>
+        <td>Середні значення</td><td>${convertSectoMinSec(teamAvgConvTime)}</td><td>${convertSectoMinSec(teamAvgFirsrRespTime)}</td></tr>`;
         getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build MANAGERS PERFORMANCE table END
@@ -2073,7 +2103,6 @@ async function buildTable(dataToWork, tableType) {
         getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build TAGS table END
-
 }
 // BUILD DATA TABLES FUNCTION END
 
@@ -2234,5 +2263,5 @@ function copyTableText(e) {
 // getE('.left').style.display = "none";
 // getE('.data-main').classList.remove("hide");
 // buildFilteringSection();
-function moreOptions() { }
 
+function moreOptions() { }
