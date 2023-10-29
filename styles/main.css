@@ -170,6 +170,7 @@ table {
   font-weight: normal;
   margin: 0;
   font-size: 14px;
+  text-indent: 15px;
 }
 .info-message p::-moz-selection {
   background-color: transparent;
@@ -262,6 +263,7 @@ table {
   width: 246px;
   height: 160px;
   border-radius: 5px;
+  overflow: auto;
   display: none;
   padding: 7px;
 }
@@ -578,6 +580,7 @@ table {
   background-color: #dde4e9;
   border-radius: 15px;
   padding: 10px;
+  padding-right: 25px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
@@ -717,6 +720,7 @@ table {
 .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset {
   width: -moz-fit-content;
   width: fit-content;
+  position: relative;
 }
 .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset #resetFilters {
   color: #f8f9fa;
@@ -736,6 +740,49 @@ table {
   outline-width: 0;
   background-color: #c97981;
 }
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box {
+  position: absolute;
+  top: 0;
+  right: -20px;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-icon {
+  position: absolute;
+  text-align: right;
+  top: 0;
+  right: 0;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-message {
+  background-color: #f8f9fa;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  z-index: 100;
+  width: 320px;
+  height: 300px;
+  border-radius: 5px;
+  border: 1px solid #dde4e9;
+  overflow: auto;
+  display: none;
+  padding: 7px;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-message p {
+  font-weight: normal;
+  margin: 0;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-icon:hover + .info-message,
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-message:hover {
+  display: block;
+}
+.container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset .info-box .info-icon:after {
+  content: "";
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  width: 17px;
+  height: 25px;
+}
 .container main .right .data-container .data-main .data-options-container {
   width: 100%;
   background-color: #dde4e9;
@@ -753,7 +800,7 @@ table {
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 20px;
+  padding: 5px 32px 0 20px;
   border-bottom: 3px solid #6c757d;
 }
 .container main .right .data-container .data-main .data-options-container fieldset .left {
@@ -1039,8 +1086,27 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th {
   padding: 15px;
 }
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(1) {
+  width: 130px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(2) {
+  width: 90px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(3) {
+  width: 100px;
+}
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(4) {
   font-weight: bold;
+  width: 100px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(5) {
+  width: 190px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(6) {
+  width: 230px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(7) {
+  width: 250px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr:after {
   position: absolute;
