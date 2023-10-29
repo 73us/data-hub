@@ -2253,11 +2253,11 @@ function copyTableText(e) {
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
     e.target.disabled = true;
-    e.target.style.backgroundImage = "url(../images/accept.png)";
+    // e.target.style.backgroundImage = "url(../images/accept.png)";
     e.target.nextElementSibling.style.width = '65px';
     e.target.nextElementSibling.style.padding = '2px';
     setTimeout(() => {
-        e.target.style.backgroundImage = "url(../images/copy-icon.png)";
+        // e.target.style.backgroundImage = "url(../images/copy-icon.png)";
         e.target.nextElementSibling.style.width = '0';
         e.target.nextElementSibling.style.padding = '2px 0';
         e.target.disabled = false;
