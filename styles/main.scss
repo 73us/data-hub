@@ -25,6 +25,7 @@
   font-family: "Courier New", Courier, monospace !important;
   font-weight: bold;
   text-decoration: underline;
+  font-size: 14px;
 }
 .info-icon:hover {
   cursor: pointer;
@@ -52,7 +53,6 @@
 }
 .info-message::-webkit-scrollbar-thumb {
   border-radius: 0;
-  background: $bg-bluegray;
   border-radius: 3px;
 }
 // info section START
@@ -117,6 +117,7 @@
               text-align: right;
               top: 0;
               right: 0;
+              font-size: 14px;
             }
             .info-message {
               background-color: $bg-white;
