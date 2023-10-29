@@ -1707,7 +1707,7 @@ async function buildReportSection() {
         addContent = `<fieldset>
         <legend>- чати на об'єднання</legend>
         <input type="button" id="createMergingChatReport" 
-        onclick="createReport(mergingArr,'merging')" value="Створити">
+        onclick="findMergeChatsStart()" value="Створити">
         <input type="button" onclick="downloadFile(reportData.merging.fileLink, reportData.merging.reportName)"
         id="downloadChatMerging" value="Завантажити" disabled>
         </fieldset>`
@@ -1720,21 +1720,7 @@ async function buildReportSection() {
 // GENERATE REPORT FUNCTION START
 let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {}, filtered: {} };
 async function createReport(recordsForReport, reportType) {
-    let recordsToWork;
-    if (reportType === "merging") {
-        getE('#createMergingChatReport').disabled = true;
-        dialogContainer.innerHTML = `
-        <div class="load-box">
-        <div class="load-image"></div>
-        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
-        </div>`;
-        dialogContainer.classList.remove('hide');
-        recordsToWork = await findChatsForMerge(recordsChats);
-        dialogContainer.classList.add('hide');
-    }
-    if (reportType !== "merging") {
-        recordsToWork = [...recordsForReport];
-    }
+    let recordsToWork = [...recordsForReport];
     return new Promise((resolve) => {
         let csv = "";
         let fRow = false;
@@ -1803,17 +1789,11 @@ async function createReport(recordsForReport, reportType) {
             reportData.check.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = getE('#downloadCheckReport');
         }
-        if (reportType === "merging") {
-            reportData.merging.reportName = "MERGE_CHATS_report_" + reportDateTime.replace(",", "");
-            reportData.merging.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
-            setToButton = getE('#downloadChatMerging');
-        }
         if (reportType === "filteredData") {
             reportData.filtered.reportName = "FILTERED_report_" + reportDateTime.replace(",", "");
             reportData.filtered.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = false;
         }
-
         if (!setToButton) {
             let link = document.createElement('a');
             link.id = 'download-csv';
@@ -1974,7 +1954,7 @@ async function countManagersPerf(recordsToCount) {
                 if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allConvDur += (parseInt((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration)));
                     if (recordsToCount[record].lastOperator === "noAgent") {
-                        countedManagersPerfList[manager][currManagerObj].allConvDur = 0;
+                        countedManagersPerfList[manager][currManagerObj].allConvDur = -1;
                     }
                 }
             }
@@ -1990,7 +1970,7 @@ async function countManagersPerf(recordsToCount) {
                 if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allFirstResp += (parseInt((recordsToCount[record].specialFields.conversationTimings.firstResponseTime)));
                     if (recordsToCount[record].lastOperator === "noAgent") {
-                        countedManagersPerfList[manager][currManagerObj].allFirstResp = 0;
+                        countedManagersPerfList[manager][currManagerObj].allFirstResp = -1;
                     }
                 }
             }
@@ -2080,8 +2060,8 @@ async function buildTable(dataToWork, tableType) {
             <td>${managerTicketsCount}</td>
             <td>${managerConvCount}</td>
             <td>${roundNum(percent)}%</td>
-            <td>${(managerAvgConvTime) !== 0 ? convertSectoMinSec(managerAvgConvTime) : ""}</td>
-            <td>${(managerAvgFirsrRespTime) !== 0 ? convertSectoMinSec(managerAvgFirsrRespTime) : ""}</td></tr>`;
+            <td>${(managerLabel === "noAgent") ? "" : convertSectoMinSec(managerAvgConvTime)}</td>
+            <td>${(managerLabel === "noAgent") ? "" : convertSectoMinSec(managerAvgFirsrRespTime)}</td></tr>`;
             teamAvgConvTime += managerAvgConvTime;
             teamAvgFirsrRespTime += managerAvgFirsrRespTime;
         }
@@ -2112,11 +2092,24 @@ async function buildTable(dataToWork, tableType) {
 }
 // BUILD DATA TABLES FUNCTION END
 
+// FIND MERGE CHATS FUCNTION STARTER START
+async function findMergeChatsStart() {
+    getE('#createMergingChatReport').disabled = true;
+    dialogContainer.innerHTML = `
+        <div class="load-box">
+        <div class="load-image"></div>
+        <p class="load-tip">Перепочиньте поки ми шукаємо чати з можливим об'єднанням для вас!)</p>
+        </div>`;
+    dialogContainer.classList.remove('hide');
+    setTimeout(() => findChatsForMerge(recordsChats), 1000)
+}
+// FIND MERGE CHATS FUCNTION STARTER END
+
 // FIND CHATS FOR MERGING FUNCTION START
 let mergingArr = [];
 async function findChatsForMerge(arrToWork) {
     return new Promise((resolve) => {
-        let mergingObj = {}, projectsArr = [];
+        let mergingObj = {};
         for (const key of projectsList) mergingObj[key] = [];
         for (let record = 0; record < arrToWork.length; record++) {
             for (const key in mergingObj) {
@@ -2125,41 +2118,74 @@ async function findChatsForMerge(arrToWork) {
                 }
             }
         }
-        for (const key in mergingObj) projectsArr.push(key);
-        let count = 0;
-        start:
-        for (let proj = count; proj < projectsArr.length; proj++) {
-            let curProj = projectsArr[proj];
-            mergingObj[curProj].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
+        for (const key in mergingObj) {
+            mergingObj[key].sort((a, b) => a.customerId.toLowerCase() < b.customerId.toLowerCase() ? -1 : 1);
             let count = 0;
-            for (let i = 0; i < mergingObj[curProj].length; i++) {
-                let currID = mergingObj[curProj][i].customerId,
-                    currTime = mergingObj[curProj][i].specialFields.createdAtMilis;
-                for (let a = 0; a < mergingObj[curProj].length; a++) {
-                    let compareID = mergingObj[curProj][a].customerId,
-                        compareTime = mergingObj[curProj][a].specialFields.createdAtMilis;
+            for (let i = 0; i < mergingObj[key].length; i++) {
+                let currID = mergingObj[key][i].customerId,
+                    currTime = mergingObj[key][i].specialFields.createdAtMilis;
+                for (let a = 0; a < mergingObj[key].length; a++) {
+                    let compareID = mergingObj[key][a].customerId,
+                        compareTime = mergingObj[key][a].specialFields.createdAtMilis;
                     if (currID === compareID) count++;
                     else count = 0;
                     if (count > 1) {
                         if (currTime - compareTime < 0 && currTime - compareTime > -86400000) {
-                            if (!mergingArr.includes(mergingObj[curProj][i]) &&
-                                !mergingArr.includes(mergingObj[curProj][a])) {
-                                mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+                            if (!mergingArr.includes(mergingObj[key][i]) &&
+                                !mergingArr.includes(mergingObj[key][a])) {
+                                mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
                             }
                         }
                         if (currTime - compareTime > 0 && currTime - compareTime < 86400000) {
-                            if (!mergingArr.includes(mergingObj[curProj][i]) &&
-                                !mergingArr.includes(mergingObj[curProj][a])) {
-                                mergingArr.push(mergingObj[curProj][i], mergingObj[curProj][a]);
+                            if (!mergingArr.includes(mergingObj[key][i]) &&
+                                !mergingArr.includes(mergingObj[key][a])) {
+                                mergingArr.push(mergingObj[key][i], mergingObj[key][a]);
                             }
                         }
                     }
                 }
             }
-            count++;
-            continue start;
         }
-        resolve(mergingArr);
+        let csv = "";
+        let fRow = false;
+        for (let row = 0; row < mergingArr.length; row++) {
+            let keysAmount = Object.keys(mergingArr[row]).length;
+            let keysCounter = 0;
+            if (row === 0) {
+                for (let key in mergingArr[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + key + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                        fRow = true;
+                    }
+                }
+            }
+            keysCounter = 0;
+            if (row === 0 && fRow) {
+                for (let key in mergingArr[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + (Array.isArray(mergingArr[row][key]) ? mergingArr[row][key].join(";") : mergingArr[row][key]) + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                    }
+                }
+            }
+            else {
+                for (let key in mergingArr[row]) {
+                    if (keysCounter + 1 < keysAmount) {
+                        let dataToSet = "\"" + (Array.isArray(mergingArr[row][key]) ? mergingArr[row][key].join(";") : mergingArr[row][key]) + "\"";
+                        csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+                        keysCounter++;
+                    }
+                }
+            }
+            keysCounter = 0;
+        }
+        reportData.merging.reportName = "MERGE_CHATS_report_" + (new Date().toLocaleString("uk-UA")).replace(",", "");
+        reportData.merging.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
+        dialogContainer.classList.add('hide');
+        resolve(getE('#downloadChatMerging').disabled = false);
     });
 }
 // FIND CHATS FOR MERGING FUNCTION END
