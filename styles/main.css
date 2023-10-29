@@ -160,6 +160,7 @@ table {
   font-family: "Courier New", Courier, monospace !important;
   font-weight: bold;
   text-decoration: underline;
+  font-size: 14px;
 }
 
 .info-icon:hover {
@@ -190,7 +191,6 @@ table {
 
 .info-message::-webkit-scrollbar-thumb {
   border-radius: 0;
-  background: #dde4e9;
   border-radius: 3px;
 }
 
@@ -253,6 +253,7 @@ table {
   text-align: right;
   top: 0;
   right: 0;
+  font-size: 14px;
 }
 .container main .left .file-input-container fieldset:nth-of-type(1) legend .info-message {
   background-color: #f8f9fa;

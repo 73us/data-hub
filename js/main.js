@@ -45,7 +45,7 @@ let recordsChats = [],
     checkList = [],
     dataByRecordsTickets = [],
     dataByRecordsChats = [],
-    managersList = [],
+    managersList = ["noAgent"],
     tagsList = [];
 
 let isChatsNeeded = false;
@@ -1973,6 +1973,9 @@ async function countManagersPerf(recordsToCount) {
                 let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allConvDur += (parseInt((recordsToCount[record].specialFields.conversationTimings.agentsChattingDuration)));
+                    if (recordsToCount[record].lastOperator === "noAgent") {
+                        countedManagersPerfList[manager][currManagerObj].allConvDur = 0;
+                    }
                 }
             }
         }
@@ -1986,6 +1989,9 @@ async function countManagersPerf(recordsToCount) {
                 let currManagerObj = Object.keys(countedManagersPerfList[manager]).toString();
                 if (recordsToCount[record].lastOperator === currManagerObj) {
                     countedManagersPerfList[manager][currManagerObj].allFirstResp += (parseInt((recordsToCount[record].specialFields.conversationTimings.firstResponseTime)));
+                    if (recordsToCount[record].lastOperator === "noAgent") {
+                        countedManagersPerfList[manager][currManagerObj].allFirstResp = 0;
+                    }
                 }
             }
         }
@@ -2069,13 +2075,13 @@ async function buildTable(dataToWork, tableType) {
                 managerAvgFirsrRespTime = dataToWork[i][managerLabel].avgFirstResp ? dataToWork[i][managerLabel].avgFirstResp : 0,
                 percent = ((managerConvCount / convSum) * 100);
             content += `<tr>
-            <td>${managerLabel}</td>
+            <td>${(managerLabel === "noAgent") ? "Немає відповідального" : managerLabel}</td>
             <td>${managerChatsCount}</td>
             <td>${managerTicketsCount}</td>
             <td>${managerConvCount}</td>
             <td>${roundNum(percent)}%</td>
-            <td>${convertSectoMinSec(managerAvgConvTime)}</td>
-            <td>${convertSectoMinSec(managerAvgFirsrRespTime)}</td></tr>`;
+            <td>${(managerAvgConvTime) !== 0 ? convertSectoMinSec(managerAvgConvTime) : ""}</td>
+            <td>${(managerAvgFirsrRespTime) !== 0 ? convertSectoMinSec(managerAvgFirsrRespTime) : ""}</td></tr>`;
             teamAvgConvTime += managerAvgConvTime;
             teamAvgFirsrRespTime += managerAvgFirsrRespTime;
         }
@@ -2247,21 +2253,16 @@ function copyTableText(e) {
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
     e.target.disabled = true;
-    // e.target.style.backgroundImage = "url(../images/accept.png)";
+    e.target.style.backgroundImage = "url(../images/accept.png)";
     e.target.nextElementSibling.style.width = '65px';
     e.target.nextElementSibling.style.padding = '2px';
     setTimeout(() => {
-        // e.target.style.backgroundImage = "url(../images/copy-icon.png)";
+        e.target.style.backgroundImage = "url(../images/copy-icon.png)";
         e.target.nextElementSibling.style.width = '0';
         e.target.nextElementSibling.style.padding = '2px 0';
         e.target.disabled = false;
     }, 1000);
 }
 // COPY TABLE DATA TO CLIPBOARD FUNCTION END
-
-// getE('.start-instraction-block').style.display = "none";
-// getE('.left').style.display = "none";
-// getE('.data-main').classList.remove("hide");
-// buildFilteringSection();
 
 function moreOptions() { }
