@@ -464,15 +464,61 @@
         .data-main {
           display: flex;
           flex-flow: column nowrap;
+          position: relative;
           width: 100%;
           min-width: 510px;
+          // filtering section info box start
+          .info-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            .info-icon {
+              position: absolute;
+              text-align: right;
+              top: 5px;
+              right: 10px;
+            }
+            .info-message {
+              background-color: $bg-white;
+              position: absolute;
+              top: 0;
+              right: 15px;
+              z-index: 100;
+              width: 320px;
+              height: 300px;
+              border-radius: 5px;
+              border: 1px solid $bg-bluegray;
+              overflow: auto;
+              display: none;
+              padding: 7px;
+              p {
+                font-weight: normal;
+                margin: 0;
+              }
+            }
+            .info-icon:hover + .info-message,
+            .info-message:hover {
+              display: block;
+            }
+            .info-icon:after {
+              content: "";
+              background-color: transparent;
+              position: absolute;
+              top: 0;
+              right: 0;
+              z-index: 100;
+              width: 17px;
+              height: 25px;
+            }
+          }
+          // filtering section info box end
+
           // data filterring container start
           .data-filtering-container {
             width: 100%;
             background-color: $bg-bluegray;
             border-radius: 15px;
             padding: 10px;
-            padding-right: 25px;
             display: flex;
             flex-flow: row wrap;
             justify-content: space-evenly;
@@ -646,52 +692,6 @@
                 background-color: $btn-red-disabled;
               }
               // reset filter button start
-
-              // filtering section info box start
-              .info-box {
-                position: absolute;
-                top: 0;
-                right: -20px;
-                .info-icon {
-                  position: absolute;
-                  text-align: right;
-                  top: 0;
-                  right: 0;
-                }
-                .info-message {
-                  background-color: $bg-white;
-                  position: absolute;
-                  top: 0;
-                  right: 15px;
-                  z-index: 100;
-                  width: 320px;
-                  height: 300px;
-                  border-radius: 5px;
-                  border: 1px solid $bg-bluegray;
-                  overflow: auto;
-                  display: none;
-                  padding: 7px;
-                  p {
-                    font-weight: normal;
-                    margin: 0;
-                  }
-                }
-                .info-icon:hover + .info-message,
-                .info-message:hover {
-                  display: block;
-                }
-                .info-icon:after {
-                  content: "";
-                  background-color: transparent;
-                  position: absolute;
-                  top: 0;
-                  right: 0;
-                  z-index: 100;
-                  width: 17px;
-                  height: 25px;
-                }
-              }
-              // filtering section info box end
             }
           }
           // data filterring container end
@@ -713,7 +713,7 @@
               flex-flow: row wrap;
               align-items: center;
               justify-content: space-between;
-              padding: 5px 32px 0 20px;
+              padding: 5px 20px;
               border-bottom: 3px solid $bg-gray;
               .left {
                 margin: 0;

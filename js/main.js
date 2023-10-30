@@ -322,6 +322,7 @@ async function cleanChatRecords() {
         operatorTimeZoneStart,
         preChatEmailStart,
         tag1Start,
+        customVariableStart,
         firstResponseTimeStart;
     for (let i = 0; i < fRowArr.length; i++) {
         if (fRowArr[i] === "operator 1 nick") operatorNickStart = i;
@@ -329,6 +330,7 @@ async function cleanChatRecords() {
         if (fRowArr[i] === "operator 1 time zone") operatorTimeZoneStart = i;
         if (fRowArr[i] === "pre chat: E-mail:") preChatEmailStart = i;
         if (fRowArr[i] === "tag 1") tag1Start = i;
+        if (fRowArr[i] === "custom variable 1 name") customVariableStart = i;
         if (fRowArr[i] === "first response time") firstResponseTimeStart = i;
     }
     // find concat positions END
@@ -360,7 +362,7 @@ async function cleanChatRecords() {
                 if (dataByCells[i] !== "") operatorTimeZones.push(dataByCells[i]);
             }
             let tags = [];
-            for (let i = tag1Start; i < firstResponseTimeStart; i++) {
+            for (let i = tag1Start; i < customVariableStart; i++) {
                 if (dataByCells[i] !== "") tags.push(dataByCells[i]);
                 if (/1\s*-/.test(dataByCells[i])) {
                     if (tagsList.length === 0) tagsList.push(dataByCells[i])
@@ -376,6 +378,10 @@ async function cleanChatRecords() {
                     if (managersList.length === 0) managersList.push(setTag);
                     if (!managersList.includes(setTag)) managersList.push(setTag);
                 }
+            }
+            let customVariableArr = [];
+            for (let i = customVariableStart; i < firstResponseTimeStart; i++) {
+                if (dataByCells[i] !== "") customVariableArr.push(dataByCells[i]);
             }
             // put wide data to arrays END
 
@@ -414,6 +420,7 @@ async function cleanChatRecords() {
                     projectName = "Mirax"
                 }
                 // mark record with proper PROJECT name END
+
                 // check if CATEGORY doubled START
                 let dupsCheck = 0;
                 for (let i = 0; i < tags.length; i++) {
@@ -574,7 +581,11 @@ async function cleanChatRecords() {
                         groupStatusAtStart: dataByCells[30], // groupStatusAtStart ***
                         visitorCountryCode: dataByCells[31], // visitorCountryCode ***
                         operatorAccounts: operatorAccounts, // manager Account
+                        customVariables: customVariableArr,
                     },
+                }
+                if (recordObj.conferenceId === "S3XBF9F3VJ") {
+                    console.log(recordObj);
                 }
 
                 // check if chat without category START
@@ -621,13 +632,13 @@ async function cleanTicketRecords() {
             if (dataByCells[10] !== "") operatorAccountName.push(dataByCells[10]);
 
             if (
-                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-NO REPLY") ||
-                dataByCells[12].length !== 0 && dataByCells[12].includes("4") && dataByCells[12].includes("1-SPAM") ||
+                dataByCells[12].length !== 0 && dataByCells[12].includes("5") && dataByCells[12].includes("1-NO REPLY") ||
+                dataByCells[12].length !== 0 && dataByCells[12].includes("5") && dataByCells[12].includes("1-SPAM") ||
                 dataByCells[12].length !== 0 && !dataByCells[12].includes("1-NO REPLY") && !dataByCells[12].includes("1-SPAM")
             ) {
                 let tags = dataByCells[12].split(";");
                 for (let tag = 0; tag < tags.length; tag++) {
-                    if (/6\s*-/.test(tags[tag]) || /7\s*-/.test(tags[tag])) {
+                    if (/7\s*-/.test(tags[tag])) {
                         let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
                         if (tags[tag].includes("/")) setTag = setTag.substring(0, setTag.indexOf('/'));
                         operatorNicks.push(setTag);
@@ -662,7 +673,7 @@ async function cleanTicketRecords() {
                     // check if CATEGORY doubled START
                     let count = 0;
                     for (let i = 0; i < tags.length; i++) {
-                        if (tags[i].includes('4')) {
+                        if (tags[i].includes('5')) {
                             count++;
                         }
                     }
@@ -690,7 +701,7 @@ async function cleanTicketRecords() {
                     for (let i = 0; i < tags.length; i++) {
                         if (tags[i].includes("1-NO REPLY") || tags[i].includes("1-SPAM")) {
                             for (let a = 0; a < tags.length; a++) {
-                                if (tags[a].includes('4')) {
+                                if (tags[a].includes('5')) {
                                     noRepAndCATcheck = true;
                                 }
                             }
@@ -715,63 +726,63 @@ async function cleanTicketRecords() {
                     // find record CATEGORY START
                     let category;
                     for (let i = 0; i < tags.length; i++) {
-                        if (tags[i].includes('4')) {
+                        if (tags[i].includes('5')) {
                             switch (tags[i]) {
-                                case "4-Акции и бонусы":
+                                case "5-Акции и бонусы":
                                     category = "Акции и бонусы";
                                     break;
-                                case "4-Безопасность":
+                                case "5-Безопасность":
                                     category = "Безопасность";
                                     break;
-                                case "4-Верификация аккаунта":
+                                case "5-Верификация аккаунта":
                                     category = "Верификация аккаунта";
                                     break;
-                                case "4-Вопросы по сайту":
+                                case "5-Вопросы по сайту":
                                     category = "Вопросы по сайту";
                                     break;
-                                case "4-Восстановление доступа":
+                                case "5-Восстановление доступа":
                                     category = "Восстановление доступа";
                                     break;
-                                case "4-Другие тикеты":
+                                case "5-Другие тикеты":
                                     category = "Другие тикеты";
                                     break;
-                                case "4-Закрытие аккаунта":
+                                case "5-Закрытие аккаунта":
                                     category = "Закрытие аккаунта";
                                     break;
-                                case "4-Изменения аккаунта":
+                                case "5-Изменения аккаунта":
                                     category = "Изменения аккаунта";
                                     break;
-                                case "4-Макс бет (игры/слоты)":
+                                case "5-Макс бет (игры/слоты)":
                                     category = "Макс бет (игры/слоты)";
                                     break;
-                                case "4-Непройденный депозит":
+                                case "5-Непройденный депозит":
                                     category = "Непройденный депозит";
                                     break;
-                                case "4-Партнерство":
+                                case "5-Партнерство":
                                     category = "Партнерство";
                                     break;
-                                case "4-Проблемы по сайту":
+                                case "5-Проблемы по сайту":
                                     category = "Проблемы по сайту";
                                     break;
-                                case "4-Проблемы с играми":
+                                case "5-Проблемы с играми":
                                     category = "Проблемы с играми";
                                     break;
-                                case "4-Рассылка":
+                                case "5-Рассылка":
                                     category = "Рассылка";
                                     break;
-                                case "4-Регистрация":
+                                case "5-Регистрация":
                                     category = "Регистрация";
                                     break;
-                                case "4-Тест":
+                                case "5-Тест":
                                     category = "Тест";
                                     break;
-                                case "4-Технические проблемы (кроме бонусов)":
+                                case "5-Технические проблемы (кроме бонусов)":
                                     category = "Технические проблемы (кроме бонусов)";
                                     break;
-                                case "4-Технические проблемы(кроме бонусов)":
+                                case "5-Технические проблемы(кроме бонусов)":
                                     category = "Технические проблемы (кроме бонусов)";
                                     break;
-                                case "4-Финансовые операции":
+                                case "5-Финансовые операции":
                                     category = "Финансовые операции";
                                     break;
                             }
@@ -816,8 +827,8 @@ async function cleanTicketRecords() {
 
                     // check if ticket without category START
                     for (let i = 0; i < tags.length; i++) {
-                        if (tags[i].includes('4')) break;
-                        if (!tags[i].includes('4')) {
+                        if (tags[i].includes('5')) break;
+                        if (!tags[i].includes('5')) {
                             if (i === tags.length - 1) {
                                 let checkRecord = {
                                     id: dataByCells[3],
@@ -900,7 +911,7 @@ async function buildFilteringSection() {
         <div name="convTypesDropDown" id="convTypesDropDown" class="dropDown">
         <label name="convTypesDropDown" for="IsShowAllConversationTypes">
         <input name="convTypesDropDown" type="checkbox" name="IsShowAllConversationTypes" id="IsShowAllConversationTypes" value="allConversationTypes">
-        <div name="convTypesDropDown" class="filter-label-text-box"><span class="labelBadge">Всі типи</span></div>
+        <div name="convTypesDropDown" class="filter-label-text-box"><span name="convTypesDropDown" class="labelBadge">Всі типи</span></div>
         </label>
         ${addCountent}
         </div>
@@ -936,7 +947,7 @@ async function buildFilteringSection() {
         <div name="categoriesDropDown" id="categoriesDropDown" class="dropDown">
         <label name="categoriesDropDown" for="IsShowAllCategories">
         <input name="categoriesDropDown" type="checkbox" name="IsShowAllCategories" id="IsShowAllCategories" value="allCategories">
-        <div name="categoriesDropDown" class="filter-label-text-box"><span class="labelBadge">Всі категорії</span></div>
+        <div name="categoriesDropDown" class="filter-label-text-box"><span name="categoriesDropDown" class="labelBadge">Всі категорії</span></div>
         </label>
         ${addCountent}
         </div>
@@ -965,7 +976,7 @@ async function buildFilteringSection() {
         <div name="agentsDropDown" id="agentsDropDown" class="dropDown">
         <label name="agentsDropDown" for="IsShowAllAgents">
         <input name="agentsDropDown" type="checkbox" name="IsShowAllAgents" id="IsShowAllAgents" value="allAgents">
-        <div name="agentsDropDown" class="filter-label-text-box"><span class="labelBadge">Всі категорії</span></div>
+        <div name="agentsDropDown" class="filter-label-text-box"><span name="agentsDropDown" class="labelBadge">Всі категорії</span></div>
         </label>
         ${addCountent}
         </div>
@@ -976,23 +987,6 @@ async function buildFilteringSection() {
     filterControlContainer.innerHTML += `
     <fieldset class="reset-btn-fieldset">
     <input type="button" id="resetFilters" onclick="resetFilters()" value="Скинути">
-    <div class="info-box"><p class="info-icon">i</p>
-    <div class="info-message">
-    <p>В даній секції у вас є фільтри які побудовані на основі отриманої інформації.<br>
-    <p>Щоб обрати якийсь конкретний пункт просто натисніть на нього. Коли ні одна опція не вибрана 
-    за замовчуванням будуть відображатися усі пункти.</p>
-    <p>Кнопка "Скинути" скидає усі обрані вами фільтри та сортування таблиць до початкових значень.</p>
-    <p>Під фільтрами ви можете бачити дату та кількість звернень за той період вигрузки/ок які ви надали.</p>
-    <p>Опція "Звіт" стане активною як тільки ви обирете хоч один фільтр.</p>
-    <p>Кнопка "Таблиця" відкриє зведені таблиці які містять різну інформацію по:<br>
-    - категоріяx (конкретні назви, кількості, відсоткове співідношення);<br>
-    - менеджерах (нік менеджера, кількісті опрацьованих ним чатів, листів та всього звернень, відсоткове співідношення, середня тривалість чатів працівника, швидкість першої відповіді в чатах);<br>
-    - мітках (назва мітки, її кількість та співідношення у відсотках).</p>
-    <p>Кожна таблиця буде оновлюватися відповідно до того фільтру який ви обираєте.</p>
-    <p>Колонки мають функцію сортування яка працює по натисканню на назву колонки, тип сортування змінюється автоматично від А до Я та навпаки.</p>
-    <p>В деяких таблицях присутня кнопка копіювання, яка дозволяє швидко скопіювати данні з конкретної таблиці.</p>
-    <p>Кнопка "Більше" поки неактивна і очікує свого зіркового часу для виконання інших цікавих завдань.</p>
-    </div></div>
     </fieldset>`;
     // reset button and info box END
 
@@ -1038,6 +1032,14 @@ async function buildFilters() {
         buildedFilter.projectsFilter = firstSelectedArr;
     }
 
+    allProjectsCheckBox.onchange = () => {
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+        for (let i = 1; i < projectsListSect.children.length; i++) {
+            projectsListSect.children[i].firstElementChild.checked = false;
+        }
+    }
+
     projectsListSect.onchange = () => {
         let selectedProjectsArr = [];
         if (allProjectsCheckBox.checked && firstSelectedArr.length > 0 ||
@@ -1077,6 +1079,14 @@ async function buildFilters() {
             firstSelectedArr.push(convTypesSect.children[i].firstElementChild.value)
         }
         buildedFilter.convTypesFilter = firstSelectedArr;
+    }
+
+    allConvTypesCheckBox.onchange = () => {
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+        for (let i = 1; i < convTypesSect.children.length; i++) {
+            convTypesSect.children[i].firstElementChild.checked = false;
+        }
     }
 
     convTypesSect.onchange = (e) => {
@@ -1120,6 +1130,14 @@ async function buildFilters() {
         buildedFilter.categoriesFilter = firstSelectedArr;
     }
 
+    allCategoriesCheckBox.onchange = () => {
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+        for (let i = 1; i < categoriesListSect.children.length; i++) {
+            categoriesListSect.children[i].firstElementChild.checked = false;
+        }
+    }
+
     categoriesListSect.onchange = (e) => {
         let selectedCategoriesArr = [];
         if (allCategoriesCheckBox.checked && firstSelectedArr.length > 0 ||
@@ -1160,6 +1178,15 @@ async function buildFilters() {
         }
         buildedFilter.agentsFilter = firstSelectedArr;
     }
+
+    allAgentsCheckBox.onchange = () => {
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+        for (let i = 1; i < agentsListSect.children.length; i++) {
+            agentsListSect.children[i].firstElementChild.checked = false;
+        }
+    }
+
     agentsListSect.onchange = (e) => {
         let selectedAgentsArr = [];
         if (allAgentsCheckBox.checked && firstSelectedArr.length > 0 ||
@@ -2279,11 +2306,11 @@ function copyTableText(e) {
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
     e.target.disabled = true;
-    // e.target.style.backgroundImage = "url(../images/accept.png)";
+    e.target.style.backgroundImage = "url(../images/accept.png)";
     e.target.nextElementSibling.style.width = '65px';
     e.target.nextElementSibling.style.padding = '2px';
     setTimeout(() => {
-        // e.target.style.backgroundImage = "url(../images/copy-icon.png)";
+        e.target.style.backgroundImage = "url(../images/copy-icon.png)";
         e.target.nextElementSibling.style.width = '0';
         e.target.nextElementSibling.style.padding = '2px 0';
         e.target.disabled = false;
