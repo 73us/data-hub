@@ -1821,14 +1821,7 @@ async function createReport(recordsForReport, reportType) {
             reportData.filtered.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
             setToButton = false;
         }
-        if (!setToButton) {
-            let link = document.createElement('a');
-            link.id = 'download-csv';
-            link.setAttribute('href', reportData.filtered.fileLink);
-            link.setAttribute('download', `${reportData.filtered.reportName}.csv`);
-            document.body.appendChild(link);
-            document.querySelector("#download-csv").click();
-        }
+        if (!setToButton) downloadFile(reportData.filtered.fileLink, reportData.filtered.reportName);
         else resolve(setToButton.disabled = false);
     })
 
