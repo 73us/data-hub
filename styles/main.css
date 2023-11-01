@@ -938,7 +938,7 @@ table {
 .container main .right .data-container .data-main .display-data-container .content {
   position: relative;
   min-width: 500px;
-  height: 680px;
+  height: 450px;
   width: 100%;
   margin-top: 39px;
   z-index: 0;
@@ -946,7 +946,7 @@ table {
   justify-content: center;
 }
 .container main .right .data-container .data-main .display-data-container .content table {
-  height: 680px;
+  height: 450px;
 }
 .container main .right .data-container .data-main .display-data-container .content table thead tr {
   position: relative;
