@@ -14,26 +14,36 @@ function convertSectoMinSec(inputSec) {
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
-let catgoryRuNames = {
-    Category_1: "Акции и бонусы",
-    Category_2: "Безопасность",
-    Category_3: "Верификация аккаунта",
-    Category_4: "Вопросы по сайту",
-    Category_5: "Восстановление доступа",
-    Category_6: "Другие тикеты",
-    Category_7: "Закрытие аккаунта",
-    Category_8: "Изменения аккаунта",
-    Category_9: "Макс бет (игры/слоты)",
-    Category_10: "Непройденный депозит",
-    Category_11: "Партнерство",
-    Category_12: "Проблемы по сайту",
-    Category_13: "Проблемы с играми",
-    Category_14: "Рассылка",
-    Category_15: "Регистрация",
-    Category_16: "Тест",
-    Category_17: "Технические проблемы (кроме бонусов)",
-    Category_18: "Финансовые операции",
-    Category_19: "Без категорії",
+let categoryRuNames = {
+    category_1: "Акции и бонусы",
+    category_2: "Безопасность",
+    category_3: "Верификация аккаунта",
+    category_4: "Вопросы по сайту",
+    category_5: "Восстановление доступа",
+    category_6: "Другие тикеты",
+    category_7: "Закрытие аккаунта",
+    category_8: "Изменения аккаунта",
+    category_9: "Макс бет (игры/слоты)",
+    category_10: "Непройденный депозит",
+    category_11: "Партнерство",
+    category_12: "Проблемы по сайту",
+    category_13: "Проблемы с играми",
+    category_14: "Рассылка",
+    category_15: "Регистрация",
+    category_16: "Тест",
+    category_17: "Технические проблемы (кроме бонусов)",
+    category_18: "Финансовые операции",
+    category_19: "Без категорії",
+}
+
+let languagesRuNames = {
+    language_1: "Английский",
+    language_2: "Немецкий",
+    language_3: "Другие языки",
+    language_4: "Французский",
+    language_5: "Итальянский",
+    language_6: "Японский",
+    language_19: "Без мови",
 }
 
 let btnProcessFiles = getE('#processFiles');
@@ -379,6 +389,12 @@ async function cleanChatRecords() {
                     if (!managersList.includes(setTag)) managersList.push(setTag);
                 }
             }
+            let convLang = "Без мови";
+            for (let tag = 0; tag < tags.length; tag++) {
+                if (/6\s*-/.test(tags[tag])) {
+                    convLang = tags[tag].substring((tags[tag].match(/[а-яА-Я]/).index), tags[tag].length)
+                }
+            }
             let customVariableArr = [];
             for (let i = customVariableStart; i < firstResponseTimeStart; i++) {
                 if (dataByCells[i] !== "") customVariableArr.push(dataByCells[i]);
@@ -420,6 +436,23 @@ async function cleanChatRecords() {
                     projectName = "Mirax"
                 }
                 // mark record with proper PROJECT name END
+
+                // check if conversation without language tag START
+                if (convLang === 'Без мови') {
+                    let checkRecord = {
+                        id: dataByCells[0],
+                        project: projectName,
+                        sourse: "chat",
+                        problemLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
+                        problemDesc: "немає мітки мови",
+                        problemType: "NOLANG",
+                        tags: tags,
+                        rmvPosChats: recordsChats.length === 0 ? 0 : recordsChats.length,
+                        rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                    }
+                    checkList.push(checkRecord);
+                }
+                // check if conversation without language tag END
 
                 // check if CATEGORY doubled START
                 let dupsCheck = 0;
@@ -551,6 +584,7 @@ async function cleanChatRecords() {
                     conversationLink: "https://my.livechatinc.com/archives/" + dataByCells[0],
                     conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                     conversationTags: tags, // converstaion tags
+                    conversationLanguage: convLang,
                     operatorNicks: (operatorNicks.length === 0) ? "noAgent" : operatorNicks, // operatorNicks
                     lastOperator: (operatorNicks.length === 0) ? "noAgent" : operatorNicks[operatorNicks.length - 1], // operatorNicks
                     customerId: dataByCells[7], // customer ID (for chats it has unique ID)
@@ -583,9 +617,6 @@ async function cleanChatRecords() {
                         operatorAccounts: operatorAccounts, // manager Account
                         customVariables: customVariableArr,
                     },
-                }
-                if (recordObj.conferenceId === "S3XBF9F3VJ") {
-                    console.log(recordObj);
                 }
 
                 // check if chat without category START
@@ -636,7 +667,8 @@ async function cleanTicketRecords() {
                 dataByCells[12].length !== 0 && dataByCells[12].includes("5") && dataByCells[12].includes("1-SPAM") ||
                 dataByCells[12].length !== 0 && !dataByCells[12].includes("1-NO REPLY") && !dataByCells[12].includes("1-SPAM")
             ) {
-                let tags = dataByCells[12].split(";");
+                let tags = dataByCells[12].split(";"),
+                    convLang = "Без мови";
                 for (let tag = 0; tag < tags.length; tag++) {
                     if (/7\s*-/.test(tags[tag])) {
                         let setTag = tags[tag].substring((tags[tag].match(/[a-zA-Z]/).index), tags[tag].length)
@@ -648,6 +680,9 @@ async function cleanTicketRecords() {
                     if (/1\s*-/.test(tags[tag])) {
                         if (tagsList.length === 0) tagsList.push(tags[tag])
                         if (!tagsList.includes(tags[tag])) tagsList.push(tags[tag])
+                    }
+                    if (/6\s*-/.test(tags[tag])) {
+                        convLang = tags[tag].substring((tags[tag].match(/[а-яА-Я]/).index), tags[tag].length)
                     }
                 }
 
@@ -669,6 +704,23 @@ async function cleanTicketRecords() {
                         projectName = "Mirax"
                     }
                     // mark record with proper PROJECT name END
+
+                    // check if conversation without language tag START
+                    if (convLang === 'Без мови') {
+                        let checkRecord = {
+                            id: dataByCells[3],
+                            project: projectName,
+                            sourse: "ticket",
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemDesc: "немає мітки мови",
+                            problemType: "NOLANG",
+                            tags: tags,
+                            rmvPosTickets: recordsTickets.length === 0 ? 0 : recordsTickets.length,
+                            rmvPosAllList: allRecords.length === 0 ? 0 : allRecords.length,
+                        }
+                        checkList.push(checkRecord);
+                    }
+                    // check if conversation without language tag END
 
                     // check if CATEGORY doubled START
                     let count = 0;
@@ -805,6 +857,7 @@ async function cleanTicketRecords() {
                         conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
                         conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                         conversationTags: tags, // converstaion tags
+                        conversationLanguage: convLang,
                         operatorNicks: (operatorNicks.length === 0) ? "noAgent" : operatorNicks, // operatorNicks
                         lastOperator: (operatorNicks.length === 0) ? "noAgent" : operatorNicks[operatorNicks.length - 1], // operatorNicks
                         customerId: dataByCells[5], // customer ID (for chats it has unique ID)
@@ -925,8 +978,8 @@ async function buildFilteringSection() {
             optionCount = Object.values(badgeCountsObj.categoriesCount[i]).toString();
 
         let optionValue;
-        for (const key in catgoryRuNames) {
-            if (optionLabel === catgoryRuNames[key]) {
+        for (const key in categoryRuNames) {
+            if (optionLabel === categoryRuNames[key]) {
                 optionValue = optionLabel;
                 optionLabel = key;
             }
@@ -936,8 +989,8 @@ async function buildFilteringSection() {
         <input name="categoriesDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionValue}">
         <div name="categoriesDropDown" class="filter-label-text-box">
-        <span name="categoriesDropDown" class="labelBadge">${(optionValue.length > 19) ? optionValue.substring(0, 18) : optionValue}</span>
-        <span name="categoriesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
+        <span name="categoriesDropDown" class="labelBadge" title="${(optionValue.length > 14) ? optionValue : ""}">${(optionValue.length > 14) ? optionValue.substring(0, 18) : optionValue}</span>
+        <span name="categoriesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 14) ? "badgeShadow" : ""}">${optionCount}</span>
         </div>
         </label>`;
     }
@@ -953,6 +1006,42 @@ async function buildFilteringSection() {
         </div>
         </fieldset>`;
     // get&build CATEGORIES list END
+
+    // get&build LANGUAGES list START
+    addCountent = "";
+    for (let i = 0; i < Object.keys(badgeCountsObj.languagesCount).length; i++) {
+        let optionLabel = Object.keys(badgeCountsObj.languagesCount[i]).toString(),
+            optionCount = Object.values(badgeCountsObj.languagesCount[i]).toString();
+
+        let optionValue;
+        for (const key in languagesRuNames) {
+            if (optionLabel === languagesRuNames[key]) {
+                optionValue = optionLabel;
+                optionLabel = key;
+            }
+        }
+        addCountent += `
+    <label name="languagesDropDown" for="isShow${optionLabel}" >
+    <input name="languagesDropDown" type="checkbox" name="isShow${optionLabel}" 
+    id="isShow${optionLabel}" value="${optionValue}">
+    <div name="languagesDropDown" class="filter-label-text-box">
+    <span name="languagesDropDown" class="labelBadge">${(optionValue.length > 19) ? optionValue.substring(0, 18) : optionValue}</span>
+    <span name="languagesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
+    </div>
+    </label>`;
+    }
+    filterControlContainer.innerHTML += `
+    <fieldset class="languagesList-fieldset">
+    <legend name="languagesDropDown" onclick="showDropDown(event)">Мови &#11206;</legend>
+    <div name="languagesDropDown" id="languagesDropDown" class="dropDown">
+    <label name="languagesDropDown" for="IsShowAllLanguages">
+    <input name="languagesDropDown" type="checkbox" name="IsShowAllLanguages" id="IsShowAllLanguages" value="allCategories">
+    <div name="languagesDropDown" class="filter-label-text-box"><span name="languagesDropDown" class="labelBadge">Всі мови</span></div>
+    </label>
+    ${addCountent}
+    </div>
+    </fieldset>`;
+    // get&build LANGUAGES list END
 
     // get&build AGENTS list START
     addCountent = "";
@@ -1166,6 +1255,55 @@ async function buildFilters() {
     }
     // build CATEGORIES filter END
 
+    // build LANGUAGES filter START
+    let languagesListSect = getE('.languagesList-fieldset').firstElementChild.nextElementSibling;
+    let allLanguagesCheckBox = getE('#IsShowAllLanguages');
+
+    allLanguagesCheckBox.checked = true;
+    firstSelectedArr = [];
+    if (allLanguagesCheckBox.checked) {
+        for (let i = 1; i < languagesListSect.children.length; i++) {
+            firstSelectedArr.push(languagesListSect.children[i].firstElementChild.value)
+        }
+        buildedFilter.languagesFilter = firstSelectedArr;
+    }
+
+    allLanguagesCheckBox.onchange = () => {
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+        for (let i = 1; i < languagesListSect.children.length; i++) {
+            languagesListSect.children[i].firstElementChild.checked = false;
+        }
+    }
+
+    languagesListSect.onchange = (e) => {
+        let selectedLanguagesArr = [];
+        if (allLanguagesCheckBox.checked && firstSelectedArr.length > 0 ||
+            !allLanguagesCheckBox.checked && firstSelectedArr.length > 0) {
+            allLanguagesCheckBox.checked = false;
+            for (let i = 1; i < languagesListSect.children.length; i++) {
+                if (languagesListSect.children[i].firstElementChild.checked) {
+                    selectedLanguagesArr.push(languagesListSect.children[i].firstElementChild.value);
+                }
+            }
+            let count = 0;
+            for (let i = 1; i < languagesListSect.children.length; i++) {
+                if (!languagesListSect.children[i].firstElementChild.checked) count++;
+                if (count === languagesListSect.children.length - 1) allLanguagesCheckBox.checked = true;
+            }
+            buildedFilter.languagesFilter = selectedLanguagesArr;
+        }
+        if (allLanguagesCheckBox.checked) {
+            for (let i = 1; i < languagesListSect.children.length; i++) {
+                selectedLanguagesArr.push(languagesListSect.children[i].firstElementChild.value)
+            }
+            buildedFilter.languagesFilter = selectedLanguagesArr;
+        }
+        filterResults(buildedFilter);
+        recordsCounter(filteredDataArr);
+    }
+    // build LANGUAGES filter END
+
     // build AGENTS filter START
     let agentsListSect = getE('.agentsList-fieldset').firstElementChild.nextElementSibling;
     let allAgentsCheckBox = getE('#IsShowAllAgents');
@@ -1258,7 +1396,6 @@ async function filterResults(buildedFilter) {
             }
         }
     }
-
     // filtering by CONVERSATION TYPE END
 
     // filtering by CATEGORY START
@@ -1280,6 +1417,26 @@ async function filterResults(buildedFilter) {
         }
     }
     // filtering by CATEGORY END
+
+    // filtering by LANGUAGES START
+    if (buildedFilter.languagesFilter !== undefined && buildedFilter.languagesFilter.length !== 0) {
+        let filrteringArr = [];
+        if (filteredDataArr.length !== 0) {
+            filrteringArr = filteredDataArr;
+            filteredDataArr = [];
+        }
+        else if (filteredDataArr.length === 0) {
+            filrteringArr = allRecords;
+        }
+        for (let i = 0; i < filrteringArr.length; i++) {
+            for (let a = 0; a < buildedFilter.languagesFilter.length; a++) {
+                if (filrteringArr[i].conversationLanguage === buildedFilter.languagesFilter[a]) {
+                    filteredDataArr.push(filrteringArr[i]);
+                }
+            }
+        }
+    }
+    // filtering by LANGUAGES END
 
     // filtering by AGENT NAME START
     if (buildedFilter.agentsFilter !== undefined && buildedFilter.agentsFilter.length !== 0) {
@@ -1312,6 +1469,10 @@ async function filterResults(buildedFilter) {
     // reset sort arrows END
 
     savedfilteredDataArr = [...filteredDataArr];
+    getE('.counter-header').innerHTML =
+    `Період вибірки: <span class="counter-number">
+    ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span>
+    Знайдено <span class="counter-number">${savedfilteredDataArr.length}</span> релевантних звернень.`
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
     await countManagersPerf(filteredDataArr);
@@ -1320,7 +1481,7 @@ async function filterResults(buildedFilter) {
 }
 // FILTER RESULTS FUNCTION END
 
-// CREATE FULL COUNTS LIST FUNCTION START
+// COUNT ALL ITEMS FUNCTION START
 let cleanRecordsCountObj = {}, projectsList;
 async function recordsCounter(dataToCount) {
     // count unique project start
@@ -1362,7 +1523,6 @@ async function recordsCounter(dataToCount) {
         if (dataToCount[i].conversationCategory === "Без категорії") {
         }
     }
-
     let categoriesList = allRecordsCategory.filter((item, i, arr) => arr.indexOf(item) === i);
     addCountent = "";
     for (let i = 0; i < categoriesList.length; i++) {
@@ -1385,6 +1545,24 @@ async function recordsCounter(dataToCount) {
     cleanRecordsCountObj.categoriesCount = Object.assign({}, newCategories);
     // count unique categories end
 
+    // count unique languages types start
+    let newLang = [];
+    let allRecordsLanguages = [];
+    for (let i = 0; i < dataToCount.length; i++) {
+        allRecordsLanguages.push(dataToCount[i].conversationLanguage)
+        if (dataToCount[i].conversationLanguage === "Без мови") {
+        }
+    }
+    let languagesList = allRecordsLanguages.filter((item, i, arr) => arr.indexOf(item) === i);
+    addCountent = "";
+    for (let i = 0; i < languagesList.length; i++) {
+        let regexLanguages = new RegExp(languagesList[i], "g");
+        let languagesCount = allRecordsLanguages.join(" ").match(regexLanguages).length;
+        newLang.push({ [languagesList[i]]: languagesCount });
+    }
+    cleanRecordsCountObj.languagesCount = Object.assign({}, newLang);
+    // count unique languages types end
+
     // count unique agents start
     let newAgents = [];
     let allRecordsAgent = [];
@@ -1406,7 +1584,7 @@ async function recordsCounter(dataToCount) {
 
     return cleanRecordsCountObj;
 }
-// CREATE FULL COUNTS LIST FUNCTION END
+// COUNT ALL ITEMS FUNCTION END
 
 // SHOW AND BUILD DIALOG WINDOW FUNCTION START
 let dialogContainer = getE('.dialogWindow-container'),
@@ -1416,12 +1594,13 @@ let dialogContainer = getE('.dialogWindow-container'),
 async function showAndBuildDialog(checkList) {
     dialogContainer.classList.toggle('hide');
     dialogContent.innerHTML = `<p>У вибірці виявлено наступні елементи. Оберіть які з них очистити:</p>`;
-    let cleanOptions = "", emptyCases = true, noReplyAndCat = true, catDups = true,
-        countObj = { empty: 0, noReplyAndCat: 0, catDups: 0 };
+    let cleanOptions = "", emptyCases = true, noReplyAndCat = true, catDups = true, noLang = true,
+        countObj = { empty: 0, noReplyAndCat: 0, catDups: 0, noLang: 0 };
     for (let record = 0; record < checkList.length; record++) {
         if (checkList[record].problemType === "EMPTY" && emptyCases) countObj.empty++;
         if (checkList[record].problemType === "NOREPLYANDCAT" && noReplyAndCat) countObj.noReplyAndCat++;
         if (checkList[record].problemType === "CATDUPS" && catDups) countObj.catDups++;
+        if (checkList[record].problemType === "NOLANG" && noLang) countObj.noLang++;
     }
     for (let i = 0; i < checkList.length; i++) {
         let titleSet = `Знайдено ${countObj.empty} звернень в яких відсутня мітка категорії.`;
@@ -1442,7 +1621,7 @@ async function showAndBuildDialog(checkList) {
             </label>`;
             noReplyAndCat = false;
         }
-        titleSet = `Знайдено ${countObj.noReplyAndCat} звернень в які мають більше ніж одну мітку категорії.`;
+        titleSet = `Знайдено ${countObj.catDups} звернень в які мають більше ніж одну мітку категорії.`;
         if (checkList[i].problemType === "CATDUPS" && catDups) {
             cleanOptions += `<label for="catDups" title="${titleSet}">
             <input type="checkbox" name="catDups" id="catDups" checked>
@@ -1450,6 +1629,15 @@ async function showAndBuildDialog(checkList) {
             <span id="catDupsBadge">(${countObj.catDups})</span>
             </label>`;
             catDups = false;
+        }
+        titleSet = `Знайдено ${countObj.noLang} звернень в які мають більше ніж одну мітку категорії.`;
+        if (checkList[i].problemType === "NOLANG" && noLang) {
+            cleanOptions += `<label for="noLang" title="${titleSet}">
+            <input type="checkbox" name="noLang" id="noLang">
+            - немає мітки мови
+            <span id="noLangBadge">(${countObj.noLang})</span>
+            </label>`;
+            noLang = false;
         }
     }
     dialogContent.innerHTML += cleanOptions;
@@ -1467,7 +1655,9 @@ dialogWindow.onchange = () => {
         noReplyAndCatCheck = getE('#noReplyAndCat'),
         noReplyAndCatBadge = getE('#noReplyAndCatBadge'),
         catDupsCheck = getE('#catDups'),
-        catDupsBadge = getE('#catDupsBadge');
+        catDupsBadge = getE('#catDupsBadge'),
+        noLangCheck = getE('#noLang'),
+        noLangBadge = getE('#noLangBadge');
 
     if (cleaningCheck.checked) {
         if (emptyCheck) {
@@ -1490,6 +1680,13 @@ dialogWindow.onchange = () => {
                 catDupsBadge.style.display = "block";
             }
             catDupsCheck.disabled = true;
+        }
+        if (noLangCheck) {
+            if (noLangCheck.checked) {
+                if (!cleanChoice.includes("NOLANG")) cleanChoice.push("NOLANG");
+                noLangBadge.style.display = "block";
+            }
+            noLangCheck.disabled = true;
         }
         btnClean.disabled = false;
         btnIgnore.disabled = false;
@@ -1518,6 +1715,14 @@ dialogWindow.onchange = () => {
                 cleanChoice.splice(cleanChoice.indexOf("CATDUPS"));
             }
             catDupsCheck.disabled = false;
+        }
+        if (noLangCheck) {
+            if (noLangCheck.checked) noLangBadge.style.display = "block";
+            if (!noLangCheck.checked) {
+                noLangBadge.style.display = "none";
+                cleanChoice.splice(cleanChoice.indexOf("NOLANG"));
+            }
+            noLangCheck.disabled = false;
         }
         btnClean.disabled = true;
         btnIgnore.disabled = true;
@@ -1551,6 +1756,28 @@ function dialogClean() {
                     }
                 }
                 // clear empty records end
+
+                // clear records without language start
+                if (cleanChoice[c] === "NOLANG") {
+                    if (checkList[i].problemType === "NOLANG") {
+                        for (let a = 0; a < allRecords.length; a++) {
+                            if (checkList[i].id === allRecords[a].conferenceId) {
+                                allRecords.splice(allRecords.indexOf(allRecords[a]), 1);
+                            }
+                        }
+                        for (let a = 0; a < recordsChats.length; a++) {
+                            if (checkList[i].id === recordsChats[a].conferenceId) {
+                                recordsChats.splice(recordsChats.indexOf(recordsChats[a]), 1);
+                            }
+                        }
+                        for (let a = 0; a < recordsTickets.length; a++) {
+                            if (checkList[i].id === recordsTickets[a].conferenceId) {
+                                recordsTickets.splice(recordsTickets.indexOf(recordsTickets[a]), 1);
+                            }
+                        }
+                    }
+                }
+                // clear records without language end
 
                 // clear no reply and category records start
                 if (cleanChoice[c] === "NOREPLYANDCAT") {
@@ -1620,15 +1847,19 @@ dataFilteringContainer.onchange = async (e) => {
     let badgeCountsObj = await recordsCounter(savedfilteredDataArr);
     let countObjKeys = [];
     for (const key in badgeCountsObj) countObjKeys.push(key);
-
     let countWasSetArr = [];
     for (let objKey = 0; objKey < countObjKeys.length; objKey++) {
         for (let i = 0; i < Object.keys(badgeCountsObj[countObjKeys[objKey]]).length; i++) {
             let optionLabel = Object.keys(badgeCountsObj[countObjKeys[objKey]][i]).toString(),
                 optionCount = Object.values(badgeCountsObj[countObjKeys[objKey]][i]).toString();
-            if (/[А-Яа-я]/.test(optionLabel)) {
-                for (const key in catgoryRuNames) {
-                    if (optionLabel === catgoryRuNames[key]) optionLabel = key;
+            if (countObjKeys[objKey] === "categoriesCount") {
+                for (const key in categoryRuNames) {
+                    if (optionLabel === categoryRuNames[key]) optionLabel = key;
+                }
+            }
+            if (countObjKeys[objKey] === "languagesCount") {
+                for (const key in languagesRuNames) {
+                    if (optionLabel === languagesRuNames[key]) optionLabel = key;
                 }
             }
             let setNewBadgeCount = getE(`#isShow${optionLabel}`).nextElementSibling.children[1];
@@ -1656,6 +1887,7 @@ dataFilteringContainer.onchange = async (e) => {
     if (getE('#IsShowAllProjects').checked &&
         getE('#IsShowAllConversationTypes').checked &&
         getE('#IsShowAllCategories').checked &&
+        getE('#IsShowAllLanguages').checked &&
         getE('#IsShowAllAgents').checked) {
         getE("#downloadCustomReport").disabled = true;
     }
@@ -1693,7 +1925,7 @@ async function buildReportSection() {
             onclick="createReport(recordsChats,'chat')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.chat.fileLink, reportData.chat.reportName)"
             id="downloadChatReport" value="Завантажити" disabled>
-            </fieldset>`
+            </fieldset>`;
         }
         reportContainer.innerHTML += addContent;
         addContent = "";
@@ -1704,7 +1936,7 @@ async function buildReportSection() {
             onclick="createReport(recordsTickets,'ticket')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.ticket.fileLink, reportData.ticket.reportName)"
             id="downloadTicketReport" value="Завантажити" disabled>
-            </fieldset>`
+            </fieldset>`;
         }
         reportContainer.innerHTML += addContent;
         addContent = "";
@@ -1715,7 +1947,7 @@ async function buildReportSection() {
             onclick="createReport(allRecords,'general')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.general.fileLink, reportData.general.reportName)"
             id="downloadGeneralReport" value="Завантажити" disabled>
-            </fieldset>`
+            </fieldset>`;
         }
         reportContainer.innerHTML += addContent;
         addContent = "";
@@ -1726,7 +1958,7 @@ async function buildReportSection() {
             onclick="createReport(checkList,'check')" value="Створити">
             <input type="button" onclick="downloadFile(reportData.check.fileLink, reportData.check.reportName)"
             id="downloadCheckReport" value="Завантажити" disabled>
-            </fieldset>`
+            </fieldset>`;
         }
         reportContainer.innerHTML += addContent;
     }
@@ -1737,7 +1969,7 @@ async function buildReportSection() {
         onclick="findMergeChatsStart()" value="Створити">
         <input type="button" onclick="downloadFile(reportData.merging.fileLink, reportData.merging.reportName)"
         id="downloadChatMerging" value="Завантажити" disabled>
-        </fieldset>`
+        </fieldset>`;
     }
     reportContainer.innerHTML += addContent;
     reportContainer.classList.remove('hide');
@@ -1904,8 +2136,8 @@ async function countCategories(recordsToCount) {
     for (let record = 0; record < recordsToCount.length; record++) {
         allCategories += recordsToCount[record].conversationCategory + ",";
     }
-    for (const categoryKey in catgoryRuNames) {
-        let categoryName = catgoryRuNames[categoryKey], categoryRegex;
+    for (const categoryKey in categoryRuNames) {
+        let categoryName = categoryRuNames[categoryKey], categoryRegex;
         if (categoryName !== "Макс бет (игры/слоты)" &&
             categoryName !== "Технические проблемы (кроме бонусов)") {
             categoryRegex = new RegExp(categoryName, "gm");

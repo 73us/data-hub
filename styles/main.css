@@ -631,12 +631,14 @@ table {
   align-items: start;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset {
-  width: 250px;
+  width: 200px;
   background-color: #dde4e9;
   display: flex;
   flex-flow: row wrap;
   align-items: baseline;
   position: relative;
+  font-size: 14px;
+  font-weight: bold;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset legend {
   display: flex;
@@ -687,14 +689,13 @@ table {
   border-bottom: 2px solid #dde4e9;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label input {
-  width: 20px;
+  width: 16px;
   margin-right: 5px;
   margin: 0;
-  height: 20px;
+  height: 16px;
   accent-color: #4384f5;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box {
-  font-weight: bold;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -702,7 +703,6 @@ table {
   position: relative;
   width: 87%;
   height: 20px;
-  font-size: 15px;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .labelBadge {
   width: 79%;
@@ -711,7 +711,7 @@ table {
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown label .filter-label-text-box .countBadge {
   height: 20px;
-  width: 21%;
+  width: 30%;
   padding: 0 2px;
   background-color: #f8f9fa;
   border: 1px solid #000;
@@ -760,6 +760,12 @@ table {
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown fieldset:nth-of-type(1),
 .container main .right .data-container .data-main .data-filtering-container fieldset .dropDown fieldset:nth-of-type(2) {
   width: 50%;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset:nth-of-type(3) {
+  width: 220px;
+}
+.container main .right .data-container .data-main .data-filtering-container fieldset:nth-of-type(3) .dropDown label .filter-label-text-box {
+  width: 88%;
 }
 .container main .right .data-container .data-main .data-filtering-container .reset-btn-fieldset {
   width: -moz-fit-content;
