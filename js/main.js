@@ -2173,7 +2173,6 @@ async function countLanguages(recordsToCount) {
         }
     }
     await buildTable(countedLanguagesList, "languages");
-    // console.log(countedLanguagesList);
     savedCountedLanguagesList = [...countedLanguagesList];
     countedLanguagesList = [];
 }
@@ -2581,7 +2580,6 @@ function copyTableText(e) {
     dataByRows.pop();
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
-    console.log(e.target);
     e.target.disabled = true;
     e.target.style.backgroundImage = "url('../images/accept.png')";
     e.target.nextElementSibling.style.width = '65px';
