@@ -524,12 +524,14 @@
             justify-content: space-evenly;
             align-items: start;
             fieldset {
-              width: 250px;
+              width: 200px;
               background-color: $bg-bluegray;
               display: flex;
               flex-flow: row wrap;
               align-items: baseline;
               position: relative;
+              font-size: 14px;
+              font-weight: bold;
               legend {
                 display: flex;
                 flex-flow: row nowrap;
@@ -581,17 +583,16 @@
 
                   // filter option checkbox start
                   input {
-                    width: 20px;
+                    width: 16px;
                     margin-right: 5px;
                     margin: 0;
-                    height: 20px;
+                    height: 16px;
                     accent-color: $btn-blue;
                   }
                   // filter option checkbox end
 
                   // filter option label text start
                   .filter-label-text-box {
-                    font-weight: bold;
                     display: flex;
                     flex-flow: row nowrap;
                     justify-content: space-between;
@@ -599,7 +600,6 @@
                     position: relative;
                     width: 87%;
                     height: 20px;
-                    font-size: 15px;
                     .labelBadge {
                       width: 79%;
                       overflow: hidden;
@@ -607,7 +607,7 @@
                     }
                     .countBadge {
                       height: 20px;
-                      width: 21%;
+                      width: 30%;
                       padding: 0 2px;
                       background-color: $btn-white;
                       border: 1px solid #000;
@@ -663,6 +663,16 @@
                 fieldset:nth-of-type(1),
                 fieldset:nth-of-type(2) {
                   width: 50%;
+                }
+              }
+            }
+            fieldset:nth-of-type(3) {
+              width: 220px;
+              .dropDown {
+                label {
+                  .filter-label-text-box {
+                    width: 88%;
+                  }
                 }
               }
             }
@@ -1412,4 +1422,7 @@ label:hover {
   .badgeShadow {
     box-shadow: -10px 0px 7px 4px $bg-blue !important;
   }
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.25) {
 }
