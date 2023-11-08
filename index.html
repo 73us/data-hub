@@ -114,12 +114,12 @@
                         <div class="display-data-container hide">
                             <nav class="menu">
                                 <li id="item-1" value="item1" class="active">Категорії</li>
-                                <li id="item-2" value="item2">Менеджери</li>
-                                <li id="item-3" value="item3">Мітки</li>
-                                <!-- <li id="item-4" value="item4">Item 4</li> -->
+                                <li id="item-2" value="item2">Мови</li>
+                                <li id="item-3" value="item3">Менеджери</li>
+                                <li id="item-4" value="item4">Мітки</li>
                             </nav>
                             <div class="content">
-                                <!-- TBALE 1 START -->
+                                <!-- CATEGORIES TABLE 1 START -->
                                 <table id="data-table-1" class="show">
                                     <thead>
                                         <tr>
@@ -138,10 +138,31 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
-                                <!-- TBALE 1 END -->
+                                <!-- CATEGORIES TABLE 1 END -->
 
-                                <!-- TBALE 2 START -->
+                                <!-- LANGUAGES TABLE 2 START -->
                                 <table id="data-table-2">
+                                    <thead>
+                                        <tr>
+                                            <th onclick="sortColumnStr(event, savedCountedLanguagesList)" name="true">
+                                                Мова<span></span></th>
+                                            <th onclick="sortColumnNum(event, savedCountedLanguagesList, '')"
+                                                name="true">Кількість<span></span></th>
+                                            <th onclick="sortColumnNum(event, savedCountedLanguagesList, '')"
+                                                name="true">Співвідношення<span></span></th>
+                                            <th>
+                                                <button onclick="copyTableText(event)"
+                                                    title="Скопіювати дані таблиці"></button>
+                                                <span class="copy-label">Скопійовано!</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <!-- LANGUAGES TABLE 2 END -->
+
+                                <!-- MANAGERS TABLE 3 START -->
+                                <table id="data-table-3">
                                     <thead>
                                         <tr>
                                             <th onclick="sortColumnStr(event, savedCountedManagersPerfList)"
@@ -167,10 +188,10 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
-                                <!-- TBALE 2 END -->
+                                <!-- MANAGERS TABLE 3 END -->
 
-                                <!-- TBALE 3 START -->
-                                <table id="data-table-3">
+                                <!-- TAGS TABLE 4 START -->
+                                <table id="data-table-4">
                                     <thead>
                                         <tr>
                                             <th onclick="sortColumnStr(event, savedCountedTagsList)" name="true">
@@ -188,7 +209,7 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
-                                <!-- TBALE 3 END -->
+                                <!-- TAGS TABLE 4 END -->
                             </div>
                         </div>
                     </div>
@@ -206,7 +227,7 @@
                     Rights Reserved.</p>
             </div>
             <div class="version">
-                <p>v 0.7.3.4 DEV VER</p>
+                <p>v 0.7.3.5 DEV VER</p>
             </div>
         </footer>
         <!-- FOTTER END -->

@@ -1017,7 +1017,7 @@ table {
   transition: width 0.5s ease-in-out;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 {
-  min-width: 650px;
+  min-width: 850px;
   background-color: #f8f9fa;
   display: none;
   overflow: auto;
@@ -1040,13 +1040,13 @@ table {
   padding: 15px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(1) {
-  width: 330px;
+  width: 430px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(2) {
-  width: 120px;
+  width: 150px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr th:nth-of-type(3) {
-  width: 200px;
+  width: 250px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-1 thead tr:after {
   position: absolute;
@@ -1074,7 +1074,7 @@ table {
   font-weight: bold;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 {
-  min-width: 650px;
+  min-width: 850px;
   background-color: #f8f9fa;
   display: none;
   overflow: auto;
@@ -1083,9 +1083,12 @@ table {
   border-radius: 5px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead {
+  margin-top: 5px;
   position: relative;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr {
+  padding: 0 15px;
+  z-index: 10;
   position: sticky;
   top: 0;
   background-color: #dde4e9;
@@ -1094,25 +1097,12 @@ table {
   padding: 15px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(1) {
-  width: 130px;
+  width: 430px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(2) {
-  width: 90px;
+  width: 150px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(3) {
-  width: 100px;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(4) {
-  font-weight: bold;
-  width: 100px;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(5) {
-  width: 190px;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(6) {
-  width: 230px;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr th:nth-of-type(7) {
   width: 250px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 thead tr:after {
@@ -1132,9 +1122,6 @@ table {
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:first-of-type {
   border-radius: 5px 0 0 5px;
-}
-.container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:nth-of-type(4) {
-  font-weight: bold;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-2 tbody tr td:last-of-type {
   border-radius: 0 5px 5px 0;
@@ -1164,13 +1151,26 @@ table {
   padding: 15px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(1) {
-  width: 330px;
+  width: 130px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(2) {
-  width: 120px;
+  width: 90px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(3) {
-  width: 200px;
+  width: 100px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(4) {
+  font-weight: bold;
+  width: 100px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(5) {
+  width: 190px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(6) {
+  width: 230px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr th:nth-of-type(7) {
+  width: 250px;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 thead tr:after {
   position: absolute;
@@ -1190,10 +1190,67 @@ table {
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 tbody tr td:first-of-type {
   border-radius: 5px 0 0 5px;
 }
+.container main .right .data-container .data-main .display-data-container .content #data-table-3 tbody tr td:nth-of-type(4) {
+  font-weight: bold;
+}
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 tbody tr td:last-of-type {
   border-radius: 0 5px 5px 0;
 }
 .container main .right .data-container .data-main .display-data-container .content #data-table-3 tbody tr:last-of-type {
+  border: none;
+  font-weight: bold;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 {
+  min-width: 850px;
+  background-color: #f8f9fa;
+  display: none;
+  overflow: auto;
+  border: 1px solid #000000;
+  padding: 5px;
+  border-radius: 5px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead {
+  position: relative;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr {
+  position: sticky;
+  top: 0;
+  background-color: #dde4e9;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr th {
+  padding: 15px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr th:nth-of-type(1) {
+  width: 430px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr th:nth-of-type(2) {
+  width: 150px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr th:nth-of-type(3) {
+  width: 250px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 thead tr:after {
+  position: absolute;
+  content: "";
+  top: -10px;
+  left: 0px;
+  width: 100%;
+  height: 10px;
+  background-color: #f8f9fa;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 tbody tr {
+  border-bottom: 2px solid #dde4e9;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 tbody tr td {
+  padding: 15px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 tbody tr td:first-of-type {
+  border-radius: 5px 0 0 5px;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 tbody tr td:last-of-type {
+  border-radius: 0 5px 5px 0;
+}
+.container main .right .data-container .data-main .display-data-container .content #data-table-4 tbody tr:last-of-type {
   border: none;
   font-weight: bold;
 }
