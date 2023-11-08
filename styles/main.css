@@ -1003,6 +1003,22 @@ table {
 .container main .right .data-container .data-main .display-data-container .content table thead button:disabled {
   cursor: default;
 }
+.container main .right .data-container .data-main .display-data-container .content table thead .check-btn {
+  position: absolute;
+  display: none;
+  top: 50px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #f8f9fa;
+  background-image: url(../images/accept.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #dde4e9;
+  z-index: 10;
+}
 .container main .right .data-container .data-main .display-data-container .content table thead .copy-label {
   font-size: 10px;
   z-index: 20;

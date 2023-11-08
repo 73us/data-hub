@@ -931,6 +931,22 @@
                   button:disabled {
                     cursor: default;
                   }
+                  .check-btn{
+                    position: absolute;
+                    display: none;
+                    top: 50px;
+                    right: 0;
+                    width: 30px;
+                    height: 30px;
+                    background-color: $bg-white;
+                    background-image: url(../images/accept.png);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    border: 2px solid $bg-bluegray;
+                    z-index: 10;
+                  }
                   .copy-label {
                     font-size: 10px;
                     z-index: 20;

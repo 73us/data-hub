@@ -1025,8 +1025,8 @@ async function buildFilteringSection() {
         <input name="languagesDropDown" type="checkbox" name="isShow${optionLabel}" 
         id="isShow${optionLabel}" value="${optionValue}">
         <div name="languagesDropDown" class="filter-label-text-box">
-        <span name="languagesDropDown" class="labelBadge">${(optionValue.length > 19) ? optionValue.substring(0, 18) : optionValue}</span>
-        <span name="languagesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
+        <span name="languagesDropDown" class="labelBadge">${(optionValue.length > 14) ? optionValue.substring(0, 14) : optionValue}</span>
+        <span name="languagesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 14) ? "badgeShadow" : ""}">${optionCount}</span>
         </div>
         </label>`;
     }
@@ -2581,13 +2581,15 @@ function copyTableText(e) {
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
     e.target.disabled = true;
-    e.target.style.backgroundImage = "url('../images/accept.png')";
-    e.target.nextElementSibling.style.width = '65px';
-    e.target.nextElementSibling.style.padding = '2px';
+    e.target.style.display = "none";
+    e.target.nextElementSibling.style.display = "block";
+    e.target.nextElementSibling.nextElementSibling.style.width = '65px';
+    e.target.nextElementSibling.nextElementSibling.style.padding = '2px';
     setTimeout(() => {
-        e.target.style.backgroundImage = "url('../images/copy-icon.png')";
-        e.target.nextElementSibling.style.width = '0';
-        e.target.nextElementSibling.style.padding = '2px 0';
+        e.target.style.display = "block";
+        e.target.nextElementSibling.style.display = "none";
+        e.target.nextElementSibling.nextElementSibling.style.width = '0';
+        e.target.nextElementSibling.nextElementSibling.style.padding = '2px 0';
         e.target.disabled = false;
     }, 1000);
 }
