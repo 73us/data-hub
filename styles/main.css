@@ -136,6 +136,153 @@ table {
   border-spacing: 0;
 }
 
+.test-container {
+  background-color: #dde4e9;
+  margin: 0 auto;
+  width: 98%;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+}
+.test-container fieldset {
+  width: 250px;
+  background-color: #dde4e9;
+  border-radius: 15px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  border: 1px solid #000;
+}
+.test-container fieldset legend {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0 9px 0 5px;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  height: 35px;
+  border: 1px solid #000;
+  margin: 0 4px 3px 0;
+}
+.test-container fieldset legend span {
+  color: gray;
+}
+.test-container fieldset legend:hover {
+  cursor: pointer;
+}
+.test-container fieldset .dropDown {
+  height: 0;
+  border-radius: 5px;
+  max-height: 250px;
+  padding: 0 5px;
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+.test-container fieldset .dropDown .top-dates {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dde4e9;
+  padding: 0 12px;
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+}
+.test-container fieldset .dropDown .top-dates button {
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.test-container fieldset .dropDown .top-dates button:hover {
+  cursor: pointer;
+  border: 2px solid #dde4e9;
+}
+.test-container fieldset .dropDown .top-dates button:disabled {
+  cursor: default;
+  border: 0px solid #000;
+  color: rgba(16, 16, 16, 0.3) !important;
+}
+.test-container fieldset .dropDown .top-dates .month-label {
+  font-weight: bold;
+}
+.test-container fieldset .dropDown .middle-dates {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.test-container fieldset .dropDown .middle-dates button {
+  font-size: 10px;
+  font-weight: normal;
+  margin: 1px;
+}
+.test-container fieldset .dropDown .middle-dates button:hover {
+  cursor: default;
+  border: none;
+}
+.test-container fieldset .dropDown .bottom-dates {
+  width: 250px;
+  height: 165px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  padding-bottom: 2px;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box button {
+  margin: 1px;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box .other-month-date {
+  color: rgba(16, 16, 16, 0.3);
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box button:hover,
+.test-container fieldset .dropDown .bottom-dates .one-month-box .other-month-date:hover {
+  cursor: pointer;
+  background-color: #0b5ed7;
+  color: #f8f9fa;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box button:disabled {
+  cursor: default;
+  background-color: #eeeeee;
+  color: rgba(16, 16, 16, 0.3) !important;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box .one-month-box:nth-of-type(1) {
+  display: flex;
+}
+.test-container fieldset .dropDown .bottom-dates .one-month-box .selected-dates {
+  background-color: #4384f5;
+  color: #f8f9fa;
+}
+.test-container fieldset .dropDown button {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: #000000;
+  padding-left: 4px;
+  background-color: transparent;
+  border: 0px solid #000;
+  border-radius: 5px;
+}
+
 .dialogWindow-container .dialogWindow-control {
   display: flex;
   justify-content: center;
@@ -807,17 +954,166 @@ table {
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 20px;
+  padding: 5px 17px;
   border-bottom: 3px solid #6c757d;
 }
 .container main .right .data-container .data-main .data-options-container fieldset .left {
   margin: 0;
   width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
 }
-.container main .right .data-container .data-main .data-options-container fieldset .left .counter-header {
-  display: none;
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box {
+  width: 250px;
+  margin-right: 20px;
 }
-.container main .right .data-container .data-main .data-options-container fieldset .left .counter-header .counter-number {
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset {
+  width: 250px;
+  background-color: #dde4e9;
+  border-radius: 15px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  position: relative;
+  border: none;
+  padding: 0;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset legend {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  height: 40px;
+  border-bottom-color: #dde4e9 !important;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset legend span {
+  color: gray;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset legend:hover {
+  cursor: pointer;
+  background-color: #0b5ed7;
+  color: #f8f9fa;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown {
+  width: 100%;
+  height: 0;
+  border-radius: 0 0 10px 10px;
+  max-height: 270px;
+  padding: 0 5px;
+  position: absolute;
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 100;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .top-dates {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dde4e9;
+  padding: 0 12px;
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .top-dates button {
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .top-dates button:hover {
+  cursor: pointer;
+  border: 2px solid #dde4e9;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .top-dates button:disabled {
+  cursor: default;
+  border: 0px solid #000;
+  color: rgba(16, 16, 16, 0.3) !important;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .top-dates .month-label {
+  font-weight: bold;
+  font-size: 14px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .middle-dates {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .middle-dates button {
+  font-size: 10px;
+  font-weight: normal;
+  margin: 1px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .middle-dates button:hover {
+  cursor: default;
+  border: none;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates {
+  width: 250px;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  padding-bottom: 2px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box button {
+  margin: 1px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .other-month-date {
+  color: rgba(16, 16, 16, 0.3);
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box button:hover,
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .other-month-date:hover {
+  cursor: pointer;
+  background-color: #0b5ed7;
+  color: #f8f9fa;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box button:disabled {
+  cursor: default;
+  background-color: #eeeeee;
+  color: rgba(16, 16, 16, 0.3) !important;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .one-month-box:nth-of-type(1) {
+  display: flex;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .selected-dates {
+  background-color: #4384f5;
+  color: #f8f9fa;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown button {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: #000000;
+  padding-left: 4px;
+  background-color: transparent;
+  border: 0px solid #000;
+  border-radius: 5px;
+}
+.container main .right .data-container .data-main .data-options-container fieldset .left .count-box span .count-number {
   font-weight: bold;
 }
 .container main .right .data-container .data-main .data-options-container fieldset .right {
@@ -1504,6 +1800,11 @@ table {
   font-size: 14px;
 }
 
+.firstLast_date {
+  background-color: #0b5ed7 !important;
+  color: #f8f9fa !important;
+}
+
 .show {
   display: block !important;
 }
@@ -1529,4 +1830,13 @@ table {
 
 label:hover .badgeShadow {
   box-shadow: -10px 0px 7px 4px #4384f5 !important;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1) {
+  .container main .right .data-container .display-data-container .content {
+    height: 650px;
+  }
+  .container main .right .data-container .display-data-container .content table {
+    height: 650px;
+  }
 }/*# sourceMappingURL=main.css.map */

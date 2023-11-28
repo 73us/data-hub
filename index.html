@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container ">
         <!-- MAIN START -->
         <main>
             <div class="left">
@@ -19,7 +19,7 @@
                 <form class="file-input-container ">
                     <fieldset>
                         <legend>Завантажте звіт по <span>чатах</span>
-                            <p class="info-icon">i</p>
+                            <p class="info-icon">&#8505;</p>
                             <div class="info-message">
                                 <p>Для того щоб вивантажити звіт поставте галочку напроти відповідного типу. Після того
                                     як файл буде обрано система перевірить чи не переплутаний звіт.</p>
@@ -98,8 +98,38 @@
                         <div class="data-options-container">
                             <fieldset class="filter-control-fieldset">
                                 <div class="left">
-                                    <div class="counter-header">Знайдено <span class="counter-number"></span>
-                                        релевантних звернень в чатах та тікетах</div>
+                                    <!-- FILTER BY DATE START -->
+                                    <div class="date-filter-box">
+                                        <fieldset class="datesList-fieldset">
+                                            <legend id="dates-range-label" name="datesDropDown"
+                                                onclick="showDropDown(event)">draft &#11206;</legend>
+                                            <div name="datesDropDown" id="datesDropDown" class="dropDown">
+                                                <div name="datesDropDown" class="top-dates">
+                                                    <button name="datesDropDown" id="month-prev"
+                                                        onclick="dateSlidePage(event)" disabled>&lt;</button>
+                                                    <span name="datesDropDown" class="month-label">Вересень</span>
+                                                    <button name="datesDropDown" id="month-next"
+                                                        onclick="dateSlidePage(event)" disabled>&gt;</button>
+                                                </div>
+
+                                                <div name="datesDropDown" class="middle-dates">
+                                                    <button name="datesDropDown">Пн</button>
+                                                    <button name="datesDropDown">Вт</button>
+                                                    <button name="datesDropDown">Ср</button>
+                                                    <button name="datesDropDown">Чт</button>
+                                                    <button name="datesDropDown">Пт</button>
+                                                    <button name="datesDropDown">Сб</button>
+                                                    <button name="datesDropDown">Нд</button>
+                                                </div>
+
+                                                <div name="datesDropDown" class="bottom-dates"
+                                                    onclick="pickDate(event)">
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <!-- FILTER BY DATE END -->
+                                    <div class="count-box"></div>
                                 </div>
                                 <div class="right">
                                     <input type="button" id="downloadCustomReport"
@@ -132,7 +162,7 @@
                                             <th>
                                                 <button onclick="copyTableText(event)"
                                                     title="Скопіювати дані таблиці"></button>
-                                                    <button class="check-btn"></button>
+                                                <button class="check-btn"></button>
                                                 <span class="copy-label">Скопійовано!</span>
                                             </th>
                                         </tr>
@@ -154,7 +184,7 @@
                                             <th>
                                                 <button onclick="copyTableText(event)"
                                                     title="Скопіювати дані таблиці"></button>
-                                                    <button class="check-btn"></button>
+                                                <button class="check-btn"></button>
                                                 <span class="copy-label">Скопійовано!</span>
                                             </th>
                                         </tr>
@@ -231,7 +261,7 @@
                     Rights Reserved.</p>
             </div>
             <div class="version">
-                <p>v 0.7.3.5.2 dev</p>
+                <p>v 0.7.7 dev</p>
             </div>
         </footer>
         <!-- FOTTER END -->
@@ -242,7 +272,7 @@
         <div class="dialogWindow">
             <div class="dialogWindow-header">
                 <h2>Зверніть увагу!</h2>
-                <p class="info-icon">i</p>
+                <p class="info-icon">&#8505;</p>
                 <div class="info-message">
                     <p>Якщо у ваших звітах є записи які були неправильно опрацьовані з точки зору проставлених
                         параметрів звернення (тобто наявність мітки категорії, або мітки прожубльовані і тд.) то вам
@@ -275,7 +305,31 @@
 
     <!-- TEST START -->
     <div class="test-container hide">
+        <!-- FILTER BY DATE START -->
+        <fieldset class="datesList-fieldset">
+            <legend id="dates-range-label" name="datesDropDown" onclick="showDropDown(event)">draft &#11206;</legend>
+            <div name="datesDropDown" id="datesDropDown" class="dropDown showDropDown">
+                <div name="datesDropDown" class="top-dates">
+                    <button name="datesDropDown" id="month-prev" onclick="dateSlidePage(event)" disabled>&lt;</button>
+                    <span name="datesDropDown" class="month-label">Вересень</span>
+                    <button name="datesDropDown" id="month-next" onclick="dateSlidePage(event)">&gt;</button>
+                </div>
 
+                <div name="datesDropDown" class="middle-dates">
+                    <button name="datesDropDown">Пн</button>
+                    <button name="datesDropDown">Вт</button>
+                    <button name="datesDropDown">Ср</button>
+                    <button name="datesDropDown">Чт</button>
+                    <button name="datesDropDown">Пт</button>
+                    <button name="datesDropDown">Сб</button>
+                    <button name="datesDropDown">Нд</button>
+                </div>
+
+                <div name="datesDropDown" class="bottom-dates" onclick="pickDate(event)">
+                </div>
+            </div>
+        </fieldset>
+        <!-- FILTER BY DATE END -->
     </div>
     <!-- TEST END -->
 

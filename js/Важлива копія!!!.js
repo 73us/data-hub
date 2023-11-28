@@ -11,10 +11,6 @@ function convertSectoMinSec(inputSec) {
     ss = (ss < 10) ? "0" + ss : ss;
     return mm + " хв " + ss + " сек";
 }
-const dayNames = ["", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
-    monthNames = ["", "Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
-const numOfMonthDays = (d, m, y) => (new Date(y, m, d).getDate()),
-    monthName = (m) => (monthNames[m].substring(0, 3));
 
 getE('#currYear').innerHTML = new Date().getFullYear();
 
@@ -62,18 +58,16 @@ let recordsChats = [],
     dataByRecordsTickets = [],
     dataByRecordsChats = [],
     managersList = ["noAgent"],
-    tagsList = [], isDateRangeSelected = false;
+    tagsList = [];
 
 let isChatsNeeded = false;
 let isTicketsNeeded = false;
 
 async function getInfo() {
-    // console.log("чатів =", recordsChats.length, ", тікетів =", recordsTickets.length, " всього =", allRecords.length);
-    // console.log(allRecords);
-    // console.log(globalWorkRecords);
-
-    // console.log("Записи на перевірку:", checkList);
-    // console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
+    console.log("чатів =", recordsChats.length, ", тікетів =", recordsTickets.length, " всього =", allRecords.length);
+    console.log(allRecords);
+    console.log("Записи на перевірку:", checkList);
+    console.log("Виріка за період з", new Date(startDate).toLocaleString('uk-UA').replace(",", ""), "по", new Date(endDate).toLocaleString('uk-UA').replace(",", ""));
     getE('.count-box').innerHTML = `<span><span class="count-number">&#10070; ${allRecords.length}</span> звернень</span>`;
 }
 
@@ -153,11 +147,9 @@ async function readFiles() {
     if (checkList.length > 0) {
         showAndBuildDialog(checkList, recordsChats);
         buildReportOptionArr.checkList = "";
-        globalWorkRecords = [...allRecords];
     }
     else {
         await buildFilteringSection();
-        globalWorkRecords = [...allRecords];
     }
 }
 // READ FILES FUNCTION END
@@ -309,7 +301,6 @@ function rmvFiles() {
     recordsChats = [];
     recordsTickets = [];
     allRecords = [];
-    globalWorkRecords = [];
     checkList = [];
     dataByRecordsTickets = [];
     dataByRecordsChats = [];
@@ -914,7 +905,7 @@ async function cleanTicketRecords() {
 async function buildFilteringSection() {
     getE('.data-main').classList.remove("hide");
     let filterControlContainer = getE(".data-filtering-container");
-    let badgeCountsObj = await recordsCounter(globalWorkRecords);
+    let badgeCountsObj = await recordsCounter(allRecords);
 
     // get&build PROJECTS list START
     let addCountent = "";
@@ -1092,25 +1083,21 @@ async function buildFilteringSection() {
     // reset sort arrows END
 
     allRecords.sort(function (a, b) { return a.specialFields.createdAtMilis - b.specialFields.createdAtMilis });
-    globalWorkRecords.sort(function (a, b) { return a.specialFields.createdAtMilis - b.specialFields.createdAtMilis });
-
     await buildDatesFilter(startDate, endDate);
     await getInfo();
     await buildFilters();
     await buildReportSection();
-    await countCategories(globalWorkRecords);
-    await countLanguages(globalWorkRecords);
-    await countManagersPerf(globalWorkRecords);
-    await countTags(globalWorkRecords);
+    await countCategories(allRecords);
+    await countLanguages(allRecords);
+    await countManagersPerf(allRecords);
+    await countTags(allRecords);
 }
 // BUILD FILTERING OPTIONS FUNCTION END
 
 // RESET FILTERS BUTTON FUNCTION START
 async function resetFilters() {
-    globalWorkRecords = [...allRecords];
     await buildFilteringSection();
     getE("#downloadCustomReport").disabled = true;
-    isDateRangeSelected = false;
 }
 // RESET FILTERS BUTTON FUNCTION END
 
@@ -1375,7 +1362,7 @@ async function filterResults(buildedFilter) {
             filteredDataArr = [];
         }
         else if (filteredDataArr.length === 0) {
-            filrteringArr = globalWorkRecords;
+            filrteringArr = allRecords;
         }
         for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.projectsFilter.length; a++) {
@@ -1395,7 +1382,7 @@ async function filterResults(buildedFilter) {
             filteredDataArr = [];
         }
         else if (filteredDataArr.length === 0) {
-            filrteringArr = globalWorkRecords;
+            filrteringArr = allRecords;
         }
         for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.convTypesFilter.length; a++) {
@@ -1415,7 +1402,7 @@ async function filterResults(buildedFilter) {
             filteredDataArr = [];
         }
         else if (filteredDataArr.length === 0) {
-            filrteringArr = globalWorkRecords;
+            filrteringArr = allRecords;
             // sortedArrayByDate.length === 0 ? filrteringArr = allRecords : filrteringArrsortedArrayByDate;
         }
         for (let i = 0; i < filrteringArr.length; i++) {
@@ -1436,7 +1423,7 @@ async function filterResults(buildedFilter) {
             filteredDataArr = [];
         }
         else if (filteredDataArr.length === 0) {
-            filrteringArr = globalWorkRecords;
+            filrteringArr = allRecords;
         }
         for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.languagesFilter.length; a++) {
@@ -1456,7 +1443,7 @@ async function filterResults(buildedFilter) {
             filteredDataArr = [];
         }
         else if (filteredDataArr.length === 0) {
-            filrteringArr = globalWorkRecords;
+            filrteringArr = allRecords;
         }
         for (let i = 0; i < filrteringArr.length; i++) {
             for (let a = 0; a < buildedFilter.agentsFilter.length; a++) {
@@ -1478,6 +1465,7 @@ async function filterResults(buildedFilter) {
     }
     // reset sort arrows END
 
+    console.log(filteredDataArr);
     savedfilteredDataArr = [...filteredDataArr];
     getE('.count-box').innerHTML = `<span><span class="count-number">Y ${savedfilteredDataArr.length}</span> звернень</span>`;
 
@@ -1854,9 +1842,6 @@ function dialogIgnore() {
 const dataFilteringContainer = getE(".data-filtering-container");
 dataFilteringContainer.onchange = async (e) => {
     let badgeCountsObj = await recordsCounter(savedfilteredDataArr);
-    recCounter(badgeCountsObj);
-}
-async function recCounter(badgeCountsObj) {
     let countObjKeys = [];
     for (const key in badgeCountsObj) countObjKeys.push(key);
     let countWasSetArr = [];
@@ -1900,7 +1885,7 @@ async function recCounter(badgeCountsObj) {
         getE('#IsShowAllConversationTypes').checked &&
         getE('#IsShowAllCategories').checked &&
         getE('#IsShowAllLanguages').checked &&
-        getE('#IsShowAllAgents').checked && isDateRangeSelected) {
+        getE('#IsShowAllAgents').checked) {
         getE("#downloadCustomReport").disabled = true;
     }
     else {
@@ -2620,7 +2605,6 @@ function copyTableText(e) {
 
 function moreOptions() { }
 
-// SELECTED DATE RANGE FUNCTION START
 let fPickDateCheck = true, lPickDateCheck = false, filterFirstData = "", filterLastData = "", sortedArrayByDate = [];
 async function pickDate(e) {
     if (e.target.tagName.toLowerCase() === 'button') {
@@ -2629,11 +2613,13 @@ async function pickDate(e) {
             filterFirstData = new Date(e.target.value.split('_').join(' ')).getTime();
             lPickDateCheck = true;
             e.target.classList.add('firstLast_date');
+            e.target.id = "f_date";
         }
         else if (lPickDateCheck) {
             lPickDateCheck = false;
             filterLastData = new Date(e.target.value.split('_').join(' ')).getTime();
             e.target.classList.add('firstLast_date');
+            e.target.id = "l_date";
         }
         if (!fPickDateCheck && !lPickDateCheck) {
             if (filterFirstData > filterLastData) {
@@ -2642,41 +2628,29 @@ async function pickDate(e) {
                 filterFirstData = temp;
             }
 
-            getE("#downloadCustomReport").disabled = false;
-            isDateRangeSelected = true;
-
             filterLastData = new Date(new Date(filterLastData).getFullYear() + "-" +
                 (new Date(filterLastData).getMonth() + 1) + "-" +
                 new Date(filterLastData).getDate() + " 23:59:59").getTime();
-            // console.log(new Date(filterFirstData), "-", new Date(filterLastData));
-
-            await buildFilteringSection();
-            await buildFilters();
-            await filterResults(buildedFilter);
+            console.log(new Date(filterFirstData), "-", new Date(filterLastData));
+            filterResults(buildedFilter);
 
             sortedArrayByDate = savedfilteredDataArr.filter((item) => {
                 return item.specialFields.createdAtMilis >= filterFirstData &&
                     item.specialFields.createdAtMilis <= filterLastData
             });
-            savedfilteredDataArr = sortedArrayByDate;
-            globalWorkRecords = sortedArrayByDate;
+            // filteredDataArr.filter((item) => {
+            //     return item.specialFields.createdAtMilis >= filterFirstData &&
+            //         item.specialFields.createdAtMilis <= filterLastData
+            // });
+            // filteredDataArr = sortedArrayByDate;
+            console.log(sortedArrayByDate);
+            // filteredDataArr;
+            // allRecords;
 
-            let badgeCountsObj = await recordsCounter(sortedArrayByDate);
-            recCounter(badgeCountsObj);
-
+            // console.log(sortedArrayByDate);
             getE("#datesDropDown").classList.remove('showDropDown');
             getE("#dates-range-label").classList.remove('activeDropDown');
             currentDropDownName = '';
-
-            let sDate = new Date(filterFirstData).getDate(),
-                sMonthName = monthNames[new Date(filterFirstData).getMonth() + 1],
-                sYear = new Date(filterFirstData).getFullYear(),
-                eDate = new Date(filterLastData).getDate(),
-                eMonthName = monthNames[new Date(filterLastData).getMonth() + 1],
-                eYear = new Date(filterLastData).getFullYear();
-
-            getE('#dates-range-label').innerHTML = `${sDate} ${sMonthName.substring(0, 3)}, ${sYear} - ${eDate} ${eMonthName.substring(0, 3)}, ${eYear} &#11206;`
-
             await recordsCounter(sortedArrayByDate);
             countedCategoriesList = [];
             await countCategories(sortedArrayByDate);
@@ -2690,29 +2664,21 @@ async function pickDate(e) {
             filterFirstData = "", filterLastData = "",
                 fPickDateCheck = true, lPickDateCheck = false;
             sortedArrayByDate = [];
-
-
-
         }
     }
 }
-// SELECTED DATE RANGE FUNCTION END
 
-getE(".bottom-dates").onmouseover = (e) => {
-    // console.log([e.target]);
-    // for (let elem = 0; elem < getE('#f_date').parentNode.children.length; elem++) {
+// window.onmouseover = () => {
 
-    //     if (getE('#f_date').parentNode.children[elem].id === "f_date") {
-    //         // elem
-    //         for (let putElem = elem; putElem < getE('#f_date').parentNode.children[e.target]; putElem++) {
-    //             getE('#f_date').parentNode.children[elem]
-
-    //         }
-    //     }
-
-    // }
-    // getE('#l_date').parentNode
+getE(".bottom-dates").onmouseover = () => {
+    // e.target.classList.add('firstLast_date');
+    // e.target.id = "l_date";
 }
+
+const dayNames = ["", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"],
+    monthNames = ["", "Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
+const numOfMonthDays = (d, m, y) => (new Date(y, m, d).getDate()),
+    monthName = (m) => (monthNames[m].substring(0, 3));
 
 // BUILD DATE FILTER FUNCTION START
 let savedFullDatesList = [];
