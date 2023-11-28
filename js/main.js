@@ -1472,6 +1472,7 @@ async function filterResults(buildedFilter) {
     savedfilteredDataArr = [...filteredDataArr];
     getE('.counter-header').innerHTML =
         `Період вибірки: <span class="counter-number">
+
     ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span>
     Знайдено <span class="counter-number">${savedfilteredDataArr.length}</span> релевантних звернень.`
     await recordsCounter(filteredDataArr);
