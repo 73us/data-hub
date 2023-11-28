@@ -1021,26 +1021,26 @@ async function buildFilteringSection() {
             }
         }
         addCountent += `
-    <label name="languagesDropDown" for="isShow${optionLabel}" >
-    <input name="languagesDropDown" type="checkbox" name="isShow${optionLabel}" 
-    id="isShow${optionLabel}" value="${optionValue}">
-    <div name="languagesDropDown" class="filter-label-text-box">
-    <span name="languagesDropDown" class="labelBadge">${(optionValue.length > 19) ? optionValue.substring(0, 18) : optionValue}</span>
-    <span name="languagesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 16) ? "badgeShadow" : ""}">${optionCount}</span>
-    </div>
-    </label>`;
+        <label name="languagesDropDown" for="isShow${optionLabel}" >
+        <input name="languagesDropDown" type="checkbox" name="isShow${optionLabel}" 
+        id="isShow${optionLabel}" value="${optionValue}">
+        <div name="languagesDropDown" class="filter-label-text-box">
+        <span name="languagesDropDown" class="labelBadge">${(optionValue.length > 14) ? optionValue.substring(0, 14) : optionValue}</span>
+        <span name="languagesDropDown" id="_${optionLabel}Badge" class="countBadge ${(optionValue.length > 14) ? "badgeShadow" : ""}">${optionCount}</span>
+        </div>
+        </label>`;
     }
     filterControlContainer.innerHTML += `
-    <fieldset class="languagesList-fieldset">
-    <legend name="languagesDropDown" onclick="showDropDown(event)">Мови &#11206;</legend>
-    <div name="languagesDropDown" id="languagesDropDown" class="dropDown">
-    <label name="languagesDropDown" for="IsShowAllLanguages">
-    <input name="languagesDropDown" type="checkbox" name="IsShowAllLanguages" id="IsShowAllLanguages" value="allCategories">
-    <div name="languagesDropDown" class="filter-label-text-box"><span name="languagesDropDown" class="labelBadge">Всі мови</span></div>
-    </label>
-    ${addCountent}
-    </div>
-    </fieldset>`;
+        <fieldset class="languagesList-fieldset">
+        <legend name="languagesDropDown" onclick="showDropDown(event)">Мови &#11206;</legend>
+        <div name="languagesDropDown" id="languagesDropDown" class="dropDown">
+        <label name="languagesDropDown" for="IsShowAllLanguages">
+        <input name="languagesDropDown" type="checkbox" name="IsShowAllLanguages" id="IsShowAllLanguages" value="allCategories">
+        <div name="languagesDropDown" class="filter-label-text-box"><span name="languagesDropDown" class="labelBadge">Всі мови</span></div>
+        </label>
+        ${addCountent}
+        </div>
+        </fieldset>`;
     // get&build LANGUAGES list END
 
     // get&build AGENTS list START
@@ -1093,6 +1093,7 @@ async function buildFilteringSection() {
     await buildFilters();
     await buildReportSection();
     await countCategories(allRecords);
+    await countLanguages(allRecords);
     await countManagersPerf(allRecords);
     await countTags(allRecords);
 }
@@ -1470,11 +1471,13 @@ async function filterResults(buildedFilter) {
 
     savedfilteredDataArr = [...filteredDataArr];
     getE('.counter-header').innerHTML =
-    `Період вибірки: <span class="counter-number">
+        `Період вибірки: <span class="counter-number">
+
     ${new Date(startDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(startDate).toLocaleString('uk-UA').length - 10)} - ${new Date(endDate).toLocaleString('uk-UA').replace(",", "").substring(0, new Date(endDate).toLocaleString('uk-UA').length - 10)}</span>
     Знайдено <span class="counter-number">${savedfilteredDataArr.length}</span> релевантних звернень.`
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
+    await countLanguages(filteredDataArr);
     await countManagersPerf(filteredDataArr);
     await countTags(filteredDataArr);
     filteredDataArr = [];
@@ -2155,6 +2158,27 @@ async function countCategories(recordsToCount) {
 }
 // COUNT CATEGORIES FUNCTION END
 
+// COUNT LANGUAGES FUNCTION START
+let countedLanguagesList = [], savedCountedLanguagesList = [];
+async function countLanguages(recordsToCount) {
+    let allLanguages = "";
+    for (let record = 0; record < recordsToCount.length; record++) {
+        allLanguages += recordsToCount[record].conversationLanguage + ",";
+    }
+    for (const langKey in languagesRuNames) {
+        let langName = languagesRuNames[langKey],
+            langRegex = new RegExp(langName, "gm");
+        if (langRegex.test(allLanguages)) {
+            let langCount = allLanguages.match(langRegex).length;
+            countedLanguagesList.push({ [langName]: langCount });
+        }
+    }
+    await buildTable(countedLanguagesList, "languages");
+    savedCountedLanguagesList = [...countedLanguagesList];
+    countedLanguagesList = [];
+}
+// COUNT LANGUAGES FUNCTION END
+
 // COUNT MANAGERS PERFORMANCE FUNCTION START
 let countedManagersPerfList = [], savedCountedManagersPerfList = [];
 async function countManagersPerf(recordsToCount) {
@@ -2274,10 +2298,11 @@ async function countTags(recordsToCount) {
 async function buildTable(dataToWork, tableType) {
     let content = '';
     // build CATEGORIES table START
+    let tableCategories = getE('#data-table-1');
     if (tableType === "categories") {
         let catSum = 0;
         for (let c = 0; c < dataToWork.length; c++) catSum += parseInt(Object.values(dataToWork[c]));
-        getE('#data-table-1').firstElementChild.nextElementSibling.innerHTML = "";
+        tableCategories.firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < Object.keys(dataToWork).length; i++) {
             let catLabel = Object.keys(dataToWork[i]).toString(),
                 catCount = Object.values(dataToWork[i]).toString(),
@@ -2285,11 +2310,29 @@ async function buildTable(dataToWork, tableType) {
             content += `<tr><td>${catLabel}</td><td>${catCount}</td><td>${roundNum(percent)}%</td></tr>`;
         }
         content += `<tr><td>Разом категорій</td><td>${catSum} шт.</td><td></td></tr>`;
-        getE('#data-table-1').firstElementChild.nextElementSibling.innerHTML = content;
+        tableCategories.firstElementChild.nextElementSibling.innerHTML = content;
+    }
+    // build CATEGORIES table END
+
+    // build CATEGORIES table START
+    let tableLanguages = getE('#data-table-2');
+    if (tableType === "languages") {
+        let langSum = 0;
+        for (let c = 0; c < dataToWork.length; c++) langSum += parseInt(Object.values(dataToWork[c]));
+        tableLanguages.firstElementChild.nextElementSibling.innerHTML = "";
+        for (let i = 0; i < Object.keys(dataToWork).length; i++) {
+            let langLabel = Object.keys(dataToWork[i]).toString(),
+                langCount = Object.values(dataToWork[i]).toString(),
+                percent = ((langCount / langSum) * 100);
+            content += `<tr><td>${langLabel}</td><td>${langCount}</td><td>${roundNum(percent)}%</td></tr>`;
+        }
+        content += `<tr><td>Разом категорій</td><td>${langSum} шт.</td><td></td></tr>`;
+        tableLanguages.firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build CATEGORIES table END
 
     // build MANAGERS PERFORMANCE table START
+    let tableManagers = getE('#data-table-3');
     if (tableType === "managers") {
         let convSum = 0, chatSum = 0, ticketSum = 0, teamAvgConvTime = 0, teamAvgFirsrRespTime = 0;
         for (let c = 0; c < dataToWork.length; c++) {
@@ -2297,7 +2340,7 @@ async function buildTable(dataToWork, tableType) {
             chatSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].chatsCount;
             ticketSum += dataToWork[c][Object.keys(dataToWork[c]).toString()].ticketsCount;
         }
-        getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = "";
+        tableManagers.firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < dataToWork.length; i++) {
             let managerLabel = Object.keys(dataToWork[i]).toString(),
                 managerChatsCount = dataToWork[i][managerLabel].chatsCount,
@@ -2322,15 +2365,16 @@ async function buildTable(dataToWork, tableType) {
         content += `<tr>
         <td>Разом</td><td>${chatSum}</td><td>${ticketSum}</td><td>${convSum}</td>
         <td>Середні значення</td><td>${convertSectoMinSec(teamAvgConvTime)}</td><td>${convertSectoMinSec(teamAvgFirsrRespTime)}</td></tr>`;
-        getE('#data-table-2').firstElementChild.nextElementSibling.innerHTML = content;
+        tableManagers.firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build MANAGERS PERFORMANCE table END
 
     // build TAGS table START
+    let tableTags = getE('#data-table-4');
     if (tableType === "tags") {
         let tagsSum = 0;
         for (let c = 0; c < Object.keys(dataToWork).length; c++) tagsSum += parseInt(Object.values(dataToWork[c]));
-        getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = "";
+        tableTags.firstElementChild.nextElementSibling.innerHTML = "";
         for (let i = 0; i < Object.keys(dataToWork).length; i++) {
             let tagLabel = Object.keys(dataToWork[i]).toString(),
                 labelCount = Object.values(dataToWork[i]).toString(),
@@ -2338,7 +2382,7 @@ async function buildTable(dataToWork, tableType) {
             content += `<tr><td>${tagLabel}</td><td>${labelCount}</td><td>${roundNum(percent)}%</td></tr>`;
         }
         content += `<tr><td>Разом міток</td><td>${tagsSum} шт.</td><td></td></tr>`;
-        getE('#data-table-3').firstElementChild.nextElementSibling.innerHTML = content;
+        tableTags.firstElementChild.nextElementSibling.innerHTML = content;
     }
     // build TAGS table END
 }
@@ -2465,8 +2509,12 @@ async function sortColumnStr(e, recordsToSort) {
             parent.children[elem].firstElementChild.innerHTML = "";
         }
     }
+    console.log(sortedRecords);
     if (recordsToSort === savedCountedCategoriesList) {
         await buildTable(sortedRecords, "categories");
+    }
+    if (recordsToSort === savedCountedLanguagesList) {
+        await buildTable(sortedRecords, "languages");
     }
     if (recordsToSort === savedCountedManagersPerfList) {
         await buildTable(sortedRecords, "managers");
@@ -2505,6 +2553,9 @@ async function sortColumnNum(e, recordsToSort, sortBy) {
     if (recordsToSort === savedCountedCategoriesList) {
         await buildTable(sortedRecords, "categories");
     }
+    if (recordsToSort === savedCountedLanguagesList) {
+        await buildTable(sortedRecords, "languages");
+    }
     if (recordsToSort === savedCountedManagersPerfList) {
         await buildTable(sortedRecords, "managers");
     }
@@ -2531,13 +2582,15 @@ function copyTableText(e) {
     copyData = dataByRows.join('\n');
     navigator.clipboard.writeText(copyData);
     e.target.disabled = true;
-    e.target.style.backgroundImage = "url(../images/accept.png)";
-    e.target.nextElementSibling.style.width = '65px';
-    e.target.nextElementSibling.style.padding = '2px';
+    e.target.style.display = "none";
+    e.target.nextElementSibling.style.display = "block";
+    e.target.nextElementSibling.nextElementSibling.style.width = '65px';
+    e.target.nextElementSibling.nextElementSibling.style.padding = '2px';
     setTimeout(() => {
-        e.target.style.backgroundImage = "url(../images/copy-icon.png)";
-        e.target.nextElementSibling.style.width = '0';
-        e.target.nextElementSibling.style.padding = '2px 0';
+        e.target.style.display = "block";
+        e.target.nextElementSibling.style.display = "none";
+        e.target.nextElementSibling.nextElementSibling.style.width = '0';
+        e.target.nextElementSibling.nextElementSibling.style.padding = '2px 0';
         e.target.disabled = false;
     }, 1000);
 }
