@@ -1480,7 +1480,6 @@ async function filterResults(buildedFilter) {
 
     savedfilteredDataArr = [...filteredDataArr];
     getE('.count-box').innerHTML = `<span><span class="count-number">Y ${savedfilteredDataArr.length}</span> звернень</span>`;
-
     await recordsCounter(filteredDataArr);
     await countCategories(filteredDataArr);
     await countLanguages(filteredDataArr);
