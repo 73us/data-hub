@@ -1115,7 +1115,7 @@ async function resetFilters() {
 // RESET FILTERS BUTTON FUNCTION END
 
 // BUILD FILTERS FUNCTION START
-let buildedFilter = {};
+let buildedFilter = {}, isFiltred = false;
 async function buildFilters() {
     // build PROJECTS filter START
     let projectsListSect = getE('.projectsList-fieldset').firstElementChild.nextElementSibling;
@@ -1361,6 +1361,7 @@ async function buildFilters() {
         recordsCounter(filteredDataArr);
     }
     // build AGENTS filter END
+    isFiltred = true;
 }
 // BUILD FILTERS FUNCTION END
 
@@ -2641,7 +2642,6 @@ async function pickDate(e) {
                 filterFirstData = temp;
             }
 
-            getE("#downloadCustomReport").disabled = false;
             isDateRangeSelected = true;
 
             filterLastData = new Date(new Date(filterLastData).getFullYear() + "-" +
@@ -2689,28 +2689,39 @@ async function pickDate(e) {
             filterFirstData = "", filterLastData = "",
                 fPickDateCheck = true, lPickDateCheck = false;
             sortedArrayByDate = [];
-
-
-
+            getE("#downloadCustomReport").disabled = false;
         }
     }
 }
 // SELECTED DATE RANGE FUNCTION END
 
 getE(".bottom-dates").onmouseover = (e) => {
-    // console.log([e.target]);
-    // for (let elem = 0; elem < getE('#f_date').parentNode.children.length; elem++) {
-
-    //     if (getE('#f_date').parentNode.children[elem].id === "f_date") {
-    //         // elem
-    //         for (let putElem = elem; putElem < getE('#f_date').parentNode.children[e.target]; putElem++) {
-    //             getE('#f_date').parentNode.children[elem]
-
-    //         }
-    //     }
-
-    // }
-    // getE('#l_date').parentNode
+    if (lPickDateCheck) {
+        if (e.target.tagName.toLowerCase() === 'button') {
+            let currParentElem = getE(`#m_${savedFullDatesList[dateSlideIndx].split('_')[2]}_${savedFullDatesList[dateSlideIndx].split('_')[3]}`),
+                fElemIndx = 0, lElemIndx = 0;
+            for (let dateElem = 0; dateElem < currParentElem.children.length; dateElem++) {
+                if (currParentElem.children[dateElem].getAttribute("class") === "firstLast_date") {
+                    fElemIndx = dateElem;
+                }
+                if (currParentElem.children[dateElem] === e.target) {
+                    lElemIndx = dateElem;
+                }
+            }
+            for (let elem = 0; elem < currParentElem.children.length; elem++) {
+                if (!currParentElem.children[elem].disabled) {
+                    currParentElem.children[elem].style.backgroundColor = 'unset';
+                    currParentElem.children[elem].style.color = 'unset';
+                }
+            }
+            for (let dateElem = fElemIndx; dateElem <= lElemIndx; dateElem++) {
+                if (!currParentElem.children[dateElem].disabled) {
+                    currParentElem.children[dateElem].style.backgroundColor = '#8bb8fc';
+                    currParentElem.children[dateElem].style.color = 'white';
+                }
+            }
+        }
+    }
 }
 
 // BUILD DATE FILTER FUNCTION START

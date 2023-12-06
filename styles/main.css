@@ -742,7 +742,7 @@ table {
   right: 15px;
   z-index: 100;
   width: 320px;
-  height: 300px;
+  height: 145px;
   border-radius: 5px;
   border: 1px solid #dde4e9;
   overflow: auto;
@@ -756,6 +756,7 @@ table {
 .container main .right .data-container .data-main .info-box .info-icon:hover + .info-message,
 .container main .right .data-container .data-main .info-box .info-message:hover {
   display: block;
+  cursor: pointer;
 }
 .container main .right .data-container .data-main .info-box .info-icon:after {
   content: "";
@@ -768,17 +769,17 @@ table {
   height: 25px;
 }
 .container main .right .data-container .data-main .data-filtering-container {
-  width: 100%;
+  width: 97%;
   background-color: #dde4e9;
   border-radius: 15px;
-  padding: 10px;
+  padding: 10px 17px;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: start;
 }
 .container main .right .data-container .data-main .data-filtering-container fieldset {
-  width: 200px;
+  width: 180px;
   background-color: #dde4e9;
   display: flex;
   flex-flow: row wrap;
@@ -947,13 +948,56 @@ table {
   align-items: center;
   justify-content: end;
 }
+.container main .right .data-container .data-main .data-options-container .info-box {
+  position: absolute;
+  top: 72px;
+  right: 10px;
+}
+.container main .right .data-container .data-main .data-options-container .info-box .info-icon {
+  position: absolute;
+  text-align: right;
+  top: 5px;
+  right: 10px;
+}
+.container main .right .data-container .data-main .data-options-container .info-box .info-message {
+  background-color: #f8f9fa;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  z-index: 100;
+  width: 320px;
+  height: 300px;
+  border-radius: 5px;
+  border: 1px solid #dde4e9;
+  overflow: auto;
+  display: none;
+  padding: 7px;
+}
+.container main .right .data-container .data-main .data-options-container .info-box .info-message p {
+  font-weight: normal;
+  margin: 0;
+}
+.container main .right .data-container .data-main .data-options-container .info-box .info-icon:hover + .info-message,
+.container main .right .data-container .data-main .data-options-container .info-box .info-message:hover {
+  display: block;
+  cursor: pointer;
+}
+.container main .right .data-container .data-main .data-options-container .info-box .info-icon:after {
+  content: "";
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  width: 17px;
+  height: 25px;
+}
 .container main .right .data-container .data-main .data-options-container fieldset {
   margin: 0;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: space-between;
   padding: 5px 17px;
   border-bottom: 3px solid #6c757d;
 }
@@ -1087,12 +1131,12 @@ table {
 .container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box button:hover,
 .container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .other-month-date:hover {
   cursor: pointer;
-  background-color: #0b5ed7;
+  background-color: #0b5ed7 !important;
   color: #f8f9fa;
 }
 .container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box button:disabled {
   cursor: default;
-  background-color: #eeeeee;
+  background-color: #eeeeee !important;
   color: rgba(16, 16, 16, 0.3) !important;
 }
 .container main .right .data-container .data-main .data-options-container fieldset .left .date-filter-box .datesList-fieldset .dropDown .bottom-dates .one-month-box .one-month-box:nth-of-type(1) {
@@ -1118,7 +1162,7 @@ table {
 }
 .container main .right .data-container .data-main .data-options-container fieldset .right {
   margin: 0;
-  width: 40%;
+  width: 37%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;

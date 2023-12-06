@@ -486,7 +486,7 @@
               right: 15px;
               z-index: 100;
               width: 320px;
-              height: 300px;
+              height: 145px;
               border-radius: 5px;
               border: 1px solid $bg-bluegray;
               overflow: auto;
@@ -500,6 +500,7 @@
             .info-icon:hover + .info-message,
             .info-message:hover {
               display: block;
+              cursor: pointer;
             }
             .info-icon:after {
               content: "";
@@ -516,16 +517,16 @@
 
           // data filterring container start
           .data-filtering-container {
-            width: 100%;
+            width: 97%;
             background-color: $bg-bluegray;
             border-radius: 15px;
-            padding: 10px;
+            padding: 10px 17px;
             display: flex;
             flex-flow: row wrap;
-            justify-content: space-evenly;
+            justify-content: space-between;
             align-items: start;
             fieldset {
-              width: 200px;
+              width: 180px;
               background-color: $bg-bluegray;
               display: flex;
               flex-flow: row wrap;
@@ -717,13 +718,59 @@
             flex-flow: row wrap;
             align-items: center;
             justify-content: end;
+            // option section info box start
+          .info-box {
+            position: absolute;
+            top: 72px;
+            right: 10px;
+            .info-icon {
+              position: absolute;
+              text-align: right;
+              top: 5px;
+              right: 10px;
+            }
+            .info-message {
+              background-color: $bg-white;
+              position: absolute;
+              top: 0;
+              right: 15px;
+              z-index: 100;
+              width: 320px;
+              height: 300px;
+              border-radius: 5px;
+              border: 1px solid $bg-bluegray;
+              overflow: auto;
+              display: none;
+              padding: 7px;
+              p {
+                font-weight: normal;
+                margin: 0;
+              }
+            }
+            .info-icon:hover + .info-message,
+            .info-message:hover {
+              display: block;
+              cursor: pointer;
+            }
+            .info-icon:after {
+              content: "";
+              background-color: transparent;
+              position: absolute;
+              top: 0;
+              right: 0;
+              z-index: 100;
+              width: 17px;
+              height: 25px;
+            }
+          }
+          // option section info box end
             fieldset {
               margin: 0;
               width: 100%;
               display: flex;
               flex-flow: row wrap;
               align-items: center;
-              justify-content: space-between;
+              // justify-content: space-between;
               padding: 5px 17px;
               border-bottom: 3px solid $bg-gray;
               .left {
@@ -851,12 +898,12 @@
                           button:hover,
                           .other-month-date:hover {
                             cursor: pointer;
-                            background-color: $btn-blue-hover;
+                            background-color: $btn-blue-hover !important;
                             color: $c-white;
                           }
                           button:disabled {
                             cursor: default;
-                            background-color: $btn-gray-disabled;
+                            background-color: $btn-gray-disabled !important;
                             color: rgba(16, 16, 16, 0.3) !important;
                           }
 
@@ -893,7 +940,7 @@
               }
               .right {
                 margin: 0;
-                width: 40%;
+                width: 37%;
                 display: flex;
                 flex-flow: row wrap;
                 align-items: center;
