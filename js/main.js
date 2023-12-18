@@ -652,22 +652,22 @@ async function cleanTicketRecords() {
     for (let record = 1; record < dataByRecordsTickets.length - 1; record++) {
         let dataByCells = dataByRecordsTickets[record].substring(1, dataByRecordsTickets[record].length - 1).split('","');
 
-        if (dataByCells[9] === "Менеджеры 7bit" ||
-            dataByCells[9] === "Менеджеры WIN7bit" ||
-            dataByCells[9] === "Менеджеры Кatsubet" ||
-            dataByCells[9] === " Менеджеры Mirax" ||
-            dataByCells[9] === "Менеджеры Mirax") {
+        if (dataByCells[10] === "Менеджеры 7bit" ||
+            dataByCells[10] === "Менеджеры WIN7bit" ||
+            dataByCells[10] === "Менеджеры Кatsubet" ||
+            dataByCells[10] === " Менеджеры Mirax" ||
+            dataByCells[10] === "Менеджеры Mirax") {
 
             let operatorNicks = [];
             let operatorAccountName = [];
-            if (dataByCells[10] !== "") operatorAccountName.push(dataByCells[10]);
+            if (dataByCells[11] !== "") operatorAccountName.push(dataByCells[10]);
 
             if (
-                dataByCells[12].length !== 0 && dataByCells[12].includes("5") && dataByCells[12].includes("1-NO REPLY") ||
-                dataByCells[12].length !== 0 && dataByCells[12].includes("5") && dataByCells[12].includes("1-SPAM") ||
-                dataByCells[12].length !== 0 && !dataByCells[12].includes("1-NO REPLY") && !dataByCells[12].includes("1-SPAM")
+                dataByCells[13].length !== 0 && dataByCells[13].includes("5") && dataByCells[13].includes("1-NO REPLY") ||
+                dataByCells[13].length !== 0 && dataByCells[13].includes("5") && dataByCells[13].includes("1-SPAM") ||
+                dataByCells[13].length !== 0 && !dataByCells[13].includes("1-NO REPLY") && !dataByCells[13].includes("1-SPAM")
             ) {
-                let tags = dataByCells[12].split(";"),
+                let tags = dataByCells[13].split(";"),
                     convLang = "Без мови";
                 for (let tag = 0; tag < tags.length; tag++) {
                     if (/7\s*-/.test(tags[tag])) {
@@ -687,20 +687,20 @@ async function cleanTicketRecords() {
                 }
 
                 // mark record with proper PROJECT name START
-                if (dataByCells[9] === "Менеджеры 7bit" ||
-                    dataByCells[9] === "Менеджеры WIN7bit" ||
-                    dataByCells[9] === "Менеджеры Кatsubet" ||
-                    dataByCells[9] === " Менеджеры Mirax" ||
-                    dataByCells[9] === "Менеджеры Mirax") {
+                if (dataByCells[10] === "Менеджеры 7bit" ||
+                    dataByCells[10] === "Менеджеры WIN7bit" ||
+                    dataByCells[10] === "Менеджеры Кatsubet" ||
+                    dataByCells[10] === " Менеджеры Mirax" ||
+                    dataByCells[10] === "Менеджеры Mirax") {
                     let projectName = "";
-                    if (dataByCells[9] === "Менеджеры 7bit" || dataByCells[9] === "Менеджеры WIN7bit") {
+                    if (dataByCells[10] === "Менеджеры 7bit" || dataByCells[10] === "Менеджеры WIN7bit") {
                         projectName = "7Bit"
                     }
-                    else if (dataByCells[9] === "Менеджеры Кatsubet") {
+                    else if (dataByCells[10] === "Менеджеры Кatsubet") {
                         projectName = "KatsuBet"
                     }
                     else if (
-                        dataByCells[9] === " Менеджеры Mirax" || dataByCells[9] === "Менеджеры Mirax") {
+                        dataByCells[10] === " Менеджеры Mirax" || dataByCells[10] === "Менеджеры Mirax") {
                         projectName = "Mirax"
                     }
                     // mark record with proper PROJECT name END
@@ -708,10 +708,10 @@ async function cleanTicketRecords() {
                     // check if conversation without language tag START
                     if (convLang === 'Без мови') {
                         let checkRecord = {
-                            id: dataByCells[3],
+                            id: dataByCells[4],
                             project: projectName,
                             sourse: "ticket",
-                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[4],
                             problemDesc: "немає мітки мови",
                             problemType: "NOLANG",
                             tags: tags,
@@ -731,10 +731,10 @@ async function cleanTicketRecords() {
                     }
                     if (count > 1) {
                         let checkRecord = {
-                            id: dataByCells[3],
+                            id: dataByCells[4],
                             project: projectName,
                             sourse: "ticket",
-                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[4],
                             problemDesc: "дубльована мітка категорії/й",
                             problemType: "CATDUPS",
                             tags: tags,
@@ -761,10 +761,10 @@ async function cleanTicketRecords() {
                     }
                     if (noRepAndCATcheck) {
                         let checkRecord = {
-                            id: dataByCells[3],
+                            id: dataByCells[4],
                             project: projectName,
                             sourse: "ticket",
-                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                            problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[4],
                             problemDesc: "мітка (SPAM та/або NO REPLY) разом з категорією",
                             problemType: "NOREPLYANDCAT",
                             tags: tags,
@@ -851,30 +851,33 @@ async function cleanTicketRecords() {
 
                     let record = {
                         createdAt: new Date(dataByCells[0]).toLocaleString("uk-UA").replace(',', ""), // conversation start date&time
-                        conferenceId: dataByCells[3], // conversation ID
+                        conferenceId: dataByCells[4].toString(), // conversation ID
                         projectName: projectName, // project name 
                         conversationType: "ticket",
-                        conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                        conversationLink: "https://app.helpdesk.com/tickets/" + dataByCells[4],
                         conversationCategory: (category !== undefined) ? category : "Без категорії", // conversation category
                         conversationTags: tags, // converstaion tags
                         conversationLanguage: convLang,
                         operatorNicks: (operatorNicks.length === 0) ? "noAgent" : operatorNicks, // operatorNicks
                         lastOperator: (operatorNicks.length === 0) ? "noAgent" : operatorNicks[operatorNicks.length - 1], // operatorNicks
-                        customerId: dataByCells[5], // customer ID (for chats it has unique ID)
-                        customerEmail: dataByCells[5], // customer email
+                        customerId: dataByCells[6], // customer ID (for chats it has unique ID)
+                        customerEmail: dataByCells[6], // customer email
                         specialFields: {
+                            createdAtMilis: new Date(dataByCells[0]).getTime(),
                             operatorAccountName: operatorAccountName, // operator account name
-                            requesterName: dataByCells[4], // customer Name ***
-                            lastAccountId: dataByCells[11], // agent account Email (agentEmail) ***
-                            conversationCustomerRating: { rateMark: dataByCells[14], rateComment: dataByCells[15] }, // conversation customer rating ***
+                            requesterName: dataByCells[5], // customer Name ***
+                            lastAccountId: dataByCells[12], // agent account Email (agentEmail) ***
+                            conversationCustomerRating: { rateMark: dataByCells[15], rateComment: dataByCells[16] }, // conversation customer rating ***
                             updatedAtTicket: dataByCells[1], // ticket last update date&time ***
                             inboundOutboundTicket: dataByCells[2], // ticket source type ***
-                            ticketStatus: dataByCells[6], // ticket status ***
-                            ticketPriority: dataByCells[7], // ticket priority ***
-                            ticketSubject: dataByCells[8], // ticket subject ***
-                            publicMessages: dataByCells[13], // number of messages in the ticket
-                            ticketInbox: dataByCells[16], // ticket inbox email ***
-                            ticketFolder: dataByCells[17], // ticket folder ***
+                            ticketStatus: dataByCells[7], // ticket status ***
+                            ticketPriority: dataByCells[8], // ticket priority ***
+                            ticketSubject: dataByCells[9], // ticket subject ***
+                            publicMessages: dataByCells[14], // number of messages in the ticket
+                            ticketInbox: dataByCells[17], // ticket inbox email ***
+                            ticketFolder: dataByCells[18], // ticket folder ***
+                            secondsFromCreationToSolvedOrClosed: dataByCells[19], // secondsFromCreationToSolvedOrClosed
+                            secondsFromAssignmentToSolvedOrClosed: dataByCells[20], // secondsFromAssignmentToSolvedOrClosed
                         },
                     }
 
@@ -884,10 +887,10 @@ async function cleanTicketRecords() {
                         if (!tags[i].includes('5')) {
                             if (i === tags.length - 1) {
                                 let checkRecord = {
-                                    id: dataByCells[3],
+                                    id: dataByCells[4],
                                     project: projectName,
                                     sourse: "ticket",
-                                    problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[3],
+                                    problemLink: "https://app.helpdesk.com/tickets/" + dataByCells[4],
                                     problemDesc: "немає мітки категорії",
                                     problemType: "EMPTY",
                                     tags: tags,
