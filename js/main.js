@@ -332,6 +332,7 @@ async function cleanChatRecords() {
         operatorTimeZoneStart,
         preChatEmailStart,
         tag1Start,
+        tagEnd,
         customVariableStart,
         firstResponseTimeStart;
     for (let i = 0; i < fRowArr.length; i++) {
@@ -340,11 +341,11 @@ async function cleanChatRecords() {
         if (fRowArr[i] === "operator 1 time zone") operatorTimeZoneStart = i;
         if (fRowArr[i] === "pre chat: E-mail:") preChatEmailStart = i;
         if (fRowArr[i] === "tag 1") tag1Start = i;
+        if (fRowArr[i].includes("tag")) tagEnd = i;
         if (fRowArr[i] === "custom variable 1 name") customVariableStart = i;
         if (fRowArr[i] === "first response time") firstResponseTimeStart = i;
     }
     // find concat positions END
-
     for (let record = 1; record < dataByRecordsChats.length - 1; record++) {
         let dataByCells = dataByRecordsChats[record].substring(1, dataByRecordsChats[record].length - 1).split('","');
         if (dataByCells[13] === "7Bit Support | login | 1+ dep" ||
@@ -372,7 +373,7 @@ async function cleanChatRecords() {
                 if (dataByCells[i] !== "") operatorTimeZones.push(dataByCells[i]);
             }
             let tags = [];
-            for (let i = tag1Start; i < customVariableStart; i++) {
+            for (let i = tag1Start; i < tagEnd; i++) {
                 if (dataByCells[i] !== "") tags.push(dataByCells[i]);
                 if (/1\s*-/.test(dataByCells[i])) {
                     if (tagsList.length === 0) tagsList.push(dataByCells[i])
