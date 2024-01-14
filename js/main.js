@@ -62,7 +62,8 @@ let recordsChats = [],
     dataByRecordsTickets = [],
     dataByRecordsChats = [],
     managersList = ["noAgent"],
-    tagsList = [], isDateRangeSelected = false;
+    tagsList = [],
+    isDateRangeSelected = false;
 
 let isChatsNeeded = false;
 let isTicketsNeeded = false;
@@ -1836,6 +1837,7 @@ function dialogClean() {
             }
         }
         cleaningCheck.checked = false;
+        globalWorkRecords = [...allRecords];
         dialogContainer.classList.toggle('hide');
         resolve(buildFilteringSection());
     })
@@ -1985,13 +1987,22 @@ async function buildReportSection() {
         id="downloadChatMerging" value="Завантажити" disabled>
         </fieldset>`;
     }
+    if (allRecords.length !== 0) {
+        addContent = `<fieldset>
+        <legend>- погодинка</legend>
+        <input type="button" id="createHourlyDistributionReport" 
+        onclick="launchHourlyDistReport()" value="Створити">
+        <input type="button" onclick="downloadFile(reportData.hourly.fileLink, reportData.hourly.reportName)"
+        id="downloadHourlyDistributionReport" value="Завантажити" disabled>
+        </fieldset>`;
+    }
     reportContainer.innerHTML += addContent;
     reportContainer.classList.remove('hide');
 }
 // BUILD REPORT SECTION FUNCTION END
 
 // GENERATE REPORT FUNCTION START
-let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {}, filtered: {} };
+let reportData = { chat: {}, ticket: {}, general: {}, check: {}, merging: {}, filtered: {}, hourly: {} };
 async function createReport(recordsForReport, reportType) {
     let recordsToWork = [...recordsForReport];
     return new Promise((resolve) => {
@@ -2925,3 +2936,82 @@ function dateSlidePage(e) {
     }
 }
 // SLIDE MOUNTHS PAGES FUNCTION END
+
+// LAUNCH BUILD HOURLY DISTRIBUTION REPORT FUNCTION START
+async function launchHourlyDistReport() {
+    getE('#downloadHourlyDistributionReport').disabled = true;
+    dialogContainer.innerHTML = `
+        <div class="load-box">
+        <div class="load-image"></div>
+        <p class="load-tip">Перепочиньте поки ми будуємо звіт-погодинку для вас!)</p>
+        </div>`;
+    dialogContainer.classList.remove('hide');
+    setTimeout(() => buildHourlyDistReport(globalWorkRecords), 1000)
+}
+// LAUNCH BUILD HOURLY DISTRIBUTION REPORT FUNCTION END
+
+// BUILD HOURLY DISTRIBUTION REPORT START
+let hourlyArr = [];
+async function buildHourlyDistReport(arrToWork) {
+    return new Promise((resolve) => {
+        for (let i = 0; i < projectsList.length; i++) hourlyArr.push({ [projectsList[i]]: {} })
+
+        // console.log((hourlyArr));
+
+        arrToWork.sort((a, b) => a.projectName.toLowerCase() < b.projectName.toLowerCase() ? -1 : 1);
+        arrToWork.sort(function (a, b) { return a.projectName - b.projectName });
+        // console.log(hourlyArr[0]);
+for (const proj in hourlyArr) {
+
+        // for (let proj = 0; proj < hourlyArr.length; proj++) {
+            for (let record = 0; record < arrToWork.length; record++) {
+                // if (hourlyArr[proj].toLowerCase() === arrToWork[record].projectName.toLowerCase()) {
+                    // hourlyArr[proj].push(arrToWork[record]);
+                // }
+            }
+        }
+        console.log(hourlyArr);
+
+        let csv = "";
+        // let fRow = false;
+        // for (let row = 0; row < mergingArr.length; row++) {
+        //     let keysAmount = Object.keys(mergingArr[row]).length;
+        //     let keysCounter = 0;
+        //     if (row === 0) {
+        //         for (let key in mergingArr[row]) {
+        //             if (keysCounter + 1 < keysAmount) {
+        //                 let dataToSet = "\"" + key + "\"";
+        //                 csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+        //                 keysCounter++;
+        //                 fRow = true;
+        //             }
+        //         }
+        //     }
+        //     keysCounter = 0;
+        //     if (row === 0 && fRow) {
+        //         for (let key in mergingArr[row]) {
+        //             if (keysCounter + 1 < keysAmount) {
+        //                 let dataToSet = "\"" + (Array.isArray(mergingArr[row][key]) ? mergingArr[row][key].join(";") : mergingArr[row][key]) + "\"";
+        //                 csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+        //                 keysCounter++;
+        //             }
+        //         }
+        //     }
+        //     else {
+        //         for (let key in mergingArr[row]) {
+        //             if (keysCounter + 1 < keysAmount) {
+        //                 let dataToSet = "\"" + (Array.isArray(mergingArr[row][key]) ? mergingArr[row][key].join(";") : mergingArr[row][key]) + "\"";
+        //                 csv += dataToSet + (keysCounter + 2 < keysAmount ? ',' : '\r\n');
+        //                 keysCounter++;
+        //             }
+        //         }
+        //     }
+        //     keysCounter = 0;
+        // }
+        reportData.hourly.reportName = "HOURLY_RATE_report_" + (new Date().toLocaleString("uk-UA")).replace(",", "");
+        reportData.hourly.fileLink = 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv);
+        dialogContainer.classList.add('hide');
+        resolve(getE('#downloadHourlyDistributionReport').disabled = false);
+    });
+}
+// BUILD HOURLY DISTRIBUTION REPORT END
